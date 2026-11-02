@@ -1,98 +1,165 @@
 # Feature Blueprint Skill
 
-Скилл для Claude Code и других агентов, поддерживающих формат Agent Skills: превращает сырую идею
-фичи и технические вводные в чертёж — как человек будет взаимодействовать с функцией и как её
-построить.
+[![Download Feature Blueprint Skill](https://img.shields.io/badge/Download-feature--blueprint.skill-blue?style=for-the-badge)](https://github.com/nyxandro/feature-blueprint-skill/raw/main/dist/feature-blueprint.skill)
 
-Агент, которому дали идею, по умолчанию строит только счастливый путь. Остальное достраивается
-молча и одинаково плохо: «Нет данных» без следующего шага, вечный индикатор загрузки, «Что-то пошло
-не так», потерянный ввод, двойное списание. Этот скилл заставляет агента продумать всё до кода,
-предложить лучшие практики взаимодействия под тип интерфейса и забрать у владельца продукта только
-решения, которые действительно его.
+A feature design skill for Claude Code, Codex and OpenCode: before any code, the agent turns a
+raw feature idea into a blueprint — how people will use the feature, how it works inside, and
+how to build it step by step. Every key decision rests on research (official documentation,
+engineering practice of well-known companies and products, popular repositories) and is sized
+to the project, so the owner gets the simplest solution that does the job, not the one a big
+company needs.
 
-## Что делает агент
+An agent given an idea builds the happy path and fills in the rest silently and badly: "No
+data" with no next step, an endless spinner, "Something went wrong", a double charge after a
+double click, backups nobody ever restored, a sync that quietly stopped a month ago. This skill
+makes the agent think all of that through first, decide everything it can decide itself, and
+bring the owner only the forks that change the product — explained in plain words, with a
+recommendation.
 
-1. Читает проект: правила, похожие функции, компоненты, данные, права. Не спрашивает то, на что
-   отвечает код.
-2. Платформенные детали (что умеет API, лимиты, требования магазинов) берёт из профильного скилла,
-   если он установлен, иначе — из актуальной официальной документации. Сам скилл их не хранит.
-3. Пишет черновик целиком, не задавая вопросов до него: пересказ идеи, цели и не-цели, варианты
-   решения (если развилка настоящая), сценарии с конкретными людьми, схему сценария, состояния
-   каждой точки контакта, ошибки и восстановление, крайние случаи, скорость отклика, тексты,
-   доступность, что сознательно не делаем.
-4. Ведёт реестр решений: что агент решил сам (на проверку) и что выносится владельцу — с
-   вариантами, рекомендацией и последствием «если не решить».
-5. Пишет инженерную часть: что переиспользуем, устройство, схему состояний, сбои на новых путях,
-   приоритеты, шаги с тестами, критерии приёмки.
-6. Проверяет документ сам и, для полного чертежа, свежим агентом без контекста разговора.
-7. Кладёт документ в проект (`docs/blueprints/`, если в проекте нет своего места) и присылает
-   сводку с развилками одним сообщением. Код не пишет до отдельной просьбы.
+The skill's instructions and document template are in Russian.
 
-Есть режим проверки: владелец приносит готовый план фичи, агент находит дыры, упорядоченные по
-вреду для пользователя.
+## When it runs
 
-## Типы интерфейса
+When the owner asks to work out, design, plan or write up a feature, including after a
+discussion: "ok, let's work it out". A plain discussion of an idea does not start it: the owner
+can talk an idea through and drop it without a document.
 
-Общие принципы взаимодействия, без привязки к конкретной платформе:
+## What the agent does
 
-- веб-приложения, SaaS, админки, дашборды;
-- сайты, лендинги, интернет-магазины;
-- мобильные приложения;
-- десктопные приложения;
-- боты в мессенджерах и рабочих чатах, мини-приложения;
-- ИИ-функции, копилоты, автономные агенты;
-- голосовые интерфейсы;
-- CLI, API, SDK, вебхуки;
-- часы, ТВ, автомобиль, киоски, VR/AR.
+1. **Reads the project and measures its scale**: rules, similar features and mechanisms, data,
+   permissions, infrastructure; data volume, load, who maintains it. It does not ask what the
+   code answers and does not touch production to get numbers.
+2. **Sorts the feature**: user-facing, internal (backups, sync, queues, integrations, data
+   migration) or mixed.
+3. **Researches what to rest on**: official docs, engineering blogs and postmortems, recognised
+   guides, live popular repositories, articles and discussions (as signals to corroborate). For
+   every practice it records the scale at which it pays off. Hands-on experiments go into step 0
+   of the plan, not into the blueprint.
+4. **Asks up to three questions before the draft**, only when the answer flips most of the
+   design. Its own recommendations from the discussion that the owner never confirmed count as
+   open forks, not decisions. Questions go to the chat: a concrete situation, why the agent
+   cannot decide it, the options with consequences, a recommendation.
+5. **Writes the draft**: goals and non-goals, what the design rests on, options or a ladder from
+   simple to "how big companies do it" with the lowest sufficient step chosen; scenarios; for
+   the user-facing part — states, errors, edge cases, texts, accessibility; for the internal
+   part — guarantees in numbers, failures and how anyone learns of them, recovery and its
+   testing, access, cost, maintenance.
+6. **Keeps a decision register**: what the agent decided itself (for review) and what goes to
+   the owner — options, a recommendation and "what happens if nobody decides". Anything that
+   bypasses what the project already has, and any new setting or message for users, is always
+   shown to the owner.
+7. **Writes the engineering part**: what is reused, the design, failures on every new path,
+   maintenance, priorities, steps with tests, acceptance criteria.
+8. **Checks the document** itself and, for a full blueprint, with a fresh agent that has no
+   context of the conversation.
+9. **Saves the document** in the project (`docs/blueprints/` unless the project has its own
+   place) and sends one summary with the forks.
+10. **After the owner's answers** updates the document and sends a one-screen final summary:
+    what we build, how it will work, how we will build it (what is reused, what is new and
+    why), what was decided, what it rests on, what to watch. No code until the owner says go.
 
-## Установка
+There is also a review mode: the owner brings an existing feature plan or PR, and the agent
+lists the gaps ordered by harm to users and the business.
 
-Через каталог скиллов nyxandro:
+## What it covers
 
+User-facing features: web apps and admin panels, websites and shops, mobile and desktop apps,
+bots in messengers and Mini Apps, AI features and agents including the tools an agent calls,
+voice interfaces, CLI, API, SDK and webhooks, watches, TV, cars, kiosks and VR/AR.
+
+Internal mechanisms: backups, sync with external services, queues and background jobs, data
+migration, monitoring, integrations.
+
+## Install
+
+**Claude Code, as a plugin.** The plugin comes from [nyxandro/skills](https://github.com/nyxandro/skills),
+the catalog of my skills. Run in a Claude Code session:
+
+```text
+/plugin install feature-blueprint --marketplace nyxandro/skills
 ```
+
+This adds the catalog and installs the plugin from it, on Claude Code 2.1.275 or later. On an
+older version, add the catalog first:
+
+```text
 /plugin marketplace add nyxandro/skills
 /plugin install feature-blueprint@nyxandro
 ```
 
-Или вручную: скопировать папку `feature-blueprint` в `~/.claude/skills/` (для всех проектов) или в
-`.claude/skills/` проекта.
+No version is pinned, so every commit to this repository is a new version. To take it, run
+`claude plugin marketplace update nyxandro` and then `claude plugin update feature-blueprint@nyxandro`
+in your shell, or turn on auto-update for the catalog under `/plugin` → Marketplaces.
 
-## Структура
+**Any agent, as a skill folder.** Download `dist/feature-blueprint.skill` (the badge above) and
+unpack it into the skills folder of your agent, or clone this repository and link the
+`feature-blueprint/` folder there. No build step. Install it one way or the other, not both: with
+both, Claude Code loads the skill twice.
 
+The research step needs web search and page fetching in the agent; without them the agent says
+so and marks unsupported decisions. The fresh-agent check needs a tool that starts subagents;
+without one the agent rereads the document itself.
+
+## Evals
+
+`feature-blueprint/evals/` holds three cases in the `claude plugin eval` format: a prompt, the
+expected outcome and graders. They cover a raw idea for a Telegram bot, an admin feature inside a
+small scaffolded project, and a mobile AI feature. The evals are not part of the `.skill`
+archive.
+
+## Repository layout
+
+```text
+feature-blueprint/                    the skill itself
+  SKILL.md                            the method: when to run, research, questions, the pass, summaries
+  references/prior-art.md             research: sources, how far to trust them, the scale of a practice
+  references/scale-and-simplicity.md  measuring scale, the ladder of solutions, signs of overengineering
+  references/internal-mechanics.md    the pass for internal mechanisms: guarantees, failures, recovery
+  references/document-template.md     the blueprint template, full and short
+  references/states-and-feedback.md   states, response time, feedback, notifications
+  references/errors-and-edge-cases.md errors, recovery, edge cases
+  references/input-and-actions.md     input, deletion, money, bulk actions
+  references/copy-access-trust.md     texts, accessibility, localisation, privacy
+  references/engineering-plan.md      the engineering part of the blueprint
+  references/builder-check.md         the fresh-agent check
+  references/plan-review.md           the review mode for an existing plan
+  references/surfaces/                principles per interface type, including tools an agent calls
+  evals/                              eval cases with graders
+dist/feature-blueprint.skill          downloadable archive of the skill folder
 ```
-feature-blueprint/
-├── SKILL.md                          порядок работы
-├── references/
-│   ├── document-template.md          шаблон чертежа: полный и короткий
-│   ├── states-and-feedback.md        состояния, отклик, обратная связь, уведомления
-│   ├── errors-and-edge-cases.md      ошибки, восстановление, крайние случаи
-│   ├── input-and-actions.md          ввод, удаление, деньги, массовые действия
-│   ├── copy-access-trust.md          тексты, доступность, локализация, приватность
-│   ├── engineering-plan.md           инженерная часть
-│   ├── builder-check.md              проверка свежим агентом
-│   └── surfaces/                     принципы по типам интерфейса
-└── evals/                            тестовые сценарии скилла
-```
 
-## Благодарности
+## Acknowledgements
 
-Скилл написан с нуля, но опирается на идеи из открытых проектов:
+The skill is written from scratch, but builds on ideas from open projects:
 
-- [obra/superpowers](https://github.com/obra/superpowers) (MIT) — «сначала изучи проект, потом
-  спрашивай», проверка документа свежим агентом, формат плана реализации;
-- [garrytan/gstack](https://github.com/garrytan/gstack) (MIT) — таблица состояний, реестр
-  нерешённого «если не решить, что будет», сбои на новых путях;
-- [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) — манера «предложи
-  вероятный вариант и попроси поправить», чек-лист крайних случаев, виды пустых состояний;
-- [Owl-Listener/designer-skills](https://github.com/Owl-Listener/designer-skills) (MIT) — цепочка
-  работы с ошибкой, пороги ожидания, сравнение вариантов по поведению;
-- [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) — сценарии с
-  конкретными людьми, раздел «что сознательно не делаем»;
-- [szilu/ux-designer-skill](https://github.com/szilu/ux-designer-skill) (MIT) — развилки «окно,
-  панель или страница», выбор типа уведомления;
+- [obra/superpowers](https://github.com/obra/superpowers) (MIT) — study the project before
+  asking, the fresh-agent check of a document, the implementation plan format;
+- [garrytan/gstack](https://github.com/garrytan/gstack) (MIT) — the states table, the register of
+  open decisions with "what happens if nobody decides", failures on new paths;
+- [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) — propose the likely
+  option and ask to correct it, the edge-case checklist, kinds of empty states;
+- [Owl-Listener/designer-skills](https://github.com/Owl-Listener/designer-skills) (MIT) — the
+  error-handling chain, waiting thresholds, comparing options by behaviour;
+- [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) — scenarios with
+  concrete people, the "deliberately not doing" section;
+- [szilu/ux-designer-skill](https://github.com/szilu/ux-designer-skill) (MIT) — dialog, panel or
+  page; choosing the notification type;
 - [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins)
-  (Apache-2.0) — цели и не-цели, приоритеты P0–P2, критерии приёмки.
+  (Apache-2.0) — goals and non-goals, P0–P2 priorities, acceptance criteria.
 
-## Лицензия
+The references on research, scale, internal mechanisms and agent tools draw on:
 
-MIT
+- [Design Docs at Google](https://www.industrialempathy.com/posts/design-docs-at-google/) —
+  alternatives considered and trade-offs as the core of a design document;
+- [Choose Boring Technology](https://mcfunley.com/choose-boring-technology) — the maintenance
+  cost of every new technology, try the existing stack first;
+- [AWS Well-Architected, Reliability pillar](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/design-principles.html)
+  — test recovery procedures, signals in business terms;
+- [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents)
+  (Anthropic), [Function calling](https://developers.openai.com/api/docs/guides/function-calling)
+  (OpenAI), [MCP: Tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) —
+  designing tools for AI agents.
+
+## License
+
+MIT.
