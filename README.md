@@ -16,6 +16,11 @@ makes the agent think all of that through first, decide everything it can decide
 bring the owner only the forks that change the product — explained in plain words, with a
 recommendation.
 
+The skill does not re-teach what the model already knows about UX and engineering. It holds the
+order of work, the owner's rules, short lists of what must not be missed, and the document
+format. The agent first writes the risks specific to the feature and the project, and only then
+checks the lists, so they catch what was missed instead of narrowing the view.
+
 The skill's instructions and document template are in Russian.
 
 ## When it runs
@@ -111,19 +116,9 @@ archive.
 
 ```text
 feature-blueprint/                    the skill itself
-  SKILL.md                            the method: when to run, research, questions, the pass, summaries
-  references/prior-art.md             research: sources, how far to trust them, the scale of a practice
-  references/scale-and-simplicity.md  measuring scale, the ladder of solutions, signs of overengineering
-  references/internal-mechanics.md    the pass for internal mechanisms: guarantees, failures, recovery
-  references/document-template.md     the blueprint template, full and short
-  references/states-and-feedback.md   states, response time, feedback, notifications
-  references/errors-and-edge-cases.md errors, recovery, edge cases
-  references/input-and-actions.md     input, deletion, money, bulk actions
-  references/copy-access-trust.md     texts, accessibility, localisation, privacy
-  references/engineering-plan.md      the engineering part of the blueprint
-  references/builder-check.md         the fresh-agent check
-  references/plan-review.md           the review mode for an existing plan
-  references/surfaces/                principles per interface type, including tools an agent calls
+  SKILL.md                            the method, the owner's rules and short don't-miss lists
+  references/document-template.md     the blueprint format, full and short, with the plan section
+  references/builder-check.md         the prompt for the fresh-agent check
   evals/                              eval cases with graders
 dist/feature-blueprint.skill          downloadable archive of the skill folder
 ```
@@ -139,15 +134,13 @@ The skill is written from scratch, but builds on ideas from open projects:
 - [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) — propose the likely
   option and ask to correct it, the edge-case checklist, kinds of empty states;
 - [Owl-Listener/designer-skills](https://github.com/Owl-Listener/designer-skills) (MIT) — the
-  error-handling chain, waiting thresholds, comparing options by behaviour;
+  error-handling chain, comparing options by behaviour;
 - [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) — scenarios with
   concrete people, the "deliberately not doing" section;
-- [szilu/ux-designer-skill](https://github.com/szilu/ux-designer-skill) (MIT) — dialog, panel or
-  page; choosing the notification type;
 - [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins)
   (Apache-2.0) — goals and non-goals, P0–P2 priorities, acceptance criteria.
 
-The references on research, scale, internal mechanisms and agent tools draw on:
+The rules on research, scale, internal mechanisms and agent tools draw on:
 
 - [Design Docs at Google](https://www.industrialempathy.com/posts/design-docs-at-google/) —
   alternatives considered and trade-offs as the core of a design document;
