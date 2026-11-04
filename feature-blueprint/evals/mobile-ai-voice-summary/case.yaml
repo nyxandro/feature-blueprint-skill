@@ -1,7 +1,8 @@
 schema_version: "1.1"
 name: mobile-ai-voice-summary
 expected_outcome: |
-  Агент строит спецификацию ИИ-функции в мобильном приложении: долгую обработку в фоне с уведомлением,
-  отмену, пометку ИИ-содержимого, правку и перегенерацию, поведение без сети, сбои ИИ-сервиса,
-  передачу аудио внешнему сервису, стоимость и лимиты как решение владельца, разрешение на push в
-  контексте, инженерный план. Код не пишется.
+  The agent builds a specification of an AI feature in a mobile app: long background processing
+  with a notification, cancel, marking AI content, editing and regenerating, behaviour without a
+  network, AI service failures, sending audio to an external service, cost and limits as the
+  owner's decision, push permission in context, an engineering plan. No code is written. The
+  document and the chat summary are in Russian, the owner's language.

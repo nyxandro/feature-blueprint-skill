@@ -1,353 +1,366 @@
-# Шаблон спецификации
+# Specification template
 
-Два варианта: полная — для фичи, короткая — для маленькой правки.
+Two variants: a full one for a feature, a short one for a small change.
 
-Читатели: **владелец** читает «Главное» и часть 1 — там всё для решений, без технического словаря;
-**исполнитель** — агент, который будет строить и не сможет задать вопросов, — работает по частям 2
-и 3. Ему нужны не знания, а твои решения: какие файлы, имена, значения, какой тест доказывает шаг.
+Write the document in the owner's language: translate headings, labels and markers. Keep as
+they are: section numbers, fork labels F1… and priorities P0–P2, file, function and field names,
+commands, paths, error codes and product names.
 
-Раздел, который к фиче не относится, — заголовок и одна строка «не относится, потому что…». У
-пользовательской фичи без нового механизма так обычно закрываются разделы 8 и 20, у внутренней —
-7, 11 и 12. Внутри разделов пиши только применимое.
+Readers: **the owner** reads "At a glance" and part 1 — everything needed for decisions, without
+technical vocabulary; **the implementer** — an agent who will build it and cannot ask questions —
+works from parts 2 and 3. It needs your decisions, not knowledge: which files, names, values, which
+test proves a step.
 
-**Объём:** «Главное» — одна страница; «Главное» с частью 1 — до 180 строк; часть 2 — до 170; часть 3
-— до 250; вся спецификация — 300–600. Больше — значит, есть повторы, очевидное или проза вместо таблиц.
+A section that does not apply — its heading and one line "does not apply because…". For a
+user-facing feature without a new mechanism this usually closes sections 8 and 20; for an internal
+one, 7, 11 and 12. Inside sections, write only what applies.
 
-## Полная спецификация
+**Length:** "At a glance" — one page; "At a glance" with part 1 — up to 180 lines; part 2 — up to
+170; part 3 — up to 250; the whole specification — 300–600. More means repetition, the obvious or
+prose instead of tables.
+
+## Full specification
 
 ````markdown
-# <Название фичи> — спецификация
+# <Feature name> — specification
 
-**Статус:** черновик, ждёт решений владельца | согласована
-**Дата:** ГГГГ-ММ-ДД · **Проект:** <имя> · **Тип фичи:** пользовательская | внутренняя | смешанная ·
-**Где работает:** <веб-админка, бот, фоновая задача, внешний сервис…>
+**Status:** draft, awaiting the owner's decisions | agreed
+**Date:** YYYY-MM-DD · **Project:** <name> · **Feature type:** user-facing | internal | mixed ·
+**Where it runs:** <web admin, bot, background job, external service…>
 
-## Главное
+## At a glance
 
-**Что делаем и зачем.** 2–3 строки: для кого, какую боль снимаем, что будет успехом.
+**What we build and why.** 2–3 lines: for whom, what pain we remove, what success is.
 
-**Как это будет работать.** 4–7 пунктов: путь по шагам — что делает человек или что происходит,
-когда срабатывает механизм, — и главные решения, каждое с последствием для пользователя или
-бизнеса.
+**How it will work.** 4–7 points: the path step by step — what the person does or what happens
+when the mechanism fires — and the main decisions, each with its consequence for the user or the
+business.
 
-**Как будем делать.** 4–8 пунктов высоким уровнем: что появится в системе, что переиспользуем из
-проекта, что пишем заново и почему не подошло имеющееся.
+**How we will build it.** 4–8 high-level points: what appears in the system, what we reuse from
+the project, what we write anew and why the existing did not fit.
 
-**На чём основано.** 2–4 главные опоры: практика или источник → что из этого берём (подробно —
-раздел 3).
+**What to watch.** The main risks of this feature from the pass; what is deferred and when we
+come back to it.
 
-**Нашлось по дороге.** <устаревший код и старые дефекты в затронутой области: что это и чем
-мешает; что с ними делать — в развилках. Если ничего — строку убрать>
+**What it rests on.** 2–4 main supports: practice or source → what we take from it (details —
+section 3).
 
-**Ждут вашего решения.**
-1. <вопрос> — рекомендую <вариант>, потому что <…> (подробно — Р1)
+**Found along the way.** <legacy code and old defects in the affected area: what they are and how
+they get in the way; what to do with them — in the forks. Nothing — drop the line>
+
+**Awaiting your decision.**
+1. <question> — I recommend <option> because <…> (details — F1)
 2. …
 
-**Выкатка:** <куда после реализации и тестов: дев, стейдж или прод — по решению владельца (Р…);
-что проверяем после выкатки>.
+**Deployment:** <where after implementation and tests: dev, stage or prod — per the owner's
+decision (F…); what we check after deployment>.
 
-**Объём:** <N шагов; работа агента — около X ч (оценка); что займёт время на самом деле — прогоны,
-CI, внешние ожидания; что нужно от владельца и сколько его времени>.
+**Scope:** <N steps; agent work — about X h (estimate); what really takes time — test runs, CI,
+external waits; what is needed from the owner and how much of their time>.
 
-**Не проверено:** <что и почему>.
+**Not verified:** <what and why>.
 
 ---
 
-# Часть 1. Для владельца: как это работает
+# Part 1. For the owner: how it works
 
-## 1. Что известно и что додумано
+## 1. What is known and what was added
 
-- **Сказал владелец:** <что он сказал или явно подтвердил, в том числе в обсуждении до спецификации>
-- **Рекомендовал агент, владелец не подтвердил:** <если было обсуждение — что и где это в развилках>
-- **Нашлось в проекте:** <похожие функции, ограничения, масштаб с цифрами, найденные дефекты>
-- **Додумано:** <ключевые допущения с пометкой [ДОПУЩЕНИЕ] и причиной>
-- **Противоречия между источниками:** <кто что говорит и где это в развилках>
+- **The owner said:** <what they said or explicitly confirmed, including in the discussion before
+  the specification>
+- **The agent recommended, the owner did not confirm:** <if there was a discussion — what, and
+  where it is in the forks>
+- **Found in the project:** <similar functions, constraints, scale in numbers, defects found>
+- **Added:** <key assumptions marked [ASSUMPTION], with the reason>
+- **Contradictions between sources:** <who says what and where it is in the forks>
 
-**Источники** (если опись ведёт спецификация проекта — ссылка на неё, иначе таблица):
+**Sources** (if the project specification keeps the inventory — a link to it; otherwise a table):
 
-| Код | Что это | От кого, дата | Где лежит | Вес |
+| Code | What it is | From whom, date | Where it is | Weight |
 |---|---|---|---|---|
-| <КП> | <концепция…> | <автор, ГГГГ-ММ-ДД> | <`inbox/…` или ссылка> | требование / гипотеза |
+| <CON> | <concept…> | <author, YYYY-MM-DD> | <`inbox/…` or a link> | requirement / hypothesis |
 
-Ключевые требования в документе помечай кодом источника: **[КП]**.
+Mark key requirements in the document with their source code: **[CON]**.
 
-## 2. Цели, не-цели, анти-цели
+## 2. Goals, non-goals, anti-goals
 
-- **Цели:** 2–5 результатов для пользователя и бизнеса. Для внутреннего механизма — гарантии в
-  числах: сколько данных допустимо потерять, сколько простоять, за какое время доходят изменения.
-- **Не-цели:** что не входит в эту версию и почему.
-- **Анти-цели:** что сделает фичу провалом, даже если она работает.
+- **Goals:** 2–5 outcomes for the user and the business. For an internal mechanism — guarantees in
+  numbers: how much data may be lost, how long it may be down, how fast changes arrive.
+- **Non-goals:** what is not in this version and why.
+- **Anti-goals:** what would make the feature a failure even if it works.
 
-## 3. На чём основано
+## 3. What it rests on
 
-| Практика | Кто так делает | При каком масштабе окупается | Берём сейчас? | Почему | Источник, дата |
+| Practice | Who does it | Scale at which it pays off | Taking it now? | Why | Source, date |
 |---|---|---|---|---|---|
 
-Только то, что повлияло на решения; строки «не берём» так же важны, как «берём».
+Only what shaped decisions; "not taking" rows matter as much as "taking".
 
-## 4. Варианты и масштаб
+## 4. Options and scale
 
-**Масштаб проекта:** <данные, нагрузка, кто обслуживает, бюджет — с источником цифр>.
+**Project scale:** <data, load, who maintains it, budget — with where the numbers come from>.
 
-Если путь один — одна строка «путь один, потому что…». Иначе варианты или лестница ступеней:
+If there is one path — one line "one path, because…". Otherwise options or a ladder of levels:
 
-| | Вариант / ступень 1 | Вариант / ступень 2 |
+| | Option / level 1 | Option / level 2 |
 |---|---|---|
-| Что делает человек или механизм | | |
-| От чего защищает / что даёт | | |
-| Стоит: сложность и места для сбоев, деньги в месяц, обслуживание | | |
-| Закрепляет | | |
-| Нужен, когда | | |
+| What the person or the mechanism does | | |
+| What it protects against / gives | | |
+| Costs: complexity and failure points, money per month, maintenance | | |
+| Locks in | | |
+| Needed when | | |
 
-**Рекомендую:** <вариант> — потому что <…, со ссылкой на раздел 3>.
-**Переходить выше, когда:** <измеримое условие>.
-**Отвергнуты:** <вариант> — проиграл на <…>, вернётся, если <…>.
+**I recommend:** <option> — because <…, citing section 3>.
+**Move up when:** <a measurable condition>.
+**Rejected:** <option> — lost on <…>, comes back if <…>.
 
-## 5. Как это работает
+## 5. How it works
 
-Для пользовательской фичи — сценарии с конкретными людьми. Для внутреннего механизма — сценарии
-его работы: обычный проход, сбой, восстановление.
+For a user-facing feature — scenarios with concrete people. For an internal mechanism — scenarios
+of its work: the normal run, a failure, recovery.
 
-**Входы:** <откуда попадают в фичу → номер сценария; например: команда в чате → 1, уведомление →
-2, действие модели → 3>
+**Entry points:** <where people come into the feature from → scenario number; for example: a chat
+command → 1, a notification → 2, an action of the model → 3>
 
-**Сценарий 1 — <название>.** <Кто, контекст, состояние.>
+**Scenario 1 — <name>.** <Who, context, state.>
 1. …
-2. **Главный момент:** <ради чего всё делается>
-- **Если сбой:** <что происходит, кто узнаёт, как выбираемся>
+2. **Key moment:** <what it is all for>
+- **On failure:** <what happens, who learns, how we get out>
 
 ```mermaid
 flowchart TD
-  A[Вход] --> B{Развилка}
-  B -->|да| C[Шаг]
-  B -->|нет| D[Другой шаг]
-  C --> E[Результат]
-  C -.->|ошибка| F[Ошибка: текст, выход]
+  A[Entry] --> B{Fork}
+  B -->|yes| C[Step]
+  B -->|no| D[Other step]
+  C --> E[Result]
+  C -.->|error| F[Error: text, way out]
 ```
 
-## 6. Решения владельца
+## 6. Owner's decisions
 
-### Р1. <Вопрос так, как его понял бы владелец>
-**Почему решать сейчас:** <что от ответа зависит: поведение для людей, данные, деньги, надёжность>
-- **А. <вариант>** — даёт: …; стоит: …; закрепляет: …
-- **Б. <вариант>** — даёт: …; стоит: …; закрепляет: …
-- **В. Самый простой: без этого / как сейчас** — даёт: …; стоит: …
-**Рекомендую А**, потому что <…>.
-**Если не решить:** <что сделает исполнитель по умолчанию и что увидит пользователь>
+### F1. <The question as the owner would understand it>
+**Why decide now:** <what depends on the answer: behaviour for people, data, money, reliability>
+- **A. <option>** — gives: …; costs: …; locks in: …
+- **B. <option>** — gives: …; costs: …; locks in: …
+- **C. Simplest: without it / as now** — gives: …; costs: …
+**I recommend A** because <…>.
+**If nobody decides:** <what the implementer does by default and what the user sees>
 
-### Принято
-Заполняется после ответов владельца: решение, дата.
+### Accepted
+Filled in after the owner's answers: the decision, the date.
 
 ---
 
-# Часть 2. Для исполнителя: поведение в деталях
+# Part 2. For the implementer: behaviour in detail
 
-## 7. Точки контакта и состояния
+## 7. Touchpoints and states
 
-| Точка контакта | Первый раз / пусто | Загрузка | Есть данные | Частично | Ошибка | Нет прав | Успех |
+| Touchpoint | First time / empty | Loading | Has data | Partial | Error | No permission | Success |
 |---|---|---|---|---|---|---|---|
-| <экран, сообщение, команда> | <что видит и может сделать> | | | | | | |
+| <screen, message, command> | <what the person sees and can do> | | | | | | |
 
-Колонки — под фичу (для бота: «сообщение устарело»; для офлайн-приложения: «нет сети»). Пустых
-клеток нет: «не бывает, потому что…» — тоже ответ.
+Columns fit the feature (for a bot: "message is outdated"; for an offline app: "no network"). No
+empty cells: "cannot happen, because…" is an answer too.
 
-Для инструментов, которые вызывает ИИ-агент, вместо неё — таблица инструментов:
+For tools that an AI agent calls, use a tools table instead:
 
-| Инструмент | Когда вызывать / когда нет | Параметры | Что возвращает | Читает / меняет / необратимо | Защита от дублей | Ошибки: код и что в них сказано |
+| Tool | When to call / when not | Parameters | What it returns | Reads / changes / irreversible | Duplicate protection | Errors: code and what they say |
 |---|---|---|---|---|---|---|
 
-## 8. Внутренний механизм: гарантии, данные, отказы
+## 8. Internal mechanism: guarantees, data, failures
 
-Гарантии в числах, источник правды и правило конфликтов, связь идентификаторов, повтор и двойной
-запуск, восстановление и его проверка, доступы. Сигналы о работе и обслуживание — в разделе 20,
-деньги — в разделе 4, что видит человек при сбое — в разделе 9.
+Guarantees in numbers, source of truth and conflict rule, identifier mapping, retries and double
+runs, recovery and its test, access. Signals of work and maintenance — in section 20, money — in
+section 4, what the person sees on failure — in section 9.
 
-| Что ломается | Как предотвращаем | Как узнаём (кто, за какое время) | Как восстанавливаемся | Что теряется | Чем покрыт |
+| What breaks | How we prevent it | How we learn (who, how fast) | How we recover | What is lost | Covered by |
 |---|---|---|---|---|---|
 
-## 9. Ошибки и восстановление
+## 9. Errors and recovery
 
-| Ситуация | Как предотвращаем | Что видит человек (текст целиком) | Как выбирается | Что сохраняется |
+| Situation | How we prevent it | What the person sees (full text) | How they get out | What is kept |
 |---|---|---|---|---|
 
-## 10. Крайние случаи и стыки с другими функциями
+## 10. Edge cases and seams with other functions
 
-| Случай | Что происходит | Как обрабатываем |
+| Case | What happens | How we handle it |
 |---|---|---|
 
-| Соседняя функция | Где встречаются | Что происходит | Как решаем, кто главный |
+| Neighbouring function | Where they meet | What happens | How we resolve it, which one wins |
 |---|---|---|---|
 
-## 11. Скорость и обратная связь
+## 11. Speed and feedback
 
-| Действие | Ожидаемое время | Что видит человек, пока ждёт | Если дольше |
+| Action | Expected time | What the person sees while waiting | If it takes longer |
 |---|---|---|---|
 
-## 12. Тексты интерфейса
+## 12. Interface texts
 
-| Где | Текст |
+| Where | Text |
 |---|---|
 
-Тексты из таблиц ошибок и состояний здесь не повторяй.
+Do not repeat texts from the error and state tables here.
 
-## 13. Доступность, локализация, деньги, данные, закон
+## 13. Accessibility, localisation, money, data, law
 
-Только то, что касается фичи.
+Only what concerns the feature.
 
-## 14. Что сознательно не делаем
+## 14. What we deliberately do not do
 
-- <что> — потому что <сейчас не нужно людям / ждём данных / лишнее обслуживание на нашем
-  масштабе>; вернёмся, когда <условие>. «Дольше делать» — не причина
+- <what> — because <people do not need it now / waiting for data / needless maintenance at our
+  scale>; we come back when <condition>. "Takes longer" is not a reason
 
-## 15. Решения агента — на проверку
+## 15. Agent decisions — for review
 
-Только те, с которыми владелец мог бы разумно не согласиться (обычно до десяти). Всегда — решения
-мимо того, что в проекте уже есть, если они не стали развилкой, с причиной. Новые для человека
-настройки, кнопки и сообщения, о которых владелец не просил, сюда не входят — это развилки
-раздела 6.
+Only those the owner could reasonably disagree with (usually up to ten). Always — decisions that
+bypass what the project already has, if they did not become a fork, with the reason. New settings,
+buttons and messages for people that the owner did not ask for do not go here — they are forks in
+section 6.
 
-- <решение> — <почему так> (<основание: правило проекта, документация, практика из раздела 3>)
+- <decision> — <why> (<ground: project rule, documentation, practice from section 3>)
 
 ---
 
-# Часть 3. Для исполнителя: как реализовать
+# Part 3. For the implementer: how to build
 
-## 16. Что уже есть и переиспользуем
+## 16. What exists and what we reuse
 
-<Модули, сервисы, утилиты проекта с путями: что берём как есть, что расширяем, что не используем и
-почему. Устаревший код и дублирующие механизмы в затронутой области: используется ли, риск;
-удаление — только по согласию владельца.>
+<The project's modules, services and utilities with paths: what we take as is, what we extend,
+what we do not use and why. Legacy code and duplicate mechanisms in the affected area: whether
+they are used, the risk; removal only with the owner's consent.>
 
-## 17. Устройство
+## 17. Design
 
-<Только то, что решается заранее; реализует выбранную в разделе 4 ступень, не больше. Где живёт
-логика и у каждого изменяемого состояния — один владелец. Данные: сущности, поля, ограничения,
-миграции и судьба существующих данных. Контракты: запросы, события, коды ошибок. Схема состояний
-ключевого сценария в Mermaid (`stateDiagram-v2`). Защита от двойного выполнения. Фоновые задачи:
-результат, сбой, перезапуск. Права: где проверяются. Наблюдаемость: события и метрики, по которым
-видно, что фича работает и достигает цели раздела 2; что логируется. Запуск: перенос
-существующих данных, постепенное включение, откат. Если вводится новый модуль — второе,
-по-другому разделённое устройство и почему выбрано первое.>
+<Only what has to be decided upfront; implements the level chosen in section 4, no more. Where the
+logic lives and one owner for each piece of mutable state. Data: entities, fields, constraints,
+migrations and the fate of existing data. Contracts: requests, events, error codes. A state
+diagram of the key scenario in Mermaid (`stateDiagram-v2`). Protection against double execution.
+Background jobs: result, failure, restart. Permissions: where they are checked. Observability:
+events and metrics that show the feature works and reaches the goal of section 2; what is logged.
+Launch: migrating existing data, gradual rollout, rollback. If a new module is introduced — a
+second design split differently and why the first was chosen.>
 
-## 18. Ловушки платформы и библиотек
+## 18. Platform and library traps
 
-<Найденное при сверке с документацией: ограничение или неочевидное поведение → как план его
-обходит → какой тест проверяет. Что сверить не удалось.>
+<Found when checking documentation: a limit or non-obvious behaviour → how the plan works around
+it → which test checks it. What could not be checked.>
 
-## 19. Сбои на новых путях
+## 19. Failures on new paths
 
-| Путь | Реальный отказ | Что видит человек | Чем покрыт (тест / обработка) |
+| Path | Realistic failure | What the person sees | Covered by (test / handling) |
 |---|---|---|---|
 
-Отказ без теста, без обработки и невидимый человеку — **критическая дыра**, закрыть в плане.
-Отказы механизма из раздела 8 не повторяй.
+A failure with no test, no handling and invisible to the person is a **critical gap** — close it in
+the plan. Do not repeat the mechanism failures from section 8.
 
-## 20. Обслуживание
+## 20. Maintenance
 
-<Как понять, что работает: сигналы, пороги, кто получает; тревога на отсутствие успеха в срок.
-Инструкция «если сломалось» в 3–5 шагов. Регулярная работа и что из неё автоматизировано.>
+<How to tell it works: signals, thresholds, who receives them; an alert on the absence of success
+on time. A "when it breaks" runbook in 3–5 steps. Regular work and what of it is automated.>
 
-## 21. Приоритеты и объём
+## 21. Priorities and scope
 
-- **P0 — минимальная полная версия продакшн-качества, строится целиком:** всё, без чего фича
-  работает неправильно, теряет данные, ломается молча, оставляет человека в тупике или открывает
-  дыру в безопасности.
-- **P1 — улучшает, но фича работает правильно и без этого:** откладывается только по причине из
-  продукта и с условием возврата. «Дольше делать» — не причина.
-- **P2 — не делаем, но не закрываем дорогу.**
+- **P0 — the minimal complete production-grade version, built in full:** everything without
+  which the feature works wrong, loses data, fails silently, leaves a person stuck or opens a
+  security hole.
+- **P1 — improves things, but the feature works correctly without it:** deferred only for a
+  product reason and with a condition to return. "Takes longer" is not a reason.
+- **P2 — not doing it, but not closing the way to it.**
 
-**Объём:** работа агента в часах по шагам (оценка) — не в днях; что займёт время на самом деле —
-прогоны, CI, внешние ожидания; что нужно от владельца. Ориентир: двусторонняя синхронизация
-напоминаний с Google Календарём, 9 шагов с тестами, ревью и исправлениями, — около 2 ч работы
-агента и 50 мин выкатки; заранее это было оценено в 11 дней.
+**Scope:** agent work in hours by step (estimate) — not in days; what really takes time — test
+runs, CI, external waits; what is needed from the owner. Calibration: two-way sync of reminders
+with Google Calendar, 9 steps with tests, review and fixes — about 2 h of agent work and 50 min of
+deployment; it had been estimated upfront at 11 days.
 
-**Выкатка:** окружения проекта; куда выкатываем после реализации и тестов (решение владельца);
-порядок выкатки по правилам проекта; что проверяем после — логи, живой сценарий, метрики; как
-откатить.
+**Deployment:** the project's environments; where we deploy after implementation and tests (the
+owner's decision); the deployment order per the project's rules; what we check after — logs, a
+live scenario, metrics; how to roll back.
 
-## 22. Шаги
+## 22. Steps
 
-Если есть пометки `[ПРОВЕРИТЬ]` или `[ЗАМЕРИТЬ]`, план начинается с них:
+If there are [VERIFY] or [MEASURE] markers, the plan starts with them:
 
-### Шаг 0: проверки и замеры
+### Step 0: checks and measurements
 
-| Что проверяем | Как | Какое решение зависит | Что меняется в плане при каждом исходе |
+| What we check | How | Which decision depends on it | What changes in the plan for each outcome |
 |---|---|---|---|
 
-### Шаг N: <что появляется>
+### Step N: <what appears>
 
-**Файлы:** создать `путь`; изменить `путь` (что именно); тест `путь`
-**Использует:** <точные имена из прошлых шагов>
-**Даёт:** <точные имена для следующих шагов>
-**Тест:** <имя и что проверяет — с конкретными значениями из спецификации>
-**Готово, когда:** <команда проверки и ожидаемый результат>
+**Files:** create `path`; change `path` (what exactly); test `path`
+**Uses:** <exact names from earlier steps>
+**Provides:** <exact names for later steps>
+**Test:** <name and what it checks — with concrete values from the specification>
+**Done when:** <check command and expected result>
 
-Шаг — наименьшая единица со своим тестом; по нему можно написать ровно одну разумную вещь.
-«Обработать ошибки», «добавить валидацию» — дыра. Тела функций не пиши, файлов с кодом не создавай;
-код — только для неочевидного алгоритма. Порядок — от того, от чего зависят остальные. Тест до кода,
-если так требуют правила проекта.
+A step is the smallest unit with its own test; it allows exactly one sensible implementation.
+"Handle errors", "add validation" — a gap. No function bodies, no code files; code only for a
+non-obvious algorithm. Order — from what the rest depends on. Test before code if the project's
+rules require it.
 
-## 23. Критерии приёмки
+## 23. Acceptance criteria
 
-Для каждого сценария и важной ошибки — «Дано / Когда / Тогда» с конкретными значениями. Для
-внутреннего механизма — и отказ, и восстановление: «Дано: ночная копия не создалась. Тогда: к 10
-утра владелец получил сообщение с причиной»; «Дано: копия за вчера. Когда: восстанавливаем её в
-отдельную базу. Тогда: число заказов совпадает с основной на момент копии».
+For each scenario and important error — "Given / When / Then" with concrete values. For an
+internal mechanism — both the failure and the recovery: "Given: the nightly copy was not created.
+Then: by 10 a.m. the owner got a message with the reason"; "Given: yesterday's copy. When: we
+restore it into a separate database. Then: the number of orders matches the main one at the time
+of the copy".
 
-## 24. На что смотреть при ревью
+## 24. What to look at in review
 
-Пять ситуаций, которые спецификация подразумевает, но ни один тест не проверяет, — с тестом в нужном
-шаге. Пустой раздел — «проверил и не нашёл».
+Five situations the specification implies but no test checks — each with a test in the right
+step. If there are none, write "checked and found none".
 
-## 25. Открытые вопросы
+## 25. Open questions
 
-| Вопрос | Кто отвечает | Блокирует старт? |
+| Question | Who answers | Blocks the start? |
 |---|---|---|
 ````
 
-## Короткая спецификация (маленькая правка)
+## Short specification (small change)
 
-Объём — до 80 строк.
+Length — up to 80 lines.
 
 ````markdown
-# <Правка> — короткая спецификация
+# <Change> — short specification
 
-**Статус:** … · **Дата:** … · **Где:** <экран / команда / файл / задача>
+**Status:** … · **Date:** … · **Where:** <screen / command / file / job>
 
-**Что и зачем:** 2–3 строки.
+**What and why:** 2–3 lines.
 
-**Вводные:** <что сказал или подтвердил владелец> · <что додумано или рекомендовано агентом без
-подтверждения — это в «Решениях»> · <источники: коды и где лежат>
+**Inputs:** <what the owner said or confirmed> · <what was added or recommended by the agent
+without confirmation — that goes to "Decisions"> · <sources: codes and where they are>
 
-**Опора:** <документация или практика, на которой держится решение>
+**Ground:** <documentation or practice the decision rests on>
 
-**Переиспользуем:** <что из проекта; что идёт мимо имеющегося и почему>
+**Reuse:** <what from the project; what bypasses what exists and why>
 
-**Сценарий:** 3–5 шагов, включая ветку сбоя.
+**Scenario:** 3–5 steps, including the failure branch.
 
-**Состояния:** <только затронутые: загрузка, пусто, ошибка, успех — что видит человек>
+**States:** <only the affected ones: loading, empty, error, success — what the person sees>
 
-**Отказы:** <для внутренней правки: что ломается, как узнаём, как восстанавливаемся>
+**Failures:** <for an internal change: what breaks, how we learn, how we recover>
 
-**Ошибки и крайние случаи:** <список с обработкой>
+**Errors and edge cases:** <a list with handling>
 
-**Тексты:** <ключевые строки>
+**Texts:** <key strings>
 
-**Решения:** <для владельца — в формате даёт / стоит / закрепляет с рекомендацией; свои — на проверку>
+**Decisions:** <for the owner — in the gives / costs / locks-in format with a recommendation;
+your own — for review>
 
-**Шаги реализации:** <файлы, что меняется, какой тест доказывает>
+**Implementation steps:** <files, what changes, which test proves it>
 
-**Критерии приёмки:** <Дано / Когда / Тогда, 2–4 штуки>
+**Acceptance criteria:** <Given / When / Then, 2–4 of them>
 
-**Объём:** <шаги; работа агента — около X ч (оценка); что нужно от владельца>
+**Scope:** <steps; agent work — about X h (estimate); what is needed from the owner>
 ````
 
-## Правила оформления
+## Formatting rules
 
-- Таблицы вместо прозы, где сравниваются однотипные вещи. Внутри таблицы нет пустых строк — они
-  разрывают её.
-- Каждый текст для пользователя — целиком, в кавычках.
-- Одно и то же — в одном месте; в других — ссылка на раздел.
-- Пути и имена — в обратных кавычках, точно как в проекте.
-- Схемы — Mermaid (`flowchart` для сценария, `stateDiagram-v2` для состояний).
-- Кликабельный HTML-макет — только по просьбе владельца; при расхождении прав документ.
+- Tables instead of prose where like things are compared. No blank lines inside a table — they
+  break it.
+- Every text for the user — in full, in quotes.
+- Each thing in one place; elsewhere a reference to the section.
+- Paths and names — in backticks, exactly as in the project.
+- Diagrams — Mermaid (`flowchart` for scenarios, `stateDiagram-v2` for states).
+- A clickable HTML mock-up — only at the owner's request; on a mismatch the document wins.

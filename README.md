@@ -21,7 +21,9 @@ order of work, the owner's rules, short lists of what must not be missed, and th
 format. The agent first writes the risks specific to the feature and the project, and only then
 checks the lists, so they catch what was missed instead of narrowing the view.
 
-The skill's instructions and document template are in Russian.
+The skill and its template are written in English. Everything the owner reads — the
+specification, the summaries and questions, plan lines, issues and comments — the agent writes in
+the language the owner uses in the conversation, unless the project's rules say otherwise.
 
 ## When it runs
 
@@ -111,8 +113,9 @@ without one the agent rereads the document itself.
 
 `feature-blueprint/evals/` holds three cases in the `claude plugin eval` format: a prompt, the
 expected outcome and graders. They cover a raw idea for a Telegram bot, an admin feature inside a
-small scaffolded project, and a mobile AI feature. The evals are not part of the `.skill`
-archive.
+small scaffolded project, and a mobile AI feature. The prompts are in Russian on purpose: they
+also check that the specification and the summary follow the owner's language. The evals are not
+part of the `.skill` archive.
 
 ## Repository layout
 
@@ -123,6 +126,7 @@ feature-blueprint/                    the skill itself
   references/builder-check.md         the prompt for the fresh-agent check
   evals/                              eval cases with graders
 dist/feature-blueprint.skill          downloadable archive of the skill folder
+AGENTS.md, CLAUDE.md                  rules for agents working on this repository
 ```
 
 ## Acknowledgements

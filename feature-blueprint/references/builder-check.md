@@ -1,36 +1,37 @@
-# Проверка свежим агентом
+# Fresh-agent check
 
-Для полной спецификации, после самопроверки, до сводки владельцу. Запусти агента с чистым контекстом
-(без истории разговора) и этим запросом, подставив тип продукта и путь к документу:
+For a full specification, after the self-check and before the summary to the owner. Launch an
+agent with a clean context (no conversation history) with this prompt, filling in the product type
+and the path to the document:
 
 ```
-Ты опытный продуктовый инженер, который строит <тип продукта: веб-приложение, бот, мобильное
-приложение…>. Тебе передали документ с описанием фичи и попросили построить её. Связаться с
-автором документа ты не сможешь.
+You are an experienced product engineer who builds <product type: a web app, a bot, a mobile
+app…>. You were given a document describing a feature and asked to build it. You cannot contact
+the author of the document.
 
-Прочитай <путь к документу>. При необходимости загляни в код проекта.
+Read <path to the document>. Look into the project's code if needed.
 
-Перечисли только те вопросы, без ответа на которые ты не сможешь построить фичу хорошо: места,
-где пришлось бы угадывать, и ошибка в догадке была бы заметна пользователю или дорого стоила бы.
-Для каждого: вопрос и что от ответа меняется. Отдельно перечисли места, где человек может попасть
-в состояние, которое документ не описывает (тупик, вечное ожидание, потеря введённого, тихий
-сбой), и места, где внутренний механизм может сломаться так, что никто не узнает. Ещё отдельно —
-решения, которые выглядят несоразмерными масштабу проекта из раздела 4: слишком сложными для
-него или слишком хрупкими. Упорядочи по важности.
+List only the questions without which you cannot build the feature well: places where you would
+have to guess, and a wrong guess would be visible to the user or costly. For each: the question
+and what changes depending on the answer. Separately, list places where a person can end up in a
+state the document does not describe (a dead end, endless waiting, lost input, a silent failure),
+and places where an internal mechanism can break so that nobody notices. Separately again —
+decisions that look out of proportion to the project's scale from section 4: too complex for it
+or too fragile. Order by importance.
 
-Пропусти то, что документ явно оставляет исполнителю, и то, что ты разумно решишь сам. Не
-придирайся к формулировкам.
+Skip what the document explicitly leaves to the implementer and what you would reasonably decide
+yourself. Do not nitpick wording.
 
-Если важного не осталось — ответь «важного не осталось».
+If nothing important remains, answer "nothing important remains".
 ```
 
-## Что делать с ответом
+## What to do with the answer
 
-| Куча | Что делать |
+| Pile | What to do |
 |---|---|
-| Ответ уже есть: владелец сказал или подтвердил это в разговоре, или это есть в проекте | Допиши ответ в документ. Твоя собственная рекомендация из разговора — не ответ |
-| Мелочь: разумный исполнитель решит сам, продукт не меняется | Реши сам, допиши в документ, отметь в «Решения агента — на проверку» |
-| Меняет продукт, ответить может только владелец | В развилки раздела 6, к остальным развилкам |
+| The answer already exists: the owner said or confirmed it in the conversation, or it is in the project | Add the answer to the document. Your own recommendation from the conversation is not an answer |
+| A trifle: a sensible implementer would decide it, the product does not change | Decide it yourself, add it to the document, mark it in "Agent decisions — for review" |
+| Changes the product, only the owner can answer | Into the forks of section 6, with the other forks |
 
-Вопросы третьей кучи идут владельцу вместе с остальными развилками, одним сообщением, самые важные
-первыми. Это единственный раунд вопросов, который порождает проверка.
+Questions from the third pile go to the owner together with the other forks, in one message, the
+most important first. This is the only round of questions the check produces.
