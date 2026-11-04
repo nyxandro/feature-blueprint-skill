@@ -129,8 +129,8 @@ If the feature grows along the way, stop, say so and move up a size.
 
 **In the project**, find how everything the feature needs is already solved — so the same things
 behave the same and nothing is built twice; **the feature's neighbours** — functions that work
-with the same data, the same person, in the same channel or at the same time; and **how the
-project ships**: which environments exist (dev, stage, prod) and the deployment order.
+with the same data, the same person, in the same channel or at the same time; and **which
+environments the project has**: a stage or test server, or only production.
 
 **Scale** — in numbers from the project: data volume and growth, load, who maintains it (the
 owner and agents, no on-call engineers), budget and where everything runs, the cost of a failure.
@@ -328,16 +328,15 @@ the calendar session three of the four serious gaps were seams.
   do;
 - access: keys, least privilege, who can delete data and copies;
 - maintenance and a "when it breaks" runbook; money per month;
-- launch: existing data, gradual rollout, rollback.
+- existing data: what happens to the data already in the system when the mechanism starts.
 
 ### 9. Decisions
 
 **To the owner** — all decisions of the second kind (main principle), with no limit on number. If
 there are very many, check whether you are passing on your own work and whether the feature
-should be split. **Deployment is always a fork:** after implementation and tests, straight to dev
-or stage (if they exist), straight to production (if that is all there is) or wait for a command;
-what to check after deployment; the risk of the irreversible (data migration, sending to people).
-Recommend based on the environments the project has. In technical features, ask as a business
+should be split. **Where to deploy is always among the forks:** after implementation, to the
+stage or test server if the project has one, otherwise straight to production. The owner's
+answer is the permission to deploy without stopping. In technical features, ask as a business
 consequence: not "which RPO" but "if the server burns down, can you lose the last day of
 orders?". Format:
 
@@ -361,8 +360,8 @@ did not become a fork, always go here. Do not list the obvious.
 
 ### 10. How to build
 
-The engineering part follows part 3 of the template: it holds the rules for the plan, priorities,
-scope and deployment. The plan is the decisions the implementer cannot make alone: files, names,
+The engineering part follows part 3 of the template: it holds the rules for the plan, priorities
+and scope. The plan is the decisions the implementer cannot make alone: files, names,
 values, a test for each step; no function bodies and no code files. The design implements the
 level chosen in step 7 and builds on what the project already has; any departure in the open.
 
@@ -391,7 +390,7 @@ that is why it looks wider. Its questions: the answer exists (said by the owner 
 project) — add it; a trifle — decide it yourself and mark it; it changes the product — into the
 forks. Without the tool, read the document yourself as the implementer.
 
-### 12. File and first summary
+### 12. File and summary — the one checkpoint
 
 **File.** The project's place for feature documents, otherwise
 `docs/specs/YYYY-MM-DD-<short-name>.md`; without a project, ask or give it in the chat. Template —
@@ -399,7 +398,8 @@ forks. Without the tool, read the document yourself as the implementer.
 specification — up to 80 lines, a full one — 300–600; if longer, cut repetitions and the obvious,
 not scenarios, errors and failures.
 
-**Summary in the chat** — one message, essentially repeating "At a glance":
+**Summary in the chat** — one message, essentially repeating "At a glance". This is where the
+owner checks that you understood everything; there is no second summary when nothing changes.
 
 1. Two to four lines: what came out, the path to the file.
 2. How it will work — 4–7 points, each with its consequence for the user or business.
@@ -413,76 +413,33 @@ not scenarios, errors and failures.
 8. Found along the way — legacy code and old defects in the affected area: what they are and how
    they get in the way. Fixing or removing — as a fork; do not touch without consent.
 9. Forks for the owner — per "How to ask the owner", all important ones, including deployment.
+10. One closing line: answers to the forks that do not overturn the plan are also the go to
+    start.
 
 Then stop and wait for the answer. Do not write code. **Without a person** — the recommended
 options, marked "taken as recommended, awaiting the owner's confirmation", and the summary says
 so plainly.
 
-### 13. After the owner's answers — final summary
+### 13. After the owner's answers
 
-1. Put the decisions into the document and move them to "Accepted". Check that answers do not
-   contradict each other and do not pull changes into other sections: find all the places and
-   update them, including "At a glance".
-2. An answer opened a new fork or contradicts another — ask per "How to ask the owner". Do not
-   choose silently. Do not change the status until the fork is closed; the final summary comes
-   after.
-3. No open forks — status "agreed".
-4. **A final summary in the chat is mandatory**, even if every answer matched the
-   recommendations: by it the owner checks whether the agent understood everything before the
-   feature goes into work. "Decisions accepted, document updated" is not a summary. One screen,
-   plain words:
+Put the decisions into the document and move them to "Accepted". Check that answers do not
+contradict each other and do not pull changes into other sections: find all the places and
+update them, including "At a glance". An answer opened a new fork or contradicts another — ask
+per "How to ask the owner"; do not choose silently. Then it depends on the answers:
 
-```
-**Result: <feature name>** — document agreed: <path to file>
+| The owner answered | What you do |
+|---|---|
+| Every fork, and the answers do not overturn how it works or how we build it (recommendations taken, or choices the plan absorbs) | Status "agreed". 2–4 lines: what was taken, what changed in the plan if anything, where you start. Then go straight to work — that is the permission |
+| Reversed your decision so that the behaviour or the design changes; said it will not do and must be done differently; sent you to more research or deeper into the project | Redo the affected parts and send a summary of only what changed. Wait for the go |
+| Not every fork | Start the work that does not depend on the unanswered ones and ask them in one line; what depends on them (for example, deployment) waits for the answer |
 
-**What we build.** 2–3 lines: what appears and why.
+Permission is also an explicit "go" («делай», «отработай», «погнали», «реализуй») in any language,
+and any reply that meets the start conditions you named yourself (you asked to pick an account
+for the checks — they picked it and said «отработай»). A request to work something out further
+(«проработай ещё») is not permission. Do not ask again once you have it.
 
-**How it will work.** 4–7 points — the path step by step: what happens when a person does X or
-when the mechanism fires; what the person sees if something goes wrong.
-
-**How we will build it.** 4–8 points: what appears in the system (data, background processes,
-changes for the model or the interface), what is reused, what is written anew and why the
-existing did not fit.
-
-**What we decided.** Your decisions and my key decisions that affect the project — one line
-each, with the reason. Especially what will be hard to change later and what bypasses what the
-project has.
-
-**What it rests on.** 2–4 supports in words: practice → what we took (links in the document).
-
-**What to watch.** Risks; what is deferred, why it is not needed now and when to return; what is
-not verified.
-
-**Deployment.** <where and when — per your decision; what I will check after>.
-
-**Scope and next step.** Agent work — about N h (estimate); from you — <decisions, access, a live
-check>; after the go I will create issues: <which>; "say go — I start with <step 0: checks |
-step 1>: <what exactly>".
-```
-
-Do not start implementation without the owner's permission. Permission is "go" («делай»,
-«отработай», «погнали», «реализуй») in any language, and any reply that meets the start
-conditions you named yourself (you asked to pick an account for the checks — they picked it and
-said «отработай»). A request to work something out further («проработай ещё») is not
-permission. Do not ask again. But permission does not close open forks: for unanswered ones, ask
-in one line whether to take the recommendations.
-
-Once you have permission, before any code split the specification into issues per the rules on
-tasks: an issue for each part that can be checked and deployed separately (often one per
-feature), with a link to the specification and everything needed to resume work on the issue
-without this conversation; plan lines link to the issues. Then build per the project's rules
-following part 3 of the document. Step 0 (checks and measurements) is part of implementation:
-after it, carry on if the result does not change the owner's decisions or "How we will build
-it"; if it does, briefly show what changed and wait. If permission came together with the
-answers: when "How we will build it" has not changed since the first summary — the final summary
-and start, saying where; when it has — the summary and wait for the answer.
-
-After implementation and tests, deploy the way the owner decided in the specification: that is
-their permission, do not ask again. Stop and ask only if something appeared during
-implementation that was not there at agreement: an irreversible data migration, sending to
-people, a new risk. After deployment, check what was agreed and send a report: what was deployed,
-where, whether it works. The ban on production applies to drafting the specification, not to an
-agreed deployment.
+Step 0 of the plan (checks and measurements): after it, carry on if the result does not change
+the owner's decisions or "How we will build it"; if it does, briefly show what changed and wait.
 
 ## Review mode
 
@@ -534,6 +491,6 @@ cannot answer or click the recommended option without reading — and reverse it
 | "I went through every item of the lists — so I covered everything" | The main risks are usually specific to the feature and project and are not in the lists. Your own list first, the lists after |
 | "I will write my own client, it is more reliable" | Bypassing what the project has is a visible decision with a reason, not a line in the implementer's part |
 | "I will ask through the choice dialog, it is faster" | The dialog covers the explanation and the owner clicks without reading. Explanation and questions in the chat, the dialog after "ask" |
-| "The owner answered — I will write 'accepted' and that is it" | The final summary with "How we will build it" is mandatory: by it the owner catches misunderstandings before work starts |
+| "The owner answered every fork and nothing changed — I will send the whole summary again and wait" | The summary with the forks was the checkpoint. Update the document, say in 2–4 lines what was taken and get to work |
 | "The owner said «отработай» — I will run the checks and ask again" | They met the start conditions you named. That is permission, do not ask again |
 | "I will decide this important fork myself so as not to bother the owner" | What matters goes to the owner, clearly and with a recommendation; only the obvious is yours |

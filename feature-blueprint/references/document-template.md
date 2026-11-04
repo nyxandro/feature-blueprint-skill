@@ -52,8 +52,7 @@ they get in the way; what to do with them — in the forks. Nothing — drop the
 1. <question> — I recommend <option> because <…> (details — F1)
 2. …
 
-**Deployment:** <where after implementation and tests: dev, stage or prod — per the owner's
-decision (F…); what we check after deployment>.
+**Deployment:** <stage or test server, or straight to production — F…>.
 
 **Scope:** <N steps; agent work — about X h (estimate); what really takes time — test runs, CI,
 external waits; what is needed from the owner and how much of their time>.
@@ -237,8 +236,8 @@ migrations and the fate of existing data. Contracts: requests, events, error cod
 diagram of the key scenario in Mermaid (`stateDiagram-v2`). Protection against double execution.
 Background jobs: result, failure, restart. Permissions: where they are checked. Observability:
 events and metrics that show the feature works and reaches the goal of section 2; what is logged.
-Launch: migrating existing data, gradual rollout, rollback. If a new module is introduced — a
-second design split differently and why the first was chosen.>
+If a new module is introduced — a second design split differently and why the first was
+chosen.>
 
 ## 18. Platform and library traps
 
@@ -271,10 +270,6 @@ on time. A "when it breaks" runbook in 3–5 steps. Regular work and what of it 
 runs, CI, external waits; what is needed from the owner. Calibration: two-way sync of reminders
 with Google Calendar, 9 steps with tests, review and fixes — about 2 h of agent work and 50 min of
 deployment; it had been estimated upfront at 11 days.
-
-**Deployment:** the project's environments; where we deploy after implementation and tests (the
-owner's decision); the deployment order per the project's rules; what we check after — logs, a
-live scenario, metrics; how to roll back.
 
 ## 22. Steps
 
@@ -362,5 +357,8 @@ your own — for review>
 - Every text for the user — in full, in quotes.
 - Each thing in one place; elsewhere a reference to the section.
 - Paths and names — in backticks, exactly as in the project.
+- A statement about the existing project says where it was seen: what exists — a path or a name
+  (`server/jobs/queue.js`, `sendNotification`); what is absent — where it was looked for ("no
+  retries: searched `server/jobs/` and `server/routes/`"); not seen — [ASSUMPTION].
 - Diagrams — Mermaid (`flowchart` for scenarios, `stateDiagram-v2` for states).
 - A clickable HTML mock-up — only at the owner's request; on a mismatch the document wins.

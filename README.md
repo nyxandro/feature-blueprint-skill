@@ -44,10 +44,10 @@ out.
    guides, live popular repositories, articles and discussions (as signals to corroborate). For
    every practice it records the scale at which it pays off. Hands-on experiments go into step 0
    of the plan, not into the blueprint.
-4. **Asks up to three questions before the draft**, only when the answer flips most of the
-   design. Its own recommendations from the discussion that the owner never confirmed count as
-   open forks, not decisions. Questions go to the chat: a concrete situation, why the agent
-   cannot decide it, the options with consequences, a recommendation.
+4. **Before the draft, asks only what flips most of the design**, all in one message. Its own
+   recommendations from the discussion that the owner never confirmed count as open forks, not
+   decisions. Questions go to the chat: a concrete situation, why the agent cannot decide it, the
+   options with consequences, a recommendation.
 5. **Writes the draft**: goals and non-goals, what the design rests on, options or a ladder from
    simple to "how big companies do it" with the lowest sufficient step chosen; scenarios; for
    the user-facing part — states, errors, edge cases, texts, accessibility; for the internal
@@ -63,9 +63,10 @@ out.
    context of the conversation.
 9. **Saves the document** in the project (`docs/specs/` unless the project has its own
    place) and sends one summary with the forks.
-10. **After the owner's answers** updates the document and sends a one-screen final summary:
-    what we build, how it will work, how we will build it (what is reused, what is new and
-    why), what was decided, what it rests on, what to watch. No code until the owner says go.
+10. **After the owner's answers** updates the document. If the answers do not overturn the plan,
+    that is the go: the agent says in a few lines what was taken and gets to work without asking
+    again. If the owner reversed a decision, rejected the approach or asked for more
+    research, the agent reworks it, shows only what changed and waits for the go.
 
 There is also a review mode: the owner brings an existing feature plan or PR, and the agent
 lists the gaps ordered by harm to users and the business.

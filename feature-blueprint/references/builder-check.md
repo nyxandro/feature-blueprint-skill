@@ -17,7 +17,9 @@ and what changes depending on the answer. Separately, list places where a person
 state the document does not describe (a dead end, endless waiting, lost input, a silent failure),
 and places where an internal mechanism can break so that nobody notices. Separately again —
 decisions that look out of proportion to the project's scale from section 4: too complex for it
-or too fragile. Order by importance.
+or too fragile. Separately — statements about the existing project (what exists, what does not,
+how a module behaves) that the code does not confirm: what the document says, what you found and
+where you looked. Order by importance.
 
 Skip what the document explicitly leaves to the implementer and what you would reasonably decide
 yourself. Do not nitpick wording.
@@ -32,6 +34,7 @@ If nothing important remains, answer "nothing important remains".
 | The answer already exists: the owner said or confirmed it in the conversation, or it is in the project | Add the answer to the document. Your own recommendation from the conversation is not an answer |
 | A trifle: a sensible implementer would decide it, the product does not change | Decide it yourself, add it to the document, mark it in "Agent decisions — for review" |
 | Changes the product, only the owner can answer | Into the forks of section 6, with the other forks |
+| A statement about the project is wrong | Fix it in the document. If a decision rested on it, revisit the decision; if that changes the product, into the forks of section 6 |
 
 Questions from the third pile go to the owner together with the other forks, in one message, the
 most important first. This is the only round of questions the check produces.
