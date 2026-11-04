@@ -96,7 +96,7 @@ If the feature grows along the way, stop, say so and move up a size.
 
 - The owner is just discussing the idea rather than asking to work it out or build it — do not
   write a specification, discuss. An agreed specification for the feature already exists — build
-  by it, without a new round.
+  by it, without a new round; a draft from an earlier session — continue it in the same file.
 - If there was a discussion, the inputs are only what the owner said or chose in their own words.
   A request to work it out, "ok", a clarifying question — none of these confirms your
   recommendation: silence is not consent. An unconfirmed recommendation that changes the product
@@ -121,7 +121,9 @@ If the feature grows along the way, stop, say so and move up a size.
 - Extract from the materials: what is wanted and for whom, constraints, who decided what and
   when, contradictions between sources and people, questions to third parties. Weight of a
   source: the owner's word and agreed documents are requirements; drafts and our own proposals
-  are hypotheses. A contradiction is a fork.
+  are hypotheses. A contradiction is a fork. A technical instruction given in passing ("do it on
+  Redis") is checked once against the project and the research: it fits — take it; it does not —
+  a fork with what it changes for the product.
 - Restate the task to yourself — what is wanted, for whom, what success is — before
   reconnaissance and research, so you do not research the wrong thing.
 
@@ -130,7 +132,9 @@ If the feature grows along the way, stop, say so and move up a size.
 **In the project**, find how everything the feature needs is already solved — so the same things
 behave the same and nothing is built twice; **the feature's neighbours** — functions that work
 with the same data, the same person, in the same channel or at the same time; and **which
-environments the project has**: a stage or test server, or only production.
+environments the project has**: a stage or test server, or only production. **Earlier attempts**
+at the same thing — old specifications, closed issues, reverted commits: what made them fail will
+most likely hit this one too.
 
 **Scale** — in numbers from the project: data volume and growth, load, who maintains it (the
 owner and agents, no on-call engineers), budget and where everything runs, the cost of a failure.
@@ -197,8 +201,9 @@ data is fine or not a minute is). Ask before the draft only if all three hold:
 - it is the owner's decision in the sense of the main principle, not yours.
 
 Ask all such questions in one message, per "How to ask the owner", and wait for the answer. Your
-unconfirmed recommendation from the discussion that changes the product is the first candidate.
-The other important forks are not lost — they go to the owner after the draft.
+unconfirmed recommendation from the discussion that changes the product is the first candidate;
+the reason for the feature, if the owner did not give one and it decides what we build, is the
+second. The other important forks are not lost — they go to the owner after the draft.
 
 Not blocking: rules and limits, prices, retention, texts, technology choice — propose them in the
 draft with a recommendation. No blocking forks, or in doubt — do not ask: write the draft on the
@@ -210,9 +215,9 @@ confirmation".
 
 In your own words: what we build, for whom, why, what success is. Separate what the owner said or
 confirmed from what you added — including your recommendations from the discussion they did not
-answer. Goals, non-goals and anti-goals (what would make the feature a failure even if it works).
-For an internal mechanism, goals in numbers: how much data may be lost, how long it may be down,
-how fast changes arrive.
+answer and your guess at why, if they did not say. Goals, non-goals and anti-goals (what would
+make the feature a failure even if it works). For an internal mechanism, goals in numbers: how
+much data may be lost, how long it may be down, how fast changes arrive.
 
 ### 7. Options and scale
 
@@ -244,9 +249,11 @@ glue the best of each into a hybrid — nobody argued for it.
 
 **Think first, then check.** Before the lists below, write the 3–7 main risks and forks of this
 particular feature: what is specific to it and the project, what will break in what already
-works, what is already there to reuse, what in the owner's idea can be read two ways. This is the
-core of the pass: each risk goes to the document section where it is closed, or into a fork; the
-main ones into "What to watch" in "At a glance". The lists are a net to catch what you missed, not
+works, what is already there to reuse, what in the owner's idea can be read two ways, which two
+decisions together give what nobody chose (deleted orders are kept 30 days, the export takes all
+orders — deleted orders get into the export). This is the core of the pass: each risk goes to the
+document section where it is closed, or into a fork; the main ones into "What to watch" in "At a
+glance". The lists are a net to catch what you missed, not
 a boundary: what matters outside them outranks any item. Check every item: if it can happen in
 this feature, the document says what happens then. A mechanism nobody asked for (a retry, a lock,
 a mode, an alert; the behaviour 8a requires is not one) goes into the work only if without it the
@@ -377,6 +384,7 @@ level chosen in step 7 and builds on what the project already has; any departure
 
 - every goal has a scenario, every touchpoint has states with a way out; every error has a text
   and a recovery path, every failure of the mechanism — how it is noticed and recovered;
+- every scenario, error and acceptance criterion is closed by the test of some step ("Closes");
 - the document contains the risks from your step 8 list, not only items of the net;
 - inputs are separated from unconfirmed recommendations; new settings for people and decisions
   that bypass what exists are visible to the owner;
@@ -429,9 +437,10 @@ so plainly.
 ### 13. After the owner's answers
 
 Put the decisions into the document and move them to "Accepted". Check that answers do not
-contradict each other and do not pull changes into other sections: find all the places and
-update them, including "At a glance". An answer opened a new fork or contradicts another — ask
-per "How to ask the owner"; do not choose silently. Then it depends on the answers:
+contradict each other, do not give together with other decisions what nobody chose, and do not
+pull changes into other sections: find all the places and update them, including "At a glance".
+An answer opened a new fork, contradicts another or gives such an effect — ask per "How to ask
+the owner"; do not choose silently. Then it depends on the answers:
 
 | The owner answered | What you do |
 |---|---|
@@ -479,7 +488,8 @@ cannot answer or click the recommended option without reading — and reverse it
      reliability;
   3. **Options** — what the person will see, what it costs, what becomes hard to change;
      including the simplest ("without it", "as now"), and not all resting on one assumption of
-     yours;
+     yours; when options differ in what the person sees, show each as text — the message or the
+     screen in a few lines;
   4. **I recommend** — the option, why it is better for the product and what that rests on.
 - **No internal words:** rule numbers, module names, terms the owner has not seen — replace with
   a description or explain.

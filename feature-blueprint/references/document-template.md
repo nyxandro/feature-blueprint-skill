@@ -146,7 +146,7 @@ flowchart TD
 **If nobody decides:** <what the implementer does by default and what the user sees>
 
 ### Accepted
-Filled in after the owner's answers: the decision, the date.
+Filled in after the owner's answers: the decision, what it was chosen over and why, the date.
 
 ---
 
@@ -286,6 +286,7 @@ If there are [VERIFY] or [MEASURE] markers, the plan starts with them:
 **Uses:** <exact names from earlier steps>
 **Provides:** <exact names for later steps>
 **Test:** <name and what it checks — with concrete values from the specification>
+**Closes:** <scenario 2, the error «…» from section 9, acceptance criterion 3>
 **Done when:** <check command and expected result>
 
 A step is the smallest unit with its own test; it allows exactly one sensible implementation.
