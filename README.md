@@ -26,8 +26,10 @@ The skill's instructions and document template are in Russian.
 ## When it runs
 
 When the owner asks to work out, design, plan or write up a feature, including after a
-discussion: "ok, let's work it out". A plain discussion of an idea does not start it: the owner
-can talk an idea through and drop it without a document.
+discussion: "ok, let's work it out". Also when the owner asks to build a new feature and there is
+no agreed plan yet: the blueprint comes first, code after the owner's go. A plain discussion of
+an idea does not start it, nor do small fixes and bug fixes unless the owner asks to work them
+out.
 
 ## What the agent does
 
