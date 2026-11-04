@@ -246,9 +246,15 @@ glue the best of each into a hybrid — nobody argued for it.
 particular feature: what is specific to it and the project, what will break in what already
 works, what is already there to reuse, what in the owner's idea can be read two ways. This is the
 core of the pass: each risk goes to the document section where it is closed, or into a fork; the
-main ones into "What to watch" in "At a glance". The lists are a net to catch what you missed, not a boundary:
-what matters outside them outranks any item. Check every item; write only the applicable ones
-into the document. For a mixed feature, both passes, without repetition.
+main ones into "What to watch" in "At a glance". The lists are a net to catch what you missed, not
+a boundary: what matters outside them outranks any item. Check every item: if it can happen in
+this feature, the document says what happens then. A mechanism nobody asked for (a retry, a lock,
+a mode, an alert; the behaviour 8a requires is not one) goes into the work only if without it the
+feature here works wrong, loses data or fails silently — traced in this project, not "it happens
+in general" — or if it falls under "Where not to economise" (step 7); in doubt, build it. Build
+the smallest form that closes the gap; what you do not build goes to section 14 with the
+condition to come back. A protection never cuts what the owner asked for — delays, caps or skips
+part of it; if they collide, it is a fork. For a mixed feature, both passes, without repetition.
 
 **Seams with neighbours** — for a feature of any type. For each neighbouring function from
 reconnaissance: what happens when they meet — the same data, one person in different roles or
