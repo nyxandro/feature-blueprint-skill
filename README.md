@@ -59,7 +59,7 @@ out.
    maintenance, priorities, steps with tests, acceptance criteria.
 8. **Checks the document** itself and, for a full blueprint, with a fresh agent that has no
    context of the conversation.
-9. **Saves the document** in the project (`docs/blueprints/` unless the project has its own
+9. **Saves the document** in the project (`docs/specs/` unless the project has its own
    place) and sends one summary with the forks.
 10. **After the owner's answers** updates the document and sends a one-screen final summary:
     what we build, how it will work, how we will build it (what is reused, what is new and
