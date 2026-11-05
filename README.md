@@ -143,7 +143,6 @@ feature-blueprint/                    the skill itself
   references/mockups.md               mock-ups and diagrams in HTML, made on request
 dist/feature-blueprint.skill          downloadable archive of the skill folder
 CHANGELOG.md                          what changed in each version
-AGENTS.md, CLAUDE.md                  rules for agents working on this repository
 ```
 
 ## Acknowledgements
