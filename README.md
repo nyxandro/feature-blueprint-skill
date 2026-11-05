@@ -1,6 +1,6 @@
 # Feature Blueprint Skill
 
-[![Download Feature Blueprint Skill](https://img.shields.io/badge/Download-feature--blueprint.skill-blue?style=for-the-badge)](https://github.com/nyxandro/feature-blueprint-skill/raw/main/dist/feature-blueprint.skill)
+[![Download Feature Blueprint Skill](https://img.shields.io/badge/Download-feature--blueprint.skill-blue?style=for-the-badge)](https://github.com/nyxandro/feature-blueprint-skill/releases/latest/download/feature-blueprint.skill)
 
 A feature design skill for Claude Code, Codex and OpenCode: before any code, the agent turns a
 raw feature idea into a blueprint — how people will use the feature, how it works inside, and
@@ -115,10 +115,23 @@ To take it, run `claude plugin marketplace update nyxandro` and then
 `claude plugin update feature-blueprint@nyxandro` in your shell, or turn on auto-update for the
 catalog under `/plugin` → Marketplaces.
 
-**Any agent, as a skill folder.** Download `dist/feature-blueprint.skill` (the badge above) and
-unpack it into the skills folder of your agent, or clone this repository and link the
-`feature-blueprint/` folder there. No build step. Install it one way or the other, not both: with
-both, Claude Code loads the skill twice.
+**Any agent, with one command.** The [skills](https://github.com/vercel-labs/skills) tool puts the
+skill into the skills folders of the agents it finds — Claude Code, Codex, OpenCode, Cursor and
+others:
+
+```text
+npx skills add nyxandro/feature-blueprint-skill
+```
+
+Add `-g` to install it for every project, not only the current one. To install a given version,
+name its tag: `nyxandro/feature-blueprint-skill@v1.0.0`.
+
+**Any agent, as a skill folder.** Download the `.skill` archive of the latest release (the badge
+above) or of any version from [Releases](https://github.com/nyxandro/feature-blueprint-skill/releases),
+and unpack it into the skills folder of your agent. Or clone this repository and link the
+`feature-blueprint/` folder there. No build step.
+
+Install the skill one way only: with two, Claude Code loads it twice.
 
 The research step needs web search and page fetching in the agent; without them the agent says
 so and marks unsupported decisions. The fresh-agent check needs a tool that starts subagents;
@@ -127,8 +140,9 @@ without one the agent rereads the document itself.
 ## Versions
 
 The skill's version is `metadata.version` in `feature-blueprint/SKILL.md`: look there to see which
-version an installed copy runs. Every version is tagged `vX.Y.Z` in git, and
-[CHANGELOG.md](CHANGELOG.md) says what changed in each one.
+version an installed copy runs. Every version is tagged `vX.Y.Z` in git and published as a
+[release](https://github.com/nyxandro/feature-blueprint-skill/releases) with its own `.skill`
+archive, and [CHANGELOG.md](CHANGELOG.md) says what changed in each one.
 
 ## Repository layout
 
