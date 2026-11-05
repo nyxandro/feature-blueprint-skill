@@ -1,7 +1,5 @@
 # Specification template
 
-Two variants: a full one for a feature, a short one for a small change.
-
 Write the document in the owner's language: translate headings, labels and markers. Keep as
 they are: section numbers, fork labels F1… and priorities P0–P2, file, function and field names,
 commands, paths, error codes and product names.
@@ -19,7 +17,7 @@ one, 7, 11 and 12. Inside sections, write only what applies.
 170; part 3 — up to 250; the whole specification — 300–600. More means repetition, the obvious or
 prose instead of tables.
 
-## Full specification
+## Document
 
 ````markdown
 # <Feature name> — specification
@@ -327,48 +325,6 @@ step. If there are none, write "checked and found none".
 
 | Question | Who answers | Blocks the start? |
 |---|---|---|
-````
-
-## Short specification (small change)
-
-Length — up to 80 lines.
-
-````markdown
-# <Change> — short specification
-
-**Status:** … · **Date:** … · **Where:** <screen / command / file / job>
-
-**What and why:** 2–3 lines.
-
-**Inputs:** <what the owner said or confirmed> · <what was added or recommended by the agent
-without confirmation — that goes to "Decisions"> · <sources: codes and where they are>
-
-**Ground:** <documentation or practice the decision rests on>
-
-**Reuse:** <what from the project; what bypasses what exists and why>
-
-**Scenario:** 3–5 steps, including the failure branch.
-
-**States:** <only the affected ones: loading, empty, error, success — what the person sees>
-
-**Failures:** <for an internal change or one in a risky zone: what breaks, how we learn, how we
-recover>
-
-**Seams:** <for a change in money, access, data migration or what other systems read: who else
-reads or depends on it and what changes for them; otherwise drop the line>
-
-**Errors and edge cases:** <a list with handling>
-
-**Texts:** <key strings>
-
-**Decisions:** <for the owner — in the gives / costs / locks-in format with a recommendation;
-your own — for review>
-
-**Implementation steps:** <files, what changes, which test proves it>
-
-**Acceptance criteria:** <Given / When / Then, 2–4 of them>
-
-**Scope:** <steps; agent work — about X h (estimate); what is needed from the owner>
 ````
 
 ## Formatting rules

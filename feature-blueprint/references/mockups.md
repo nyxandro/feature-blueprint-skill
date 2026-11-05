@@ -15,8 +15,6 @@ unasked.
   what talks to what, where the data lives, where it can fail and what happens then.
 - Only what was asked: one screen, one scenario, only the diagram — that is what you make.
 
-Section numbers are those of the full specification; for a short one, take its matching lines.
-
 The mock-up shows the specification and does not extend it: every element, text and step is in
 the document, texts word for word from sections 9 and 12. The drawing needs something the
 document lacks — add it to the document first, or to the forks if it is the owner's decision. Each

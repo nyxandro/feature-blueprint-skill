@@ -30,8 +30,10 @@ the language the owner uses in the conversation, unless the project's rules say 
 When the owner asks to work out, design, plan or write up a feature, including after a
 discussion: "ok, let's work it out". Also when the owner asks to build a new feature and there is
 no agreed plan yet: the blueprint comes first, code after the owner's go. A plain discussion of
-an idea does not start it, nor do small fixes and bug fixes unless the owner asks to work them
-out.
+an idea does not start it. A small point change — a button, a field, an option, a clear fix —
+gets no specification, file or issue: the agent studies the code, writes in the chat what it will
+change and how it will check it, and does it at once, stopping to agree with the owner only on an
+important point. A bug fix starts it only when the owner asks to work it out.
 
 ## What the agent does
 
@@ -134,7 +136,7 @@ part of the `.skill` archive.
 ```text
 feature-blueprint/                    the skill itself
   SKILL.md                            the method, the owner's rules and short don't-miss lists
-  references/document-template.md     the blueprint format, full and short, with the plan section
+  references/document-template.md     the blueprint format with the plan section
   references/builder-check.md         the prompt for the fresh-agent check
   references/mockups.md               mock-ups and diagrams in HTML, made on request
   evals/                              eval cases with graders
@@ -152,8 +154,8 @@ The skill is written from scratch, but builds on ideas from open projects:
   against the code, earlier attempts and unwritten rules of the code, how people manage today,
   safety after each separately shipped step, costly-to-undo decisions on weak ground, the goal
   apart from the means the owner named, how the feature can be built as written and still miss
-  a goal, a small change in a risky zone, what is known only at implementation, an option from
-  another side, what a test with a stub does not catch;
+  a goal, a stop before a small change in a risky zone, what is known only at implementation, an
+  option from another side, what a test with a stub does not catch;
 - [obra/superpowers](https://github.com/obra/superpowers) (MIT) — study the project before
   asking, the fresh-agent check of a document, the implementation plan format, the rules every
   step keeps;

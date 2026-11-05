@@ -3,15 +3,15 @@ name: feature-blueprint
 description: >
   Designs a feature before code and writes its specification: how people use it (scenarios,
   states, errors, texts) and how it works inside (data, failures, recovery, maintenance), plus an
-  implementation plan with steps and tests. Decisions rest on research — documentation and the
-  practice of known products — and are sized to the project without overengineering. For
-  user-facing features (web, mobile, bots, AI agents and their tools, APIs) and internal
-  mechanisms (backups, sync, queues, integrations). Use when the owner asks to work out, design,
-  plan or write up a feature («прорабатываем», «спроектируй», «распиши фичу и план», «продумай
-  или накидай, как сделать», «проверь план на дыры»), or asks to build a new feature with no
-  agreed plan yet: specification first, code after the go. Not for a plain discussion of an idea
-  («давай обсудим», «что думаешь»), small fixes or bug fixes unless asked to work them out, or
-  visual styling. The owner may phrase this in any language; match on meaning.
+  implementation plan with steps and tests. Decisions rest on research and are sized to the
+  project without overengineering. For user-facing features (web, mobile, bots, AI agents and
+  their tools, APIs) and internal mechanisms (backups, sync, queues, integrations). Use when the
+  owner asks to work out, design, plan or write up a feature («прорабатываем», «спроектируй»,
+  «распиши фичу и план», «продумай или накидай, как сделать», «проверь план на дыры»), or asks to
+  build a new feature with no agreed plan yet: specification first, code after the go. Not for a
+  plain discussion of an idea («давай обсудим», «что думаешь»), a small point change (a button, a
+  field, an option — planned in the chat and done at once), a bug fix unless asked to work it out,
+  or visual styling. The owner may phrase this in any language; match on meaning.
 ---
 
 # Feature specification
@@ -83,8 +83,7 @@ Name the size before you start, in one sentence to the owner; they may correct i
 
 | What came in | What to do |
 |---|---|
-| A small change (one button, field, message, setting) | A one-page short specification. No ladder of options and no fresh-agent check; research kept minimal |
-| A small change in a risky zone: money, access, a data migration, what other systems read (an API, a webhook, an export) | A short specification with the seams and the failures on new paths, and the fresh-agent check |
+| A small point change: a button, a field, an option or setting, a clear fix | No specification, no file, no issue. Study the affected code, write in the chat in a few lines what you will change and how you will check it, and do it at once, without questions. Stop before the change only on an important point — a decision the owner should make beyond what they asked (main principle); money, access, a data migration or what other systems read; a change bigger than it looked — and agree it per "How to ask the owner" |
 | A feature (new scenario, screen, bot command, integration, internal mechanism) | A full specification per the template |
 | Several independent features in one idea | Say so, propose an order, write a specification for each |
 
@@ -402,8 +401,8 @@ implements the level chosen in step 7 on what the project already has; any depar
   are intact, the length is within the template's limits;
 - "At a glance" and the owner's part read without technical vocabulary, in the owner's language.
 
-**With a fresh agent** — for a full specification and a small change in a risky zone, if a tool
-for launching agents exists: the prompt and what to do with the answer are in
+**With a fresh agent** — for a full specification, if a tool for launching agents exists: the
+prompt and what to do with the answer are in
 `references/builder-check.md`. It sees neither the conversation nor these lists, so it looks
 wider. Without the tool, read the document yourself as the implementer.
 

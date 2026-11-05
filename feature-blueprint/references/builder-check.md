@@ -1,9 +1,8 @@
 # Fresh-agent check
 
-For a full specification and a short one in a risky zone, after the self-check and before the
-summary to the owner. Launch an agent with a clean context (no conversation history) with this
-prompt, filling in the product type and the path to the document; for a short specification,
-replace the section numbers with its matching lines ("What and why", "Decisions") or drop them:
+For a full specification, after the self-check and before the summary to the owner. Launch an
+agent with a clean context (no conversation history) with this prompt, filling in the product type
+and the path to the document:
 
 ```
 You are an experienced product engineer who builds <product type: a web app, a bot, a mobile
