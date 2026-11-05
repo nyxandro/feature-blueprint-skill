@@ -126,14 +126,6 @@ The research step needs web search and page fetching in the agent; without them 
 so and marks unsupported decisions. The fresh-agent check needs a tool that starts subagents;
 without one the agent rereads the document itself.
 
-## Evals
-
-`feature-blueprint/evals/` holds three cases in the `claude plugin eval` format: a prompt, the
-expected outcome and graders. They cover a raw idea for a Telegram bot, an admin feature inside a
-small scaffolded project, and a mobile AI feature. The prompts are in Russian on purpose: they
-also check that the specification and the summary follow the owner's language. The evals are not
-part of the `.skill` archive.
-
 ## Repository layout
 
 ```text
@@ -145,9 +137,7 @@ feature-blueprint/                    the skill itself
   references/review-mode.md           finding holes in a ready plan or PR
   references/builder-check.md         the prompt for the fresh-agent check
   references/mockups.md               mock-ups and diagrams in HTML, made on request
-  evals/                              eval cases with graders
 dist/feature-blueprint.skill          downloadable archive of the skill folder
-docs/plans/                           plans for changing the skill (in Russian)
 AGENTS.md, CLAUDE.md                  rules for agents working on this repository
 ```
 

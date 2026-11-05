@@ -1,8 +1,0 @@
-schema_version: "1.1"
-name: mobile-ai-voice-summary
-expected_outcome: |
-  The agent builds a specification of an AI feature in a mobile app: long background processing
-  with a notification, cancel, marking AI content, editing and regenerating, behaviour without a
-  network, AI service failures, sending audio to an external service, cost and limits as the
-  owner's decision, push permission in context, an engineering plan. No code is written. The
-  document and the chat summary are in Russian, the owner's language.

@@ -1,9 +1,0 @@
-schema_version: "1.1"
-name: bot-reschedule-raw-idea
-expected_outcome: |
-  Without project code, the agent builds a specification for rescheduling an appointment in a
-  bot: scenarios with failure branches, a Mermaid diagram, bot message states, a taken-slot
-  conflict, outdated buttons, rescheduling abandoned halfway, time zones, notifying the master or
-  administrator, rescheduling rules as the owner's decision; platform details are not invented
-  but checked with a profile skill or the documentation. No code is written. The document and the
-  chat summary are in Russian, the owner's language.
