@@ -110,9 +110,10 @@ older version, add the catalog first:
 /plugin install feature-blueprint@nyxandro
 ```
 
-No version is pinned, so every commit to this repository is a new version. To take it, run
-`claude plugin marketplace update nyxandro` and then `claude plugin update feature-blueprint@nyxandro`
-in your shell, or turn on auto-update for the catalog under `/plugin` → Marketplaces.
+The catalog pins no version, so every commit to this repository reaches plugin users as an update.
+To take it, run `claude plugin marketplace update nyxandro` and then
+`claude plugin update feature-blueprint@nyxandro` in your shell, or turn on auto-update for the
+catalog under `/plugin` → Marketplaces.
 
 **Any agent, as a skill folder.** Download `dist/feature-blueprint.skill` (the badge above) and
 unpack it into the skills folder of your agent, or clone this repository and link the
@@ -122,6 +123,12 @@ both, Claude Code loads the skill twice.
 The research step needs web search and page fetching in the agent; without them the agent says
 so and marks unsupported decisions. The fresh-agent check needs a tool that starts subagents;
 without one the agent rereads the document itself.
+
+## Versions
+
+The skill's version is `metadata.version` in `feature-blueprint/SKILL.md`: look there to see which
+version an installed copy runs. Every version is tagged `vX.Y.Z` in git, and
+[CHANGELOG.md](CHANGELOG.md) says what changed in each one.
 
 ## Repository layout
 
@@ -135,6 +142,7 @@ feature-blueprint/                    the skill itself
   references/builder-check.md         the prompt for the fresh-agent check
   references/mockups.md               mock-ups and diagrams in HTML, made on request
 dist/feature-blueprint.skill          downloadable archive of the skill folder
+CHANGELOG.md                          what changed in each version
 AGENTS.md, CLAUDE.md                  rules for agents working on this repository
 ```
 

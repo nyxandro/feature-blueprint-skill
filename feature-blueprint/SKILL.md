@@ -11,6 +11,8 @@ description: >
   discussing an idea («давай обсудим», «что думаешь»), a small point change (a button, a field, an
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
+metadata:
+  version: "1.0.0"
 ---
 
 # Feature specification
