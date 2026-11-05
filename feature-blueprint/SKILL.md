@@ -1,520 +1,369 @@
 ---
 name: feature-blueprint
 description: >
-  Designs a feature before code and writes its specification: how people use it (scenarios,
-  states, errors, texts) and how it works inside (data, failures, recovery, maintenance), plus an
-  implementation plan with steps and tests. Decisions rest on research and are sized to the
-  project without overengineering. For user-facing features (web, mobile, bots, AI agents and
-  their tools, APIs) and internal mechanisms (backups, sync, queues, integrations). Use when the
-  owner asks to work out, design, plan or write up a feature («прорабатываем», «спроектируй»,
-  «распиши фичу и план», «продумай или накидай, как сделать», «проверь план на дыры»), or asks to
-  build a new feature with no agreed plan yet: specification first, code after the go. Not for a
-  plain discussion of an idea («давай обсудим», «что думаешь»), a small point change (a button, a
-  field, an option — planned in the chat and done at once), a bug fix unless asked to work it out,
-  or visual styling. The owner may phrase this in any language; match on meaning.
+  Designs a feature before code and produces its specification and implementation plan: how people
+  use it (scenarios, states, errors, texts), how it works inside (data, failures, recovery,
+  maintenance) and the steps with tests, grounded in research and sized to the project. For
+  user-facing features (web, mobile, bots, AI agents and their tools, APIs) and internal mechanisms
+  (backups, sync, queues, integrations). Use when the owner asks to work out, design, plan or write
+  up a feature («прорабатываем», «спроектируй», «распиши фичу и план», «продумай или накидай, как
+  сделать», «проверь план на дыры») or to build a new feature with no agreed plan yet. Not for
+  discussing an idea («давай обсудим», «что думаешь»), a small point change (a button, a field, an
+  option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
+  write in any language; match on meaning.
 ---
 
 # Feature specification
 
-An agent given a feature idea builds the happy path and fills in the rest silently and badly:
+Given a feature idea, an agent builds the happy path and fills in the rest silently and badly:
 "No data" with no next step, an endless spinner, a double charge after a double click, backups
-nobody ever restored from, a sync that quietly stopped a month ago. You know everything needed to
-avoid this. This skill sets the order in which to recall it in time, the rules for working with
-the owner, and the document format. It takes from the owner only the decisions that are truly
-theirs.
+nobody ever restored from, a sync that quietly stopped a month ago. You know how to avoid all of
+this. This skill sets the order in which to think of it in time, how to work with the owner, and
+the document format. The owner's explicit instruction in the conversation and the owner's own
+rules, global or the project's, take precedence over this skill.
 
-## Language
+**Language.** This skill is in English. Everything the owner reads — the specification with the
+template's headings, summaries, questions, plan lines, issues and comments, markers — is written
+in the language the owner uses in the conversation. File, function and field names, commands,
+paths, error codes, product names and section numbers stay as they are.
 
-This skill and its template are in English. Everything the owner reads is written in the
-language the owner uses in the conversation: the specification including the template's headings
-(section numbers stay), both summaries and the questions, plan lines, GitHub issues and comments,
-markers such as [ASSUMPTION]. File, function and field names, commands, paths, error codes and
-product names stay as they are. A project rule on language wins.
+**Terms.**
+- The *owner* decides what the product does. *Without a person* means nobody can answer during
+  the run, as in an autonomous or scheduled run.
+- The *specification* is the document from `references/document-template.md`; "section N" means
+  its section N. *At a glance* is its first page, written for the owner.
+- A *fork* is a decision that belongs to the owner, numbered F1, F2…
+- A *ladder* is 2–4 levels of one solution, from the simplest to how big companies do it (step 7).
+- Markers: [ASSUMPTION] — taken without confirmation; [VERIFY] and [MEASURE] — to check or measure
+  in *step 0*, the first step of the plan; [NO SOURCE] — a decision with no ground found.
 
-## Main principle: propose, don't interrogate
+## Principles
 
-The owner came to hand off the thinking. A questionnaire of twenty questions hands that work
-right back. So:
+1. **Draft first, then ask.** The owner came to hand off the thinking; a questionnaire hands it
+   back. Read the idea in its most likely sense, fill the gaps with good practice, mark what you
+   added and write the whole draft. Before the draft ask only what would force you to rewrite it
+   (step 5). All other forks go to the owner afterwards in one message — the one checkpoint
+   (step 12).
+2. **The owner decides what changes the product; you decide the rest and show it.** The owner's:
+   who gets what, money, user data and how much of it may be lost, irreversible actions, legal
+   obligations, notable costs or the owner's time, the tone with customers, new settings and
+   messages for people, and design that is hard to reverse — a new component, a new kind of
+   storage, a background process or a way of integrating. Ask about every such fork, however many
+   there are: one more clear question beats a weaker decision made for them. Explain what each
+   option changes for the product, not which technology is better. What follows from the project,
+   the platform, research or common practice is yours to decide; the decisions the owner could
+   reasonably disagree with go into "Agent decisions — for review".
+3. **Every key decision has ground and fits the project's scale.** Ground is a project fact,
+   documentation or the practice of those who solved the same task; your taste and memory are
+   not. A price, deadline, legal term, data volume or agreement with a partner you cannot ground
+   is an [ASSUMPTION] or a question, never a confident number. Choose the simplest solution that
+   meets the goals at this project's scale and name the measurable condition for moving up.
+   Agent time is never an argument: options differ by minutes or hours of an agent's work, so do
+   not drop an option, defer needed work or pick a method because it is quicker; choose by what
+   people get, reliability, complexity and maintenance, money and the owner's time. The scope is
+   everything without which the feature works wrong, loses data or fails silently, and it is
+   built in full.
+4. **Add nothing to people that nobody asked for, and bypass nothing quietly.** A new setting,
+   switch, command, button, confirmation, or a message to anyone other than the person acting,
+   costs attention, so it is the owner's fork with a "without it" option; by default the system
+   behaves sensibly and does not ask when a mistake can be undone. What the person acting needs
+   to get through — states, error texts, cancelling a long operation, notice of success and
+   failure, confirming the irreversible — is behaviour: build it without asking. Your own
+   implementation instead of an existing module, a new dependency or a second path for the same
+   thing is shown to the owner with the reason the existing one did not fit; if it locks the
+   design in, adds maintenance or failure points, it is a fork.
 
-- **The whole draft first, then the forks.** Before the draft, ask only what would force a
-  rewrite (step 5). For the rest, read the idea in its most likely sense, fill the gaps with best
-  practice and mark what you added.
-- **Ask what matters, decide the obvious yourself.** There is no limit on questions: every
-  important fork goes to the owner — one more clear question beats your suboptimal decision on
-  their behalf. But do not flood them: what follows from the project, practice and common sense,
-  decide yourself and show it for review.
-- **Every key decision rests on verifiable ground:** a project fact, documentation, the practice
-  of those who solved the same task (step 4). The agent's taste and memory are not ground.
-- **Simplest sufficient.** The simplest solution that meets the goals at the project's scale,
-  with a measurable condition for moving to the next level (step 7).
-- **Agent time is not an argument.** An agent always builds: the difference between options is
-  minutes or hours for it, even if habit says "a day or two". Do not drop an option, defer needed
-  work or pick a method because it is quicker. Scope is set by the minimal complete
-  production-grade version — without it the feature works wrong, loses data or fails silently —
-  and it is built in full. Beyond it, only what is needed. Choices are decided by behaviour for
-  people, reliability, complexity and maintenance, money, the owner's time.
-- **Decisions are of two kinds.** The first follow from the project, the platform, research or
-  established practice — take them yourself and list them in "Agent decisions — for review" so the owner can
-  check; routine technical choices belong here. The second change the product or lock the design
-  in for long: who gets what, money, user data and acceptable loss, irreversible actions, legal
-  obligations, notable costs or the owner's time, the tone with customers, new settings and
-  messages for people; design that is hard to reverse — a new component, store, background
-  process, way of integrating. Bring these to the owner and explain what they change for the
-  product, not which technology is better.
-- **Do not add to people what nobody asked for.** A setting, switch, command, button,
-  confirmation, message — each costs the user's attention and is the owner's decision, not a
-  detail. By default the system behaves sensibly on its own and does not ask the person when a
-  mistake can be undone. If you think an element is needed, bring it as a question with a
-  "without it" option. This does not apply to what the pass in step 8a requires: states, error
-  texts, cancelling a long operation, notifications of success and failure, confirming the
-  irreversible — these are behaviour, not new elements.
-- **Bypass what the project already has only in the open.** Your own implementation instead of
-  an existing integration or module, a new dependency, a second path for the same thing — always
-  visible to the owner: in "Agent decisions — for review", in "At a glance" and in the summaries, with the
-  reason the existing one did not fit. If it locks the design in for long, adds maintenance or
-  failure points, it is a fork.
-- **Do not invent facts.** Prices, deadlines, legal terms, real data volumes, agreements with
-  partners — if they are not in the inputs, the project or the sources, it is an [ASSUMPTION] or a
-  question to the owner, not a confident number.
+## Size of the task
 
-## Size of the specification
-
-Name the size before you start, in one sentence to the owner; they may correct it.
+Name the size in one sentence before you start; the owner may correct it.
 
 | What came in | What to do |
 |---|---|
-| A small point change: a button, a field, an option or setting, a clear fix | No specification, no file, no issue. Study the affected code, write in the chat in a few lines what you will change and how you will check it, and do it at once, without questions. Stop before the change only on an important point — a decision the owner should make beyond what they asked (main principle); money, access, a data migration or what other systems read; a change bigger than it looked — and agree it per "How to ask the owner" |
-| A feature (new scenario, screen, bot command, integration, internal mechanism) | A full specification per the template |
-| Several independent features in one idea | Say so, propose an order, write a specification for each |
+| A small point change: a button, a field, an option or setting, a clear fix | No specification, file or issue. Study the affected code, write in the chat in a few lines what you will change and how you will check it, and do it at once. Stop before the change only on an important point — an owner's decision beyond what they asked (principle 2); money, access, a data migration or what other systems read; a change bigger than it looked — and agree it per "How to ask the owner". Example: §4 of `references/examples.md` |
+| A feature: a new scenario, screen, bot command, integration or internal mechanism | A full specification per the template |
+| Several independent features in one idea | Say so, propose an order and write a specification for each |
 
-If the feature grows along the way, stop, say so and move up a size.
+If the work grows along the way, stop, say so and move up a size.
 
 ## Order of work
 
-### 1. Intake: what the owner brought
+### 1. Intake
 
-- The owner is just discussing the idea rather than asking to work it out or build it — do not
-  write a specification, discuss. An agreed specification for the feature already exists — build
-  by it, without a new round; a draft from an earlier session — continue it in the same file.
-- If there was a discussion, the inputs are only what the owner said or chose in their own words.
-  A request to work it out, "ok", a clarifying question — none of these confirms your
-  recommendation: silence is not consent. An unconfirmed recommendation that changes the product
-  is a fork and goes first (before the draft if it passes step 5, otherwise F1); a technical one
-  goes into "Agent decisions — for review" marked "from the discussion, unconfirmed".
-- **Materials** — through the `materials-intake` skill: it finds what is new in the chat, the
-  project root, `inbox/` and `docs/`, files it in `inbox/` and keeps the inventory
-  (`inbox/README.md`) and the digest of what the materials say. Read the digest and the originals
-  the feature rests on; `docs/` holds only our plans, specifications and reports. The skill is not
-  installed — tell the owner the materials stay unfiled, read everything they gave in full,
-  including images in PDFs and presentations, and say at once what could not be opened.
-- Never copy passwords, keys or personal data from the materials into the specification; without
-  the intake skill, tell the owner about them at once.
-- Extract for this feature: what is wanted and for whom, constraints, who decided what and
-  when, contradictions between sources and people, questions to third parties. Weight of a
-  source: the owner's word, agreed documents and what the client demands in their own documents
-  are requirements; drafts and our own proposals are hypotheses. A contradiction is a fork. A technical instruction given in passing ("do it on
-  Redis") is checked once against the project and the research: it fits — take it; it does not —
-  a fork with what it changes for the product.
-- Restate the task to yourself — what is wanted, for whom, what success is — before
-  reconnaissance and research, so you do not research the wrong thing.
+- The owner is only discussing the idea — discuss, do not write a specification. An agreed
+  specification already exists — build by it, without a new round of questions. A draft from an
+  earlier session — continue it in the same file.
+- After a discussion, the inputs are only what the owner said or chose in their own words. "Ok",
+  a clarifying question or a request to work it out confirms nothing you recommended. Your
+  unconfirmed recommendation that changes the product is a fork that goes first: before the draft
+  if it passes step 5, otherwise as F1. A technical one goes into "Agent decisions — for review"
+  marked "from the discussion, unconfirmed".
+- Materials go through the `materials-intake` skill; read its digest and the originals the
+  feature rests on. `docs/` holds only our plans, specifications and reports. Without that skill,
+  say the materials stay unfiled, read everything in full, images in PDFs and slides included,
+  and tell the owner at once what could not be opened and what passwords, keys or personal data
+  you found. Those never go into the specification.
+- From the materials, take what is wanted and for whom, the constraints, who decided what and
+  when, and the questions to third parties. The owner's word, agreed documents and what the client
+  demands in their own documents are requirements; drafts and our own proposals are hypotheses. A
+  contradiction between sources or people is a fork. A technical instruction given in passing
+  ("do it on Redis") is checked once against the project and the research: if it fits, take it;
+  if not, it is a fork that says what it changes for the product.
+- Before research, restate the task to yourself — what is wanted, for whom, what success is — so
+  you do not research the wrong thing.
 
-### 2. Reconnaissance of the project and its scale
+### 2. Reconnaissance
 
-**In the project**, find how everything the feature needs is already solved — so the same things
-behave the same and nothing is built twice; **the feature's neighbours** — functions that work
-with the same data, the same person, in the same channel or at the same time; and **which
-environments the project has**: a stage or test server, or only production. **Earlier attempts**
-at the same thing — old specifications, closed issues, reverted commits: what made them fail will
-most likely hit this one too. **Unwritten rules** the code keeps that no document states — money
-in minor units, time in UTC, deletion only soft: the feature keeps them too, and the plan carries
-them in "Rules every step keeps".
+Find in the project:
 
-**Scale** — in numbers from the project: data volume and growth, load, who maintains it (the
-owner and agents, no on-call engineers), budget and where everything runs, the cost of a failure.
-Do not go to production servers while drafting the specification without the owner's explicit
-request — not for numbers, not to read, even if access exists from this machine. Mark a missing
-number [ASSUMPTION] and put its measurement into step 0 of the plan; ask the owner only if the
-question passes step 5.
+- how it already solves what the feature needs, so the same things behave the same and nothing is
+  built twice; decisions the project has made outrank your taste, and a departure needs a reason;
+- the feature's neighbours — functions that work with the same data, person, channel or time;
+- its environments: a stage or test server, or only production;
+- earlier attempts at the same thing — old specifications, closed issues, reverted commits: what
+  made them fail will most likely hit this one too;
+- unwritten rules the code keeps but no document states — money in minor units, time in UTC, only
+  soft deletion. The feature keeps them, and the plan lists them in "Rules every step keeps".
 
-Do not ask what the project answers. Decisions already made in the project outrank your taste:
-the same behaviour for the same things is valuable in itself. Departures go into decisions with a
-reason. **Without a project**, work from the inputs; mark the stack, platform and scale as
-assumptions.
+Measure the scale in numbers from the project: data volume and growth, load, who maintains it (the
+owner and agents, no on-call engineers), budget, where it runs, the cost of a failure. While
+drafting, do not touch production servers — not for numbers, not even to read — unless the owner
+explicitly asks, even if access exists. A missing number is an [ASSUMPTION], and its measurement
+goes to step 0 as [MEASURE]. Do not ask the owner what the project answers. Without a project,
+mark the stack, platform and scale as assumptions.
 
 ### 3. Feature type
 
-The type decides the pass in step 8 and the document's sections.
+The type decides the pass in step 8 and the sections of the document.
 
-- **User-facing** — a person sees it and acts: a screen, a bot, an API for developers, tools for
-  an AI agent. A background job that just carries out a person's action (a file import, a long
-  generation) does not make the feature mixed.
-- **Internal** — nobody interacts with it directly, but its failure hits people: backups, sync,
-  queues, data migration, monitoring.
-- **Mixed** — a user-facing feature that introduces a new mechanism that runs on its own and fails
-  in its own ways: a sync, a schedule, an integration.
+- **User-facing** — a person sees it and acts: a screen, a bot, an API for developers, tools for an
+  AI agent. A background job that only carries out a person's action (a file import) does not
+  change the type.
+- **Internal** — nobody uses it directly, but its failure hits people: backups, sync, queues, data
+  migration, monitoring.
+- **Mixed** — a user-facing feature that brings a new mechanism running on its own and failing in
+  its own ways: a sync, a schedule, an integration.
 
-### 4. Research: what the decision rests on
+### 4. Research
 
-Find out how others solved the same task and check the platform's capabilities. If research was
-already done in the discussion, do not repeat it — extend it.
+Find how others solved the same task and what the platform allows. Extend research already done in
+the discussion instead of repeating it, and come back here when a later step opens a fork with no
+ground.
 
-- **Profile skills first.** Look at the list of skills available to you — global and the
-  project's — and load every one that concerns the feature's stack, platform or domain: a
-  Telegram bot, AI agents, CI and so on. Their tools and rules come before generic search; the
-  web is for what they do not cover.
-- **Other sources:** official documentation and standards of the right version; engineering blogs
-  and postmortems; recognised guides; live popular repositories (their open issues are a ready
-  list of edge cases); the behaviour of comparable products; articles; discussions and posts — a
-  signal to be confirmed by another source.
-- **What to extract:** the practice, the problem it solves, the scale at which it pays off, its
-  cost in complexity and maintenance. A principle carries over to any scale; a big company's
-  implementation does not — it has other volumes and on-call engineers.
-- **Platform:** without a profile skill, the current official documentation of the right
-  version, otherwise [ASSUMPTION: not checked against <platform> documentation]. Memory is not a
-  source. Prices, limits and capabilities only from fresh sources, with a date.
-- **When to stop:** every fork has well-grounded options and new sources repeat what you found.
-- **Into the document** — the "What it rests on" table (format in the template): only what
-  shaped decisions, including "not taken and why".
+- Load first every available skill, global or the project's, that covers the feature's stack,
+  platform or domain; search the web for the rest. Live popular repositories are worth a look:
+  their open issues list real edge cases. A discussion or a post is a signal until another source
+  confirms it.
+- For each practice, record the problem it solves, the scale at which it pays off and its cost.
+  A principle carries over to any scale; a big company's implementation does not.
+- Memory is not a source. Platform behaviour comes from current documentation of the right
+  version, otherwise it is [ASSUMPTION: not checked against <platform> documentation]; prices and
+  limits come from fresh sources, with a date.
+- Stop when every fork has grounded options and new sources repeat what you found. The "What it
+  rests on" table holds only what shaped decisions, including what was not taken and why.
 
-**Read as much as decisions need; do not experiment.** A quick check in minutes (documentation, a
-library's source, a tiny example) is fine. Spinning up a database or service, calling a live API,
-a load test, comparing prices across a dozen vendors — into step 0 of the plan, marked [VERIFY],
-with the decision that depends on it. The platform limits a decision, it does not set it: change
-a decision only on a limit you found, and name it. Nothing to research with — say so; mark
-decisions without ground [NO SOURCE]. A decision that is costly to reverse — a data format, a new
-store, an external contract — and rests on an [ASSUMPTION], [NO SOURCE] or one unconfirmed source
-is checked in step 0 before anything is built on it, or goes to the owner as a fork.
+Read; do not experiment. A few minutes with documentation, a library's source or a tiny example
+is fine; a database or service to start, a live API call, a load test or a vendor comparison goes
+into step 0 as [VERIFY] with the decision that depends on it. The platform limits a decision but
+does not choose it: change a decision only for a limit you found, and name it. Nothing to research
+with — say so and mark such decisions [NO SOURCE]. A decision costly to reverse — a data format, a
+new store, an external contract — that rests on an [ASSUMPTION], [NO SOURCE] or one unconfirmed
+source is checked in step 0 before anything is built on it, or goes to the owner as a fork.
 
-### 5. Questions before the draft — blocking only
+### 5. Questions before the draft
 
-After reconnaissance and research, check for a fork that turns the whole feature over: which level
-of the ladder to build or what product to make at all (one-way or two-way sync; losing a day of
-data is fine or not a minute is). Ask before the draft only if all three hold:
+Ask before the draft only about a fork that turns the whole feature over — which level of the
+ladder to build, or what product to make (one-way or two-way sync; losing a day of data is fine,
+or not a minute is) — and only when all three hold:
 
-- the answer changes most of the specification — a wrong guess means rewriting the document;
-- the answer is not in the project, the inputs or the research;
-- it is the owner's decision in the sense of the main principle, not yours.
+- a wrong guess means rewriting most of the document;
+- the project, the inputs and the research do not answer it;
+- it is the owner's decision under principle 2.
 
-Ask all such questions in one message, per "How to ask the owner", and wait for the answer. Your
-unconfirmed recommendation from the discussion that changes the product is the first candidate;
-the reason for the feature, if the owner did not give one and it decides what we build, is the
-second. The other important forks are not lost — they go to the owner after the draft.
-
-Not blocking: rules and limits, prices, retention, texts, technology choice — propose them in the
-draft with a recommendation. No blocking forks, or in doubt — do not ask: write the draft on the
-most likely reading, put that fork first (F1) and describe what changes with the other answer.
-Working without a person — the same, marked "taken as recommended, awaiting the owner's
-confirmation".
+Ask them in one message per "How to ask the owner" and wait. First candidates: your unconfirmed
+recommendation that changes the product, and the reason for the feature if it is unknown and
+decides what we build. Rules, limits, prices, retention, texts and technology are not blocking:
+propose them in the draft. If you are unsure whether a fork blocks, write the draft on the most
+likely reading and make that fork F1, saying what the other answer would change. Without a person,
+do the same and mark it "taken as recommended, awaiting the owner's confirmation".
 
 ### 6. Frame: goals and non-goals
 
-In your own words: what we build, for whom, why, what success is. An idea that names a solution
-("an export button to CSV") is a means: write the goal it serves separately ("the accountant
-reconciles orders once a month"). Separate what the owner said or confirmed from what you added —
-including your recommendations from the discussion they did not answer and your guess at why, if
-they did not say. Goals, non-goals and anti-goals (what would make the feature a failure even if
-it works). For an internal mechanism, goals in numbers: how much data may be lost, how long it may
-be down, how fast changes arrive. How people manage today without the feature and what it costs
-them: that is the "as now" option of the forks and the measure of whether the feature is worth
-it; not known — [ASSUMPTION].
+From here on you write the specification: open `references/document-template.md`. In your own
+words: what we build, for whom, why and what success is. An idea that names a solution ("an
+export button to CSV") is a means; write the goal it serves separately ("the accountant reconciles
+orders once a month"). Separate what the owner said or confirmed from what you added, including
+your guess at the reason when they did not give one. Write goals, non-goals and anti-goals — what
+would make the feature a failure even if it works. For an internal mechanism, put the goals in
+numbers: how much data may be lost, how long it may be down, how fast changes arrive. Write how
+people manage today and what it costs them, or [ASSUMPTION] if unknown: that is the "as now"
+option of the forks and the measure of whether the feature is worth building.
 
 ### 7. Options and scale
 
-If there is one sensible path, say so in one sentence and why. If several — 2–3 options that
-differ in **behaviour**: for a user-facing feature, in what the person does (order of steps, one
-by one or in bulk, who decides, the point of no return); for an internal one, in the mechanism
-(what it protects against, what can diverge or be lost, who maintains it). First ideas differ on
-one axis: let one option come from another side — the reverse, without a constraint, as another
-field solves it; an option that would fit any feature — ground it in the project or drop it. A
-way to the owner's goal clearly better than their own goes next to it as a fork, not as a dispute.
+If there is one sensible path, say so and why in one sentence. Otherwise give 2–3 options that
+differ in behaviour: in what the person does (order of steps, one by one or in bulk, who decides,
+the point of no return), or, for a mechanism, in what it protects against, what can be lost and
+who maintains it. First ideas tend to differ on one axis, so let one option come from another
+side: the reverse of the obvious, without a constraint everyone assumes, or as another field
+solves it. An option that would fit any feature is grounded in this project or dropped. If another
+way reaches the owner's goal clearly better than the one they named, put it next to theirs as a
+fork.
 
-When options differ in reliability, complexity and cost, build a **ladder** of 2–4 levels: from the
-simplest working solution to how big companies do it. For each level: what it protects against and
-what not, complexity (moving parts, failure points), money per month, maintenance, when it is
-needed. Choose the lowest level that meets the goals of step 6 at the project's scale; write a
-measurable condition for moving up; check that moving up will not require reworking the data
-format and interfaces. Goals demand a high level while the project is small — that is the owner's
-fork: costly protection or accepted risk, in money and consequences.
+When options differ in reliability and cost, build a ladder. For each level: what it protects
+against and what not, moving parts and failure points, money per month, maintenance, when it is
+needed. Choose the lowest level that meets the goals of step 6 at this scale, write the measurable
+condition for moving up and check that moving up will not force a new data format or interface.
+When the goals demand a high level and the project is small, that is the owner's fork: costly
+protection or accepted risk, in money and consequences.
 
-- **Overengineering:** a separately maintained component when the existing stack suffices;
-  headroom for many times today's load with no data on growth; technology nobody can fix; "just
-  in case" with no measurable condition; a big company's practice without its reason; a shared
-  layer with a single user; many new modules for one scenario.
-- **Where not to economise:** the irreversible (data, money, deletion, sending to people);
-  security and access; what is cheap now and costly later (data format and identifiers, duplicate
-  protection, history, rollback); the failure signal.
+- **Overengineering looks like:** a separate component the existing stack could replace;
+  headroom with no data on growth; technology nobody on the project can fix; "just in case"
+  without a measurable condition; a shared layer with one user; many new modules for one scenario.
+- **Do not economise on:** the irreversible (data, money, deletion, sending to people); security
+  and access; what is cheap now and costly later (data format and identifiers, duplicate
+  protection, the history of changes, rollback); the failure signal.
 
-Options rest on step 4. Criteria first, then the comparison. Recommend one and name what it pays
-for its strengths. For the rejected ones — where they lost and what would bring them back. Do not
-glue the best of each into a hybrid — nobody argued for it.
+Set the criteria, then compare. Recommend one option and say what it costs in exchange for its
+strengths; for each rejected one, say where it lost and what would bring it back. Do not glue the
+best of each into a hybrid nobody argued for.
 
-### 8. Pass through the feature
+### 8. The pass through the feature
 
-**Think first, then check.** Before the lists below, write the 3–7 main risks and forks of this
-particular feature: what is specific to it and the project, what will break in what already
-works, what is already there to reuse, what in the owner's idea can be read two ways, which two
-decisions together give what nobody chose (deleted orders are kept 30 days, the export takes all
-orders — deleted orders get into the export), how the feature can be built exactly as written,
-pass every test and still miss a goal (the import works, but reconciliation stays manual: the file
-lacks the column people reconcile by). This is the core of the pass: each risk goes to the
-document section where it is closed, or into a fork; the main ones into "What to watch" in "At a
-glance". The lists are a net to catch what you missed, not
-a boundary: what matters outside them outranks any item. Check every item: if it can happen in
-this feature, the document says what happens then. A mechanism nobody asked for (a retry, a lock,
-a mode, an alert; the behaviour 8a requires is not one) goes into the work only if without it the
-feature here works wrong, loses data or fails silently — traced in this project, not "it happens
-in general" — or if it falls under "Where not to economise" (step 7); in doubt, build it. Build
-the smallest form that closes the gap; what you do not build goes to section 14 with the
-condition to come back. A protection never cuts what the owner asked for — delays, caps or skips
-part of it; if they collide, it is a fork. For a mixed feature, both passes, without repetition.
+First write the 3–7 main risks and forks of this particular feature:
 
-**Seams with neighbours** — for a feature of any type. For each neighbouring function from
-reconnaissance: what happens when they meet — the same data, one person in different roles or
-places, the same time, the same permissions, the same notifications — and which of them wins. In
-the calendar session three of the four serious gaps were seams.
+- what is specific to it and the project, and what it can break in what already works;
+- what is already there to reuse, and what in the owner's idea reads two ways;
+- which two decisions together give what nobody chose: deleted orders are kept 30 days and the
+  export takes all orders, so deleted orders get into the export;
+- how the feature could be built exactly as written, pass every test and still miss a goal: the
+  import works, but reconciliation stays manual because the file lacks the column people
+  reconcile by.
 
-**8a. Interaction** (user-facing and mixed):
+Each risk goes to the section that closes it, or into a fork; the main ones go into "What to
+watch".
 
-- **Entry points and exits.** Every place a person or an agent enters the feature from, not just
-  the main one: another function, a notification, a link, an old message, a return visit, an
-  action of the model itself or of a background job. Each entry has its path in the scenarios;
-  each path has an exit: success, cancel, error, left halfway.
-- **Scenarios** with concrete people (name, role, context), the key moment and the failure
-  branch; a Mermaid diagram; every screen or message appears in at least one scenario.
-- **States** of every touchpoint — what the person sees and can do: empty (first time, nothing
-  found, hidden by a filter — each with its own text and next step), loading, partial, error (not
-  to be confused with empty), no permission, outdated, success.
-- **Errors:** how we prevent, how we notice, the full text (what happened, why, what to do, a code
-  per the project's rules), how the person gets out, what is kept of their input.
-- **Edge cases:** double press and retry; left halfway and came back an hour or a day later; an
-  old message, tab or button; two people edit the same thing; empty, huge and malformed data;
-  time zones and clock changes; permissions or data changed halfway; network lost; limits of an
-  external service; expired session; abuse — brute force, someone else's identifier, spam.
-- **Waiting:** what is visible within a second; long operations go to the background with a
-  notification of both success and failure, with cancel or an explicit decision not to have it; a
-  waiting limit and a "gave up waiting" state with a way out. No unmeasured promises ("usually
-  under 2 minutes" → [MEASURE]).
-- **Actions:** irreversible — a confirmation naming what will disappear; reversible — "Undo"
-  after, not "Are you sure?" before; money — no double charge and a clear payment outcome; bulk —
-  preview and partial result; input is not lost on error.
-- **Clarity and discovery.** After each step the person understands what happened, what comes
-  next and how to undo. How they learn the feature exists and what it did without them. A hint or
-  announcement is a new element: a fork with a "without it" option.
-- **Texts** of key strings in full; accessibility and localisation — the minimum; privacy,
-  consent, law; no dark patterns.
-- **By interface type** — for each touchpoint (a bot plus an admin panel, an app plus push and
-  email):
-  - web and admin panels: addresses and page reload, tables and filters, roles and permissions;
-  - website and shop: first screen, search, cart and checkout, unclear payment outcome, emails;
-  - mobile: poor network and offline, permissions at the moment of value, push, background and
-    process kill, store rules (digital payments, account deletion), an old app version against a
-    new server;
-  - desktop: windows, hotkeys, files and saving, updates;
-  - bot: old messages and buttons live forever, text instead of a button, a pause of hours,
-    private chats and groups, platform limits;
-  - AI feature as people see it: it is visible that this is AI and what it is doing; stop;
-    preview and undo of changes; editing the result and regenerating; "I don't know" instead of
-    invention; confirmation of consequential actions; harmful instructions in incoming content;
-    which data goes to an external AI service and whether the person knows; the cost of requests
-    and a per-person limit — the owner's fork;
-  - tools for an AI agent: few tools for whole tasks; descriptions as for a new hire; unambiguous
-    parameters and time with a zone; a response with the outcome of the action; an error with a
-    stable code and a hint on how to fix the call; retries without duplicates; the person's
-    permissions, not a superuser's; foreign text in results is data, not instructions; the model
-    learns about the new capability from the description and instructions, knows when to use it
-    and when not, does not confuse it with similar ones and answers "what can you do" correctly;
-  - voice: confirming what was heard, short answers, barge-in, silence and noise;
-  - API and webhooks: one error format, input errors for all fields at once, an idempotency key,
-    limits in the response, pages without gaps, versions and deprecation, signature and
-    redelivery of webhooks;
-  - CLI: exit codes, no questions in non-interactive runs, a dry run for dangerous operations,
-    data to stdout and messages to stderr;
-  - watches, TV, car, kiosk, VR/AR: seconds of attention, a remote or one hand, safety while
-    driving, fatigue in VR, privacy on a public screen.
+Then check the seams with every neighbour from reconnaissance: what happens when they meet — the
+same data, one person in two roles, the same time, permissions or notifications — and which wins.
+In one past project, a two-way calendar sync, three of the four serious gaps were seams.
 
-**8b. Mechanism** (an internal feature and the new mechanism of a mixed one — only it):
+Then go through the net in `references/checklists.md` — part A for what people use, part B for a
+mechanism. It catches what you missed; what matters outside it outranks any item. For every item
+that can happen here, the document says what happens then.
 
-- guarantees in numbers and who depends on the mechanism — what each will see on failure;
-- data: source of truth, conflict rule, identifier mapping between systems, deletion on one side,
-  order and duplicates, time and zones;
-- failures: the external service is down or throttles, access revoked, interrupted halfway, never
-  started, out of space, unexpected data, the API version changed, two copies run at once;
-- a retry is a decision: on which errors, how many times, with what pauses, who learns that the
-  attempts ran out; retries and restarts without duplicates or double charges;
-- recovery and its test — an untested recovery does not count;
-- an alert on the absence of success on time, not only on errors; who receives it and what they
-  do;
-- access: keys, least privilege, who can delete data and copies;
-- maintenance and a "when it breaks" runbook; money per month;
-- existing data: what happens to the data already in the system when the mechanism starts.
+A mechanism nobody asked for — a retry, a lock, a mode, an alert — goes into the work only when
+without it the feature here works wrong, loses data or fails silently, traced in this project and
+not "it happens in general", or when it falls under "Do not economise on". If you cannot tell
+whether its absence lets harm through unnoticed, build it, in the smallest form that closes the
+gap. A mechanism you decide not to build goes to section 14 with the condition to come back. A
+protection never delays, caps or skips part of what the owner asked for; when the two collide, it
+is a fork.
 
 ### 9. Decisions
 
-**To the owner** — all decisions of the second kind (main principle), with no limit on number. If
-there are very many, check whether you are passing on your own work and whether the feature
-should be split. **Where to deploy is always among the forks:** after implementation, to the
-stage or test server if the project has one, otherwise straight to production. The owner's
-answer is the permission to deploy without stopping. In technical features, ask as a business
-consequence: not "which RPO" but "if the server burns down, can you lose the last day of
-orders?". Format:
-
-```
-### F1. <The question as the owner would understand it>
-**Why decide now:** <what depends on the answer: behaviour for people, data, money, reliability>
-- **A. <option>** — gives: <what the user or business gets>; costs: <complexity and failure
-  points, maintenance, money per month, the owner's time>; locks in: <what is hard to change later>
-- **B. <option>** — gives: …; costs: …; locks in: …
-- **C. Simplest: without it / as now** — gives: …; costs: …
-**I recommend A** because <reason in product terms, citing the ground>.
-**If nobody decides:** <what the implementer does by default and what the user sees>
-```
-
-Options must not rest on one assumption of yours: if a switch is in both, the question is really
-about something else.
-
-**Your own decisions** — the "Agent decisions — for review" list, by the rules of its section in
-the template; the obvious is not listed.
+Each owner's decision under principle 2 is a fork in section 6, in its format, however many there
+are; if there are very many, check whether you are passing on your own work or the feature should
+be split. Where to deploy after implementation is always a fork: offer the stage or test server if
+the project has one, otherwise production; the answer lets you deploy without stopping. Ask about
+the business consequence: not "which RPO" but "if the server burns down, can we lose the last day
+of orders?". If every option rests on the same assumption of yours, ask about that assumption
+instead. Your own decisions go into "Agent decisions — for review" by the rules of section 15.
 
 ### 10. How to build
 
-Per part 3 of the template, which holds the rules for the plan, priorities and scope. The design
-implements the level chosen in step 7 on what the project already has; any departure in the open.
+Write part 3 of the template by its rules; §3 of `references/examples.md` shows a good and a bad
+step. The design implements the option or level chosen in step 7 on what the project already has;
+any departure is visible.
 
 ### 11. Check
 
-**Yourself**, with fresh eyes:
-
-- every goal has a scenario, every touchpoint has states with a way out; every error has a text
-  and a recovery path, every failure of the mechanism — how it is noticed and recovered;
-- every scenario, error and acceptance criterion is closed by the test of some step ("Closes");
-  if every acceptance criterion passes, every goal is reached; every new component is needed by a
-  goal, a scenario or a criterion; steps that reach production separately leave it safe after each;
-- the document contains the risks from your step 8 list, not only items of the net;
-- inputs are separated from unconfirmed recommendations; new settings for people and decisions
-  that bypass what exists are visible to the owner;
-- every key decision has ground; practices have the scale at which they pay off; if you built a
-  ladder, the level matches the scale and the condition for moving up is measurable;
-- no lines that decide nothing ("handle errors", "consider edge cases", "TBD");
-- every decision has a recommendation; no decision or move to P1 rests on "it is quicker"; the
-  estimate is in hours of agent work and equals the sum of the steps;
-- names are consistent, no old versions of a decision remain after edits, numbers add up, tables
-  are intact, the length is within the template's limits;
-- "At a glance" and the owner's part read without technical vocabulary, in the owner's language.
-
-**With a fresh agent** — for a full specification, if a tool for launching agents exists: the
-prompt and what to do with the answer are in
-`references/builder-check.md`. It sees neither the conversation nor these lists, so it looks
-wider. Without the tool, read the document yourself as the implementer.
+Save the draft where step 12 says, then go through the self-check in part C of
+`references/checklists.md` and fix what fails. For a full specification, if you can launch agents,
+run the fresh-agent check from `references/builder-check.md`: that agent sees neither the
+conversation nor the lists, so it looks wider. Without that tool, read the document yourself as
+the implementer would.
 
 ### 12. File and summary — the one checkpoint
 
-**File.** The project's place for feature documents, otherwise
-`docs/specs/YYYY-MM-DD-<short-name>.md`; without a project, ask or give it in the chat. Template —
-`references/document-template.md`. Status: "draft, awaiting the owner's decisions". Over the
-template's length — cut repetitions and the obvious, not scenarios, errors and failures.
+The specification lives where the project keeps feature documents, otherwise in
+`docs/specs/YYYY-MM-DD-<short-name>.md`; without a project, ask where, or give it in the chat.
+Status: "draft, awaiting the owner's decisions". If it is over the template's length, cut
+repetition and the obvious, not scenarios, errors and failures.
 
-**Summary in the chat** — one message, essentially repeating "At a glance". This is where the
-owner checks that you understood everything; there is no second summary when nothing changes.
+Then send one message with:
 
-1. Two to four lines: what came out, the path to the file.
-2. How it will work — 4–7 points, each with its consequence for the user or business.
-3. How we will build it — 4–8 points: what appears in the system, what is reused, what is
-   written anew and why the existing did not fit.
-4. What it rests on — 2–4 supports in words: practice → what we took. Links only in the
-   document.
-5. Scope: steps, agent work — about N h (estimate), what is needed from the owner.
-6. On a separate line — what is not verified and why.
-7. Materials — the intake report in short: what was filed and removed, what could not be opened,
-   what waits for the owner's ok, what changed in git; contradictions and questions to third
-   parties beyond this feature.
-8. Found along the way — legacy code and old defects in the affected area: what they are and how
-   they get in the way. Fixing or removing — as a fork; do not touch without consent.
-9. Forks for the owner — per "How to ask the owner", all important ones, including deployment.
-10. One closing line: answers to the forks that do not overturn the plan are also the go to
-    start.
+1. the path to the file and "At a glance" in the template's order (§2 of `references/examples.md`);
+2. the materials intake report in short: what was filed and removed, what could not be opened,
+   what waits for the owner's ok, what changed in git, contradictions and questions to third
+   parties beyond this feature;
+3. legacy code and old defects found in the affected area, each as a fork to fix or remove — do
+   not touch them without consent;
+4. the forks in full per "How to ask the owner", deployment included;
+5. one closing line: answers that do not overturn the plan are also the go to start.
 
-Then stop and wait for the answer. Do not write code. **Without a person** — the recommended
-options, marked "taken as recommended, awaiting the owner's confirmation", and the summary says
-so plainly.
+Then stop and wait; do not write code. Without a person, take the recommended options, mark them
+"taken as recommended, awaiting the owner's confirmation" and say so in the message.
 
 ### 13. After the owner's answers
 
-Put the decisions into the document and move them to "Accepted". Check that answers do not
-contradict each other, do not give together with other decisions what nobody chose, and do not
-pull changes into other sections: find all the places and update them, including "At a glance".
-An answer opened a new fork, contradicts another or gives such an effect — ask per "How to ask
-the owner"; do not choose silently. Then it depends on the answers:
+Move the decisions to "Accepted" and update every section they touch, "At a glance" included.
+Check that the answers do not contradict each other and do not give, together or with decisions
+already made, what nobody chose. If they do, or an answer opens a new fork, ask; do not choose
+silently. Then:
 
 | The owner answered | What you do |
 |---|---|
-| Every fork, and the answers do not overturn how it works or how we build it (recommendations taken, or choices the plan absorbs) | Status "agreed". 2–4 lines: what was taken, what changed in the plan if anything, where you start. Then go straight to work — that is the permission |
-| Reversed your decision so that the behaviour or the design changes; said it will not do and must be done differently; sent you to more research or deeper into the project | Redo the affected parts and send a summary of only what changed. Wait for the go |
-| Not every fork | Start the work that does not depend on the unanswered ones and ask them in one line; what depends on them (for example, deployment) waits for the answer |
+| Every fork, and the answers do not overturn how it works or how we build it — recommendations taken, or options the plan absorbs | Status "agreed"; say in 2–4 lines what was taken and where you start, and start |
+| Reversed your decision so that the behaviour or the design changes, rejected the approach, or asked for more research | Redo the affected parts, show only what changed, wait for the go |
+| Some forks only | Start implementing what does not depend on the open forks and ask those again, briefly, in one message |
 
-Permission is also an explicit "go" («делай», «отработай», «погнали», «реализуй») in any language,
-and any reply that meets the start conditions you named yourself (you asked to pick an account
-for the checks — they picked it and said «отработай»). A request to work something out further
-(«проработай ещё») is not permission. Do not ask again once you have it.
-
-Step 0 of the plan (checks and measurements): after it, carry on if the result does not change
-the owner's decisions or "How we will build it"; if it does, briefly show what changed and wait.
+An explicit go («делай», «отработай», «погнали») in any language is permission, and so is a reply
+that meets the start conditions you named, such as the closing line of step 12. «Проработай ещё»
+is not. Do not ask for permission twice. After step 0, carry on unless its results change the
+owner's decisions or "How we will build it"; if they do, show what changed and wait.
 
 ## Review mode
 
-The owner brings a ready feature description, plan or PR and asks to find the holes — do not
-rewrite the document. Go through its text with steps 2, 4 and 7–11: fit to scale, the ground of
-decisions, what bypasses what exists, whether a simpler option was missed, whether anything was
-added to people needlessly, your own risk list and the step 8 net, steps with tests and
-acceptance criteria. Findings by harm to users and the business, blockers first, trifles briefly
-at the end:
+When the owner brings a ready feature description, plan or PR and asks to find the holes, follow
+`references/review-mode.md` and do not rewrite the document.
 
-```
-[Blocker | Serious | Minor] <what is missing> — <what a person or the business will go through>
-  Where: <section, screen, file:line>
-  Proposal: <a concrete addition>
-```
+## Mock-ups and diagrams
 
-A blocker: a person cannot finish the task, loses money or data; a mechanism breaks so that
-nobody notices. Many holes — offer to write a full specification.
-
-## Mock-ups and diagrams — on request
-
-Only when the owner asks to show the screens or draw the scheme, at any moment: an HTML file next
-to the specification, opened in their browser when ready — per `references/mockups.md`. Do not
-offer them yourself.
+Only when the owner asks to see the screens or a scheme, at any moment: an HTML file next to the
+specification, opened in their browser when ready, per `references/mockups.md`. Do not offer them.
 
 ## How to ask the owner
 
-The owner decides only what they understood. A question without an explanation they either
-cannot answer or click the recommended option without reading — and reverse it an hour later.
+The owner decides only what they understood; a question without an explanation gets either no
+answer or a click on the recommended option that is reversed an hour later. §1 of
+`references/examples.md` shows a good and a bad question.
 
-- **In the chat, one message, then wait.** First 2–4 lines: what you are designing, what you have
-  found out, why these questions cannot be decided without the owner. Then the questions.
-- **Each question has four parts:**
+- Ask in the chat, in one message, then wait. Open with 2–4 lines: what you are designing, what
+  you found out and why these questions need the owner. In the message of step 12, "At a glance"
+  plays this part.
+- Each question has the four parts a fork has in section 6:
   1. **Situation** — a live example: "a person opened their list of calendars, saw an unfamiliar
      'Reminders' and deleted it";
-  2. **Why I do not decide it myself** — what depends on the answer in the product, data, money,
-     reliability;
-  3. **Options** — what the person will see, what it costs, what becomes hard to change;
-     including the simplest ("without it", "as now"), and not all resting on one assumption of
-     yours; when options differ in what the person sees, show each as text — the message or the
+  2. **Why I do not decide it myself** — what depends on the answer in the product, data, money
+     or reliability;
+  3. **Options** — what the person will see, what it costs, what becomes hard to change; one of
+     them is the simplest ("without it", "as now"), and they do not all rest on one assumption of
+     yours. When options differ in what the person sees, show each as text: the message or the
      screen in a few lines;
-  4. **I recommend** — the option, why it is better for the product and what that rests on.
-- **No internal words:** rule numbers, module names, terms the owner has not seen — replace with
-  a description or explain.
-- **The choice dialog** (a structured question tool) covers the text before it. The owner's forks
-  always go first as an explanation in the chat; open the dialog only after the owner has read it
-  (for example, replied "ask"). Straight to the dialog only for a service choice understandable
-  without context: where to put a file, which account to use for checks. Every question in the
-  dialog stands on its own, the recommended option first.
+  4. **I recommend** — the option, why it is better for the product, and what that rests on.
+- Use the owner's words. Rule numbers, module names and terms they have not seen are replaced
+  with a description or explained.
+- A structured choice dialog hides the text above it, so the forks come first as text in the
+  chat, and the dialog opens only after the owner has read them and agreed to it (for example,
+  replied «спрашивай»). Only a service choice clear without context — where to put a file, which
+  account to use for checks — goes straight to the dialog. Every question in the dialog stands on
+  its own, with the recommended option first.
 
 ## Typical failures
 
 | Thought | Reality |
 |---|---|
-| "I recommended A in the discussion and the owner did not object — so A is chosen" | Silence is not consent. An unconfirmed recommendation is a fork, and the first one |
-| "I went through every item of the lists — so I covered everything" | The main risks are usually specific to the feature and project and are not in the lists. Your own list first, the lists after |
-| "I will ask through the choice dialog, it is faster" | The dialog covers the explanation and the owner clicks without reading. Explanation and questions in the chat, the dialog after "ask" |
-| "The owner answered every fork and nothing changed — I will send the whole summary again and wait" | The summary with the forks was the checkpoint. Update the document, say in 2–4 lines what was taken and get to work |
-| "The owner said «отработай» — I will run the checks and ask again" | They met the start conditions you named. That is permission, do not ask again |
-| "I will decide this important fork myself so as not to bother the owner" | What matters goes to the owner, clearly and with a recommendation; only the obvious is yours |
+| "I recommended A in the discussion and the owner did not object, so A is chosen" | Silence is not consent. An unconfirmed recommendation is a fork, and the first one |
+| "I went through every item of the checklists, so I covered everything" | The main risks are specific to this feature and project and are not on the lists. Your own list first, the lists after |
+| "I will ask through the choice dialog, it is faster" | The dialog covers the explanation and the owner clicks without reading. Questions go in the chat; the dialog comes after the owner agrees |
+| "The owner answered every fork, or said «отработай»; I will resend the summary and ask again" | The summary was the checkpoint and the answers are the permission. Say in 2–4 lines what was taken and start |
+| "I will settle this important fork myself so as not to bother the owner" | What matters goes to the owner, clearly and with a recommendation; only the obvious is yours |

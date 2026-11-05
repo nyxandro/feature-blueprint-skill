@@ -1,21 +1,31 @@
 # Specification template
 
-Write the document in the owner's language: translate headings, labels and markers. Keep as
-they are: section numbers, fork labels F1… and priorities P0–P2, file, function and field names,
+## Contents
+
+- How to fill it in
+- Document: "At a glance"; part 1, for the owner — sections 1–6; part 2, behaviour in detail —
+  sections 7–15; part 3, how to build — sections 16–25
+- Formatting rules
+
+## How to fill it in
+
+Write the document in the owner's language: translate headings, labels and markers. Keep as they
+are: section numbers, fork labels F1… and priorities P0–P2, file, function and field names,
 commands, paths, error codes and product names.
 
-Readers: **the owner** reads "At a glance" and part 1 — everything needed for decisions, without
-technical vocabulary; **the implementer** — an agent who will build it and cannot ask questions —
-works from parts 2 and 3. It needs your decisions, not knowledge: which files, names, values, which
-test proves a step.
+Two readers. The owner reads "At a glance" and part 1: everything needed for decisions, without
+technical vocabulary. The implementer is an agent who will build the feature and cannot ask
+questions; it works from parts 2 and 3 and needs your decisions, not knowledge — which files,
+names and values, which test proves a step.
 
-A section that does not apply — its heading and one line "does not apply because…". For a
-user-facing feature without a new mechanism this usually closes sections 8 and 20; for an internal
-one, 7, 11 and 12. Inside sections, write only what applies.
+Drop a section that does not apply and name it in the "Does not apply" line at the top, with the
+reason. For a user-facing feature without a new mechanism this is usually sections 8 and 20; for
+an internal one, 7, 11 and 12. The other sections keep their numbers. Inside a section, write only
+what applies.
 
 **Length:** "At a glance" — one page; "At a glance" with part 1 — up to 180 lines; part 2 — up to
-170; part 3 — up to 250; the whole specification — 300–600. More means repetition, the obvious or
-prose instead of tables.
+170; part 3 — up to 250; the whole specification — up to 600. More means repetition, the obvious or
+prose where a table would do.
 
 ## Document
 
@@ -25,6 +35,7 @@ prose instead of tables.
 **Status:** draft, awaiting the owner's decisions | agreed
 **Date:** YYYY-MM-DD · **Project:** <name> · **Feature type:** user-facing | internal | mixed ·
 **Where it runs:** <web admin, bot, background job, external service…>
+**Does not apply:** <section numbers — why; drop the line when every section applies>
 
 ## At a glance
 
@@ -66,7 +77,7 @@ external waits; what is needed from the owner and how much of their time>.
 - **The owner said:** <what they said or explicitly confirmed, including in the discussion before
   the specification>
 - **The agent recommended, the owner did not confirm:** <if there was a discussion — what, and
-  where it is in the forks>
+  where it went: a fork or "Agent decisions — for review">
 - **Found in the project:** <similar functions, constraints, scale in numbers, defects found>
 - **Added:** <key assumptions marked [ASSUMPTION], with the reason>
 - **Contradictions between sources:** <who says what and where it is in the forks>
@@ -139,12 +150,17 @@ flowchart TD
 ## 6. Owner's decisions
 
 ### F1. <The question as the owner would understand it>
-**Why decide now:** <what depends on the answer: behaviour for people, data, money, reliability>
-- **A. <option>** — gives: …; costs: …; locks in: …
+**Situation:** <a live example: who, where, what happens>
+**Why it is yours to decide:** <what depends on the answer: behaviour for people, data, money,
+reliability>
+- **A. <option>** — gives: <what the user or the business gets; what the person sees, as text>;
+  costs: <complexity and failure points, maintenance, money per month, the owner's time>; locks
+  in: <what is hard to change later>
 - **B. <option>** — gives: …; costs: …; locks in: …
 - **C. Simplest: without it / as now** — gives: …; costs: …
-**I recommend A** because <…>.
-**If nobody decides:** <what the implementer does by default and what the user sees>
+**I recommend A** because <the reason in product terms and the ground it rests on>.
+**If nobody decides:** <what the implementer does by default — normally the recommended option —
+and what the user sees>
 
 ### Accepted
 Filled in after the owner's answers: the decision, what it was chosen over and why, the date.

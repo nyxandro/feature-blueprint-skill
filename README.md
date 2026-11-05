@@ -17,9 +17,12 @@ bring the owner only the forks that change the product — explained in plain wo
 recommendation.
 
 The skill does not re-teach what the model already knows about UX and engineering. It holds the
-order of work, the owner's rules, short lists of what must not be missed, and the document
-format. The agent first writes the risks specific to the feature and the project, and only then
-checks the lists, so they catch what was missed instead of narrowing the view.
+order of work, the owner's rules, lists of what must not be missed, and the document format. The
+main file stays within the size the Agent Skills standard recommends (500 lines, about 5,000
+tokens): the checklists, the examples and the review mode live in reference files the agent opens
+at the step that needs them. The agent first writes the risks specific to the feature and the
+project, and only then checks the lists, so they catch what was missed instead of narrowing the
+view.
 
 The skill and its template are written in English. Everything the owner reads — the
 specification, the summaries and questions, plan lines, issues and comments — the agent writes in
@@ -135,12 +138,16 @@ part of the `.skill` archive.
 
 ```text
 feature-blueprint/                    the skill itself
-  SKILL.md                            the method, the owner's rules and short don't-miss lists
-  references/document-template.md     the blueprint format with the plan section
+  SKILL.md                            the principles and the order of work
+  references/document-template.md     the specification format with the plan section
+  references/checklists.md            the don't-miss net for the pass and the self-check
+  references/examples.md              good and bad forks, "At a glance", plan steps
+  references/review-mode.md           finding holes in a ready plan or PR
   references/builder-check.md         the prompt for the fresh-agent check
   references/mockups.md               mock-ups and diagrams in HTML, made on request
   evals/                              eval cases with graders
 dist/feature-blueprint.skill          downloadable archive of the skill folder
+docs/plans/                           plans for changing the skill (in Russian)
 AGENTS.md, CLAUDE.md                  rules for agents working on this repository
 ```
 
@@ -182,6 +189,16 @@ The rules on research, scale, internal mechanisms and agent tools draw on:
   (Anthropic), [Function calling](https://developers.openai.com/api/docs/guides/function-calling)
   (OpenAI), [MCP: Tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) —
   designing tools for AI agents.
+
+The shape of the skill follows guidance on writing skills:
+
+- [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+  (Anthropic) and the [Agent Skills specification](https://agentskills.io/specification) — the
+  size of the main file, reference files one level deep, contents lists, examples;
+- [Build skills](https://learn.chatgpt.com/docs/build-skills) (OpenAI) — the description with clear
+  scope, the main use first;
+- Bojie Li, «AI-агенты изнутри» (the chapters on Agent Skills and on clarifying requirements) —
+  few principles with examples, and when to ask before acting and when to act at once.
 
 ## License
 

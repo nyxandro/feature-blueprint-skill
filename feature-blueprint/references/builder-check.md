@@ -2,7 +2,7 @@
 
 For a full specification, after the self-check and before the summary to the owner. Launch an
 agent with a clean context (no conversation history) with this prompt, filling in the product type
-and the path to the document:
+and the path to the document; when there is no file, put the document's text into the prompt:
 
 ```
 You are an experienced product engineer who builds <product type: a web app, a bot, a mobile

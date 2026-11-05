@@ -16,7 +16,7 @@ unasked.
 - Only what was asked: one screen, one scenario, only the diagram — that is what you make.
 
 The mock-up shows the specification and does not extend it: every element, text and step is in
-the document, texts word for word from sections 9 and 12. The drawing needs something the
+the document, texts word for word from sections 7, 9 and 12. The drawing needs something the
 document lacks — add it to the document first, or to the forks if it is the owner's decision. Each
 screen is labelled with its scenario, state and section. The look is plain and neutral, or the
 project's own if it already has an interface: the mock-up settles behaviour and texts, not visual
