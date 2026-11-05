@@ -75,6 +75,11 @@ out.
 There is also a review mode: the owner brings an existing feature plan or PR, and the agent
 lists the gaps ordered by harm to users and the business.
 
+On request the agent draws mock-ups of the screens in every state and diagrams of the scenarios
+and the mechanism: one self-contained HTML file next to the specification, opened in the owner's
+browser when ready. It never offers them on its own and never adds anything the specification
+does not say.
+
 ## What it covers
 
 User-facing features: web apps and admin panels, websites and shops, mobile and desktop apps,
@@ -131,6 +136,7 @@ feature-blueprint/                    the skill itself
   SKILL.md                            the method, the owner's rules and short don't-miss lists
   references/document-template.md     the blueprint format, full and short, with the plan section
   references/builder-check.md         the prompt for the fresh-agent check
+  references/mockups.md               mock-ups and diagrams in HTML, made on request
   evals/                              eval cases with graders
 dist/feature-blueprint.skill          downloadable archive of the skill folder
 AGENTS.md, CLAUDE.md                  rules for agents working on this repository
@@ -144,9 +150,13 @@ The skill is written from scratch, but builds on ideas from open projects:
   (MIT) — a mechanism nobody asked for is built only when its absence harms unnoticed or is
   costly to add later, what two decisions give together, statements about the project checked
   against the code, earlier attempts and unwritten rules of the code, how people manage today,
-  safety after each separately shipped step, costly-to-undo decisions on weak ground;
+  safety after each separately shipped step, costly-to-undo decisions on weak ground, the goal
+  apart from the means the owner named, how the feature can be built as written and still miss
+  a goal, a small change in a risky zone, what is known only at implementation, an option from
+  another side, what a test with a stub does not catch;
 - [obra/superpowers](https://github.com/obra/superpowers) (MIT) — study the project before
-  asking, the fresh-agent check of a document, the implementation plan format;
+  asking, the fresh-agent check of a document, the implementation plan format, the rules every
+  step keeps;
 - [garrytan/gstack](https://github.com/garrytan/gstack) (MIT) — the states table, the register of
   open decisions with "what happens if nobody decides", failures on new paths;
 - [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) — propose the likely

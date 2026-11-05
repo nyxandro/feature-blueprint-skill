@@ -276,6 +276,11 @@ deployment; it had been estimated upfront at 11 days.
 
 ## 22. Steps
 
+**Rules every step keeps** — one line each, with exact values: the project's rules found in
+reconnaissance, the unwritten ones included (money in minor units, time in UTC, deletion only
+soft, the error code format, the language of texts for people), and the specification's
+project-wide values. Every step's requirements include this block.
+
 If there are [VERIFY] or [MEASURE] markers, the plan starts with them:
 
 ### Step 0: checks and measurements
@@ -288,14 +293,17 @@ If there are [VERIFY] or [MEASURE] markers, the plan starts with them:
 **Files:** create `path`; change `path` (what exactly); test `path`
 **Uses:** <exact names from earlier steps>
 **Provides:** <exact names for later steps>
-**Test:** <name and what it checks — with concrete values from the specification>
+**Test:** <name and what it checks — with concrete values from the specification; if it replaces
+an external service with a stub, what it will not catch>
 **Closes:** <scenario 2, the error «…» from section 9, acceptance criterion 3>
 **Done when:** <check command and expected result>
 
 A step is the smallest unit with its own test; it allows exactly one sensible implementation.
-"Handle errors", "add validation" — a gap. No function bodies, no code files; code only for a
-non-obvious algorithm. Order — from what the rest depends on. Test before code if the project's
-rules require it.
+"Handle errors", "add validation" — a gap. What cannot be known before touching the code (a field
+name in someone else's response, the final query) is not invented: the step says "decided by the
+implementer, by the rule …" and how it is checked. No function bodies, no code files; code only
+for a non-obvious algorithm. Order — from what the rest depends on. Test before code if the
+project's rules require it.
 
 If steps reach production separately (each its own issue or release), every step leaves
 production safe: nothing becomes reachable for people before its protection — a permission check,
@@ -343,7 +351,11 @@ without confirmation — that goes to "Decisions"> · <sources: codes and where 
 
 **States:** <only the affected ones: loading, empty, error, success — what the person sees>
 
-**Failures:** <for an internal change: what breaks, how we learn, how we recover>
+**Failures:** <for an internal change or one in a risky zone: what breaks, how we learn, how we
+recover>
+
+**Seams:** <for a change in money, access, data migration or what other systems read: who else
+reads or depends on it and what changes for them; otherwise drop the line>
 
 **Errors and edge cases:** <a list with handling>
 
@@ -370,4 +382,5 @@ your own — for review>
   (`server/jobs/queue.js`, `sendNotification`); what is absent — where it was looked for ("no
   retries: searched `server/jobs/` and `server/routes/`"); not seen — [ASSUMPTION].
 - Diagrams — Mermaid (`flowchart` for scenarios, `stateDiagram-v2` for states).
-- A clickable HTML mock-up — only at the owner's request; on a mismatch the document wins.
+- HTML mock-ups and diagrams — only at the owner's request, per `references/mockups.md`; on a
+  mismatch the document wins.

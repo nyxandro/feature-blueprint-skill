@@ -84,6 +84,7 @@ Name the size before you start, in one sentence to the owner; they may correct i
 | What came in | What to do |
 |---|---|
 | A small change (one button, field, message, setting) | A one-page short specification. No ladder of options and no fresh-agent check; research kept minimal |
+| A small change in a risky zone: money, access, a data migration, what other systems read (an API, a webhook, an export) | A short specification with the seams and the failures on new paths, and the fresh-agent check |
 | A feature (new scenario, screen, bot command, integration, internal mechanism) | A full specification per the template |
 | Several independent features in one idea | Say so, propose an order, write a specification for each |
 
@@ -126,7 +127,8 @@ with the same data, the same person, in the same channel or at the same time; an
 environments the project has**: a stage or test server, or only production. **Earlier attempts**
 at the same thing — old specifications, closed issues, reverted commits: what made them fail will
 most likely hit this one too. **Unwritten rules** the code keeps that no document states — money
-in minor units, time in UTC, deletion only soft: the feature keeps them too.
+in minor units, time in UTC, deletion only soft: the feature keeps them too, and the plan carries
+them in "Rules every step keeps".
 
 **Scale** — in numbers from the project: data volume and growth, load, who maintains it (the
 owner and agents, no on-call engineers), budget and where everything runs, the cost of a failure.
@@ -207,20 +209,25 @@ confirmation".
 
 ### 6. Frame: goals and non-goals
 
-In your own words: what we build, for whom, why, what success is. Separate what the owner said or
-confirmed from what you added — including your recommendations from the discussion they did not
-answer and your guess at why, if they did not say. Goals, non-goals and anti-goals (what would
-make the feature a failure even if it works). For an internal mechanism, goals in numbers: how
-much data may be lost, how long it may be down, how fast changes arrive. How people manage today
-without the feature and what it costs them: that is the "as now" option of the forks and the
-measure of whether the feature is worth it; not known — [ASSUMPTION].
+In your own words: what we build, for whom, why, what success is. An idea that names a solution
+("an export button to CSV") is a means: write the goal it serves separately ("the accountant
+reconciles orders once a month"). Separate what the owner said or confirmed from what you added —
+including your recommendations from the discussion they did not answer and your guess at why, if
+they did not say. Goals, non-goals and anti-goals (what would make the feature a failure even if
+it works). For an internal mechanism, goals in numbers: how much data may be lost, how long it may
+be down, how fast changes arrive. How people manage today without the feature and what it costs
+them: that is the "as now" option of the forks and the measure of whether the feature is worth
+it; not known — [ASSUMPTION].
 
 ### 7. Options and scale
 
 If there is one sensible path, say so in one sentence and why. If several — 2–3 options that
 differ in **behaviour**: for a user-facing feature, in what the person does (order of steps, one
 by one or in bulk, who decides, the point of no return); for an internal one, in the mechanism
-(what it protects against, what can diverge or be lost, who maintains it).
+(what it protects against, what can diverge or be lost, who maintains it). First ideas differ on
+one axis: let one option come from another side — the reverse, without a constraint, as another
+field solves it; an option that would fit any feature — ground it in the project or drop it. A
+way to the owner's goal clearly better than their own goes next to it as a fork, not as a dispute.
 
 When options differ in reliability, complexity and cost, build a **ladder** of 2–4 levels: from the
 simplest working solution to how big companies do it. For each level: what it protects against and
@@ -248,7 +255,9 @@ glue the best of each into a hybrid — nobody argued for it.
 particular feature: what is specific to it and the project, what will break in what already
 works, what is already there to reuse, what in the owner's idea can be read two ways, which two
 decisions together give what nobody chose (deleted orders are kept 30 days, the export takes all
-orders — deleted orders get into the export). This is the core of the pass: each risk goes to the
+orders — deleted orders get into the export), how the feature can be built exactly as written,
+pass every test and still miss a goal (the import works, but reconciliation stays manual: the file
+lacks the column people reconcile by). This is the core of the pass: each risk goes to the
 document section where it is closed, or into a fork; the main ones into "What to watch" in "At a
 glance". The lists are a net to catch what you missed, not
 a boundary: what matters outside them outranks any item. Check every item: if it can happen in
@@ -364,16 +373,13 @@ orders?". Format:
 Options must not rest on one assumption of yours: if a switch is in both, the question is really
 about something else.
 
-**Your own decisions** — the "Agent decisions — for review" list: only those the owner could
-reasonably disagree with, usually up to ten. Decisions that bypass what the project has, if they
-did not become a fork, always go here. Do not list the obvious.
+**Your own decisions** — the "Agent decisions — for review" list, by the rules of its section in
+the template; the obvious is not listed.
 
 ### 10. How to build
 
-The engineering part follows part 3 of the template: it holds the rules for the plan, priorities
-and scope. The plan is the decisions the implementer cannot make alone: files, names,
-values, a test for each step; no function bodies and no code files. The design implements the
-level chosen in step 7 and builds on what the project already has; any departure in the open.
+Per part 3 of the template, which holds the rules for the plan, priorities and scope. The design
+implements the level chosen in step 7 on what the project already has; any departure in the open.
 
 ### 11. Check
 
@@ -393,22 +399,20 @@ level chosen in step 7 and builds on what the project already has; any departure
 - every decision has a recommendation; no decision or move to P1 rests on "it is quicker"; the
   estimate is in hours of agent work and equals the sum of the steps;
 - names are consistent, no old versions of a decision remain after edits, numbers add up, tables
-  are intact;
-- "At a glance" and the owner's part read without technical vocabulary, in the owner's language;
-- the length is within limits (template).
+  are intact, the length is within the template's limits;
+- "At a glance" and the owner's part read without technical vocabulary, in the owner's language.
 
-**With a fresh agent** — for a full specification, if a tool for launching agents exists: the
-prompt from `references/builder-check.md`; what to do with its answer is in the same file. It
-sees neither the conversation nor these lists — that is why it looks wider. Without the tool,
-read the document yourself as the implementer.
+**With a fresh agent** — for a full specification and a small change in a risky zone, if a tool
+for launching agents exists: the prompt and what to do with the answer are in
+`references/builder-check.md`. It sees neither the conversation nor these lists, so it looks
+wider. Without the tool, read the document yourself as the implementer.
 
 ### 12. File and summary — the one checkpoint
 
 **File.** The project's place for feature documents, otherwise
 `docs/specs/YYYY-MM-DD-<short-name>.md`; without a project, ask or give it in the chat. Template —
-`references/document-template.md`. Status: "draft, awaiting the owner's decisions". A short
-specification — up to 80 lines, a full one — 300–600; if longer, cut repetitions and the obvious,
-not scenarios, errors and failures.
+`references/document-template.md`. Status: "draft, awaiting the owner's decisions". Over the
+template's length — cut repetitions and the obvious, not scenarios, errors and failures.
 
 **Summary in the chat** — one message, essentially repeating "At a glance". This is where the
 owner checks that you understood everything; there is no second summary when nothing changes.
@@ -474,6 +478,12 @@ at the end:
 A blocker: a person cannot finish the task, loses money or data; a mechanism breaks so that
 nobody notices. Many holes — offer to write a full specification.
 
+## Mock-ups and diagrams — on request
+
+Only when the owner asks to show the screens or draw the scheme, at any moment: an HTML file next
+to the specification, opened in their browser when ready — per `references/mockups.md`. Do not
+offer them yourself.
+
 ## How to ask the owner
 
 The owner decides only what they understood. A question without an explanation they either
@@ -505,7 +515,6 @@ cannot answer or click the recommended option without reading — and reverse it
 |---|---|
 | "I recommended A in the discussion and the owner did not object — so A is chosen" | Silence is not consent. An unconfirmed recommendation is a fork, and the first one |
 | "I went through every item of the lists — so I covered everything" | The main risks are usually specific to the feature and project and are not in the lists. Your own list first, the lists after |
-| "I will write my own client, it is more reliable" | Bypassing what the project has is a visible decision with a reason, not a line in the implementer's part |
 | "I will ask through the choice dialog, it is faster" | The dialog covers the explanation and the owner clicks without reading. Explanation and questions in the chat, the dialog after "ask" |
 | "The owner answered every fork and nothing changed — I will send the whole summary again and wait" | The summary with the forks was the checkpoint. Update the document, say in 2–4 lines what was taken and get to work |
 | "The owner said «отработай» — I will run the checks and ask again" | They met the start conditions you named. That is permission, do not ask again |

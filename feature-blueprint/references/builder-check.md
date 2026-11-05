@@ -1,8 +1,9 @@
 # Fresh-agent check
 
-For a full specification, after the self-check and before the summary to the owner. Launch an
-agent with a clean context (no conversation history) with this prompt, filling in the product type
-and the path to the document:
+For a full specification and a short one in a risky zone, after the self-check and before the
+summary to the owner. Launch an agent with a clean context (no conversation history) with this
+prompt, filling in the product type and the path to the document; for a short specification,
+replace the section numbers with its matching lines ("What and why", "Decisions") or drop them:
 
 ```
 You are an experienced product engineer who builds <product type: a web app, a bot, a mobile
@@ -21,7 +22,8 @@ or too fragile. Separately — statements about the existing project (what exist
 how a module behaves) that the code does not confirm: what the document says, what you found and
 where you looked. Separately — decisions that would be costly to undo if they prove wrong (a data
 format, a new store, an external contract) and rest on an assumption or a single source: what
-would prove them wrong. Order by importance.
+would prove them wrong. Separately — for each goal in section 2: the most likely way the feature
+gets built exactly as written, passes its tests and still misses the goal. Order by importance.
 
 Skip what the document explicitly leaves to the implementer and what you would reasonably decide
 yourself. Do not nitpick wording.
@@ -37,6 +39,7 @@ If nothing important remains, answer "nothing important remains".
 | A trifle: a sensible implementer would decide it, the product does not change | Decide it yourself, add it to the document, mark it in "Agent decisions — for review" |
 | Changes the product, only the owner can answer | Into the forks of section 6, with the other forks |
 | A statement about the project is wrong | Fix it in the document. If a decision rested on it, revisit the decision; if that changes the product, into the forks of section 6 |
+| A goal is missed although everything is built as written | Close the gap in the document: the scenario, acceptance criterion or step that was missing. If closing it changes the product, into the forks of section 6 |
 | A costly-to-undo decision rests on weak ground | Into step 0 as [VERIFY] with what would prove it wrong; if the owner must weigh the risk, into the forks of section 6 |
 
 Questions from the third pile go to the owner together with the other forks, in one message, the
