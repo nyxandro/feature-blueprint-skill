@@ -73,11 +73,12 @@ external waits; what is needed from the owner and how much of their time>.
 - **Added:** <key assumptions marked [ASSUMPTION], with the reason>
 - **Contradictions between sources:** <who says what and where it is in the forks>
 
-**Sources** (if the project specification keeps the inventory — a link to it; otherwise a table):
+**Sources** — only those this feature rests on; the full inventory is `inbox/README.md` or where
+the project keeps it:
 
 | Code | What it is | From whom, date | Where it is | Weight |
 |---|---|---|---|---|
-| <CON> | <concept…> | <author, YYYY-MM-DD> | <`inbox/…` or a link> | requirement / hypothesis |
+| <CON> | <concept…> | <author, YYYY-MM-DD> | <`inbox/…` or a link> | requirement / hypothesis / reference |
 
 Mark key requirements in the document with their source code: **[CON]**.
 
@@ -87,6 +88,8 @@ Mark key requirements in the document with their source code: **[CON]**.
   numbers: how much data may be lost, how long it may be down, how fast changes arrive.
 - **Non-goals:** what is not in this version and why.
 - **Anti-goals:** what would make the feature a failure even if it works.
+- **Today:** how people manage without the feature and what it costs them — the "as now" option
+  of the forks.
 
 ## 3. What it rests on
 
@@ -293,6 +296,11 @@ A step is the smallest unit with its own test; it allows exactly one sensible im
 "Handle errors", "add validation" — a gap. No function bodies, no code files; code only for a
 non-obvious algorithm. Order — from what the rest depends on. Test before code if the project's
 rules require it.
+
+If steps reach production separately (each its own issue or release), every step leaves
+production safe: nothing becomes reachable for people before its protection — a permission check,
+a limit, duplicate protection. A thing several steps use — a table, a setting, a type — is created
+by one step, and the steps that use it come after it.
 
 ## 23. Acceptance criteria
 

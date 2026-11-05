@@ -28,9 +28,8 @@ theirs.
 This skill and its template are in English. Everything the owner reads is written in the
 language the owner uses in the conversation: the specification including the template's headings
 (section numbers stay), both summaries and the questions, plan lines, GitHub issues and comments,
-notes and inventories in `docs/`, markers such as [ASSUMPTION]. File, function and field names,
-commands, paths, error codes and product names stay as they are. A project rule on language
-wins.
+markers such as [ASSUMPTION]. File, function and field names, commands, paths, error codes and
+product names stay as they are. A project rule on language wins.
 
 ## Main principle: propose, don't interrogate
 
@@ -102,26 +101,18 @@ If the feature grows along the way, stop, say so and move up a size.
   recommendation: silence is not consent. An unconfirmed recommendation that changes the product
   is a fork and goes first (before the draft if it passes step 5, otherwise F1); a technical one
   goes into "Agent decisions — for review" marked "from the discussion, unconfirmed".
-- Collect everything the owner gave: chat text and voice messages, files, archives, screenshots,
-  links to cloud storage and documents. Read them in full, including images in PDFs and
-  presentations — requirements often sit there. No access to a link — say so at once.
-- `inbox/` in the project holds only incoming external material that will be useful, and nothing
-  of your own. Layout per the project's rules; if there are none, by purpose into folders, files
-  named "CODE — what it is, date"; the code is a short label documents use to cite the source.
-  Only what is current: no duplicates (compare by content), no old versions, no chat copies;
-  large folders only as a link. `inbox/` is kept in git via Git LFS; if that is not set up yet,
-  set it up (`.gitattributes` for `inbox/**`, remove the folder from `.gitignore`). Delete from
-  `inbox/` without asking only what git history can restore; otherwise after the owner's ok.
-- Everything you create goes to `docs/`: the essence of chats and agreements, the inventory of
-  materials (what is in `inbox/`, from whom, of which date, what was removed, up to which date the
-  chat was processed). If the project has a general specification with such an inventory, update
-  it; otherwise the inventory goes into the Sources section of the feature specification.
-- Never copy passwords, keys or personal data from the materials anywhere, and tell the owner
-  about them at once.
-- Extract from the materials: what is wanted and for whom, constraints, who decided what and
+- **Materials** — through the `materials-intake` skill: it finds what is new in the chat, the
+  project root, `inbox/` and `docs/`, files it in `inbox/` and keeps the inventory
+  (`inbox/README.md`) and the digest of what the materials say. Read the digest and the originals
+  the feature rests on; `docs/` holds only our plans, specifications and reports. The skill is not
+  installed — tell the owner the materials stay unfiled, read everything they gave in full,
+  including images in PDFs and presentations, and say at once what could not be opened.
+- Never copy passwords, keys or personal data from the materials into the specification; without
+  the intake skill, tell the owner about them at once.
+- Extract for this feature: what is wanted and for whom, constraints, who decided what and
   when, contradictions between sources and people, questions to third parties. Weight of a
-  source: the owner's word and agreed documents are requirements; drafts and our own proposals
-  are hypotheses. A contradiction is a fork. A technical instruction given in passing ("do it on
+  source: the owner's word, agreed documents and what the client demands in their own documents
+  are requirements; drafts and our own proposals are hypotheses. A contradiction is a fork. A technical instruction given in passing ("do it on
   Redis") is checked once against the project and the research: it fits — take it; it does not —
   a fork with what it changes for the product.
 - Restate the task to yourself — what is wanted, for whom, what success is — before
@@ -134,7 +125,8 @@ behave the same and nothing is built twice; **the feature's neighbours** — fun
 with the same data, the same person, in the same channel or at the same time; and **which
 environments the project has**: a stage or test server, or only production. **Earlier attempts**
 at the same thing — old specifications, closed issues, reverted commits: what made them fail will
-most likely hit this one too.
+most likely hit this one too. **Unwritten rules** the code keeps that no document states — money
+in minor units, time in UTC, deletion only soft: the feature keeps them too.
 
 **Scale** — in numbers from the project: data volume and growth, load, who maintains it (the
 owner and agents, no on-call engineers), budget and where everything runs, the cost of a failure.
@@ -188,7 +180,9 @@ library's source, a tiny example) is fine. Spinning up a database or service, ca
 a load test, comparing prices across a dozen vendors — into step 0 of the plan, marked [VERIFY],
 with the decision that depends on it. The platform limits a decision, it does not set it: change
 a decision only on a limit you found, and name it. Nothing to research with — say so; mark
-decisions without ground [NO SOURCE].
+decisions without ground [NO SOURCE]. A decision that is costly to reverse — a data format, a new
+store, an external contract — and rests on an [ASSUMPTION], [NO SOURCE] or one unconfirmed source
+is checked in step 0 before anything is built on it, or goes to the owner as a fork.
 
 ### 5. Questions before the draft — blocking only
 
@@ -217,7 +211,9 @@ In your own words: what we build, for whom, why, what success is. Separate what 
 confirmed from what you added — including your recommendations from the discussion they did not
 answer and your guess at why, if they did not say. Goals, non-goals and anti-goals (what would
 make the feature a failure even if it works). For an internal mechanism, goals in numbers: how
-much data may be lost, how long it may be down, how fast changes arrive.
+much data may be lost, how long it may be down, how fast changes arrive. How people manage today
+without the feature and what it costs them: that is the "as now" option of the forks and the
+measure of whether the feature is worth it; not known — [ASSUMPTION].
 
 ### 7. Options and scale
 
@@ -236,7 +232,8 @@ fork: costly protection or accepted risk, in money and consequences.
 
 - **Overengineering:** a separately maintained component when the existing stack suffices;
   headroom for many times today's load with no data on growth; technology nobody can fix; "just
-  in case" with no measurable condition; a big company's practice without its reason.
+  in case" with no measurable condition; a big company's practice without its reason; a shared
+  layer with a single user; many new modules for one scenario.
 - **Where not to economise:** the irreversible (data, money, deletion, sending to people);
   security and access; what is cheap now and costly later (data format and identifiers, duplicate
   protection, history, rollback); the failure signal.
@@ -385,6 +382,8 @@ level chosen in step 7 and builds on what the project already has; any departure
 - every goal has a scenario, every touchpoint has states with a way out; every error has a text
   and a recovery path, every failure of the mechanism — how it is noticed and recovered;
 - every scenario, error and acceptance criterion is closed by the test of some step ("Closes");
+  if every acceptance criterion passes, every goal is reached; every new component is needed by a
+  goal, a scenario or a criterion; steps that reach production separately leave it safe after each;
 - the document contains the risks from your step 8 list, not only items of the net;
 - inputs are separated from unconfirmed recommendations; new settings for people and decisions
   that bypass what exists are visible to the owner;
@@ -399,10 +398,9 @@ level chosen in step 7 and builds on what the project already has; any departure
 - the length is within limits (template).
 
 **With a fresh agent** — for a full specification, if a tool for launching agents exists: the
-prompt from `references/builder-check.md`. It sees neither the conversation nor these lists —
-that is why it looks wider. Its questions: the answer exists (said by the owner or in the
-project) — add it; a trifle — decide it yourself and mark it; it changes the product — into the
-forks. Without the tool, read the document yourself as the implementer.
+prompt from `references/builder-check.md`; what to do with its answer is in the same file. It
+sees neither the conversation nor these lists — that is why it looks wider. Without the tool,
+read the document yourself as the implementer.
 
 ### 12. File and summary — the one checkpoint
 
@@ -423,7 +421,9 @@ owner checks that you understood everything; there is no second summary when not
    document.
 5. Scope: steps, agent work — about N h (estimate), what is needed from the owner.
 6. On a separate line — what is not verified and why.
-7. Materials: what went into `inbox/`, what was removed, what could not be opened.
+7. Materials — the intake report in short: what was filed and removed, what could not be opened,
+   what waits for the owner's ok, what changed in git; contradictions and questions to third
+   parties beyond this feature.
 8. Found along the way — legacy code and old defects in the affected area: what they are and how
    they get in the way. Fixing or removing — as a fork; do not touch without consent.
 9. Forks for the owner — per "How to ask the owner", all important ones, including deployment.

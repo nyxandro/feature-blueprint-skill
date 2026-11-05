@@ -35,35 +35,39 @@ out.
 
 ## What the agent does
 
-1. **Reads the project and measures its scale**: rules, similar features and mechanisms, data,
+1. **Takes in the materials** the owner gave — chats, files, archives, links — through the
+   [materials-intake](https://github.com/nyxandro/materials-intake-skill) skill: new ones are
+   filed in `inbox/` with one inventory and one digest of what they say, and the agent reads the
+   digest and the originals the feature rests on.
+2. **Reads the project and measures its scale**: rules, similar features and mechanisms, data,
    permissions, infrastructure; data volume, load, who maintains it. It does not ask what the
    code answers and does not touch production to get numbers.
-2. **Sorts the feature**: user-facing, internal (backups, sync, queues, integrations, data
+3. **Sorts the feature**: user-facing, internal (backups, sync, queues, integrations, data
    migration) or mixed.
-3. **Researches what to rest on**: official docs, engineering blogs and postmortems, recognised
+4. **Researches what to rest on**: official docs, engineering blogs and postmortems, recognised
    guides, live popular repositories, articles and discussions (as signals to corroborate). For
    every practice it records the scale at which it pays off. Hands-on experiments go into step 0
    of the plan, not into the blueprint.
-4. **Before the draft, asks only what flips most of the design**, all in one message. Its own
+5. **Before the draft, asks only what flips most of the design**, all in one message. Its own
    recommendations from the discussion that the owner never confirmed count as open forks, not
    decisions. Questions go to the chat: a concrete situation, why the agent cannot decide it, the
    options with consequences, a recommendation.
-5. **Writes the draft**: goals and non-goals, what the design rests on, options or a ladder from
+6. **Writes the draft**: goals and non-goals, what the design rests on, options or a ladder from
    simple to "how big companies do it" with the lowest sufficient step chosen; scenarios; for
    the user-facing part — states, errors, edge cases, texts, accessibility; for the internal
    part — guarantees in numbers, failures and how anyone learns of them, recovery and its
    testing, access, cost, maintenance.
-6. **Keeps a decision register**: what the agent decided itself (for review) and what goes to
+7. **Keeps a decision register**: what the agent decided itself (for review) and what goes to
    the owner — options, a recommendation and "what happens if nobody decides". Anything that
    bypasses what the project already has, and any new setting or message for users, is always
    shown to the owner.
-7. **Writes the engineering part**: what is reused, the design, failures on every new path,
+8. **Writes the engineering part**: what is reused, the design, failures on every new path,
    maintenance, priorities, steps with tests, acceptance criteria.
-8. **Checks the document** itself and, for a full blueprint, with a fresh agent that has no
+9. **Checks the document** itself and, for a full blueprint, with a fresh agent that has no
    context of the conversation.
-9. **Saves the document** in the project (`docs/specs/` unless the project has its own
+10. **Saves the document** in the project (`docs/specs/` unless the project has its own
    place) and sends one summary with the forks.
-10. **After the owner's answers** updates the document. If the answers do not overturn the plan,
+11. **After the owner's answers** updates the document. If the answers do not overturn the plan,
     that is the go: the agent says in a few lines what was taken and gets to work without asking
     again. If the owner reversed a decision, rejected the approach or asked for more
     research, the agent reworks it, shows only what changed and waits for the go.
@@ -89,8 +93,9 @@ the catalog of my skills. Run in a Claude Code session:
 /plugin install feature-blueprint --marketplace nyxandro/skills
 ```
 
-This adds the catalog and installs the plugin from it, on Claude Code 2.1.275 or later. On an
-older version, add the catalog first:
+This adds the catalog and installs the plugin from it, on Claude Code 2.1.275 or later, together
+with [materials-intake](https://github.com/nyxandro/materials-intake-skill), which it depends on.
+On an older version, add the catalog first:
 
 ```text
 /plugin marketplace add nyxandro/skills
@@ -104,7 +109,8 @@ in your shell, or turn on auto-update for the catalog under `/plugin` → Market
 **Any agent, as a skill folder.** Download `dist/feature-blueprint.skill` (the badge above) and
 unpack it into the skills folder of your agent, or clone this repository and link the
 `feature-blueprint/` folder there. No build step. Install it one way or the other, not both: with
-both, Claude Code loads the skill twice.
+both, Claude Code loads the skill twice. Install materials-intake the same way; without it the
+agent still reads every material, but leaves them unfiled and says so.
 
 The research step needs web search and page fetching in the agent; without them the agent says
 so and marks unsupported decisions. The fresh-agent check needs a tool that starts subagents;
@@ -134,6 +140,11 @@ AGENTS.md, CLAUDE.md                  rules for agents working on this repositor
 
 The skill is written from scratch, but builds on ideas from open projects:
 
+- [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin)
+  (MIT) — a mechanism nobody asked for is built only when its absence harms unnoticed or is
+  costly to add later, what two decisions give together, statements about the project checked
+  against the code, earlier attempts and unwritten rules of the code, how people manage today,
+  safety after each separately shipped step, costly-to-undo decisions on weak ground;
 - [obra/superpowers](https://github.com/obra/superpowers) (MIT) — study the project before
   asking, the fresh-agent check of a document, the implementation plan format;
 - [garrytan/gstack](https://github.com/garrytan/gstack) (MIT) — the states table, the register of
