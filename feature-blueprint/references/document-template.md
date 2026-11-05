@@ -82,12 +82,12 @@ external waits; what is needed from the owner and how much of their time>.
 - **Added:** <key assumptions marked [ASSUMPTION], with the reason>
 - **Contradictions between sources:** <who says what and where it is in the forks>
 
-**Sources** — only those this feature rests on; the full inventory is `inbox/README.md` or where
-the project keeps it:
+**Sources** — only those this feature rests on; the full list of materials stays where the project
+keeps it:
 
 | Code | What it is | From whom, date | Where it is | Weight |
 |---|---|---|---|---|
-| <CON> | <concept…> | <author, YYYY-MM-DD> | <`inbox/…` or a link> | requirement / hypothesis / reference |
+| <CON> | <concept…> | <author, YYYY-MM-DD> | <path or link> | requirement / hypothesis / reference |
 
 Mark key requirements in the document with their source code: **[CON]**.
 

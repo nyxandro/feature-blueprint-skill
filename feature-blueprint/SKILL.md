@@ -97,11 +97,11 @@ If the work grows along the way, stop, say so and move up a size.
   unconfirmed recommendation that changes the product is a fork that goes first: before the draft
   if it passes step 5, otherwise as F1. A technical one goes into "Agent decisions — for review"
   marked "from the discussion, unconfirmed".
-- Materials go through the `materials-intake` skill; read its digest and the originals the
-  feature rests on. `docs/` holds only our plans, specifications and reports. Without that skill,
-  say the materials stay unfiled, read everything in full, images in PDFs and slides included,
-  and tell the owner at once what could not be opened and what passwords, keys or personal data
-  you found. Those never go into the specification.
+- Incoming materials — documents, chats, files, archives, links — go through intake first, the
+  way the owner's or the project's rules set it; with no such rule, read all of them. Read in full
+  what the feature rests on, images in PDFs and slides included, and tell the owner at once what
+  could not be opened and what passwords, keys or personal data you found. Those never go into
+  the specification. `docs/` holds only our plans, specifications and reports.
 - From the materials, take what is wanted and for whom, the constraints, who decided what and
   when, and the questions to third parties. The owner's word, agreed documents and what the client
   demands in their own documents are requirements; drafts and our own proposals are hypotheses. A
@@ -292,9 +292,8 @@ repetition and the obvious, not scenarios, errors and failures.
 Then send one message with:
 
 1. the path to the file and "At a glance" in the template's order (§2 of `references/examples.md`);
-2. the materials intake report in short: what was filed and removed, what could not be opened,
-   what waits for the owner's ok, what changed in git, contradictions and questions to third
-   parties beyond this feature;
+2. the intake of materials in short, if there was one: what was done with them, what could not
+   be opened, contradictions and questions to third parties beyond this feature;
 3. legacy code and old defects found in the affected area, each as a fork to fix or remove — do
    not touch them without consent;
 4. the forks in full per "How to ask the owner", deployment included;

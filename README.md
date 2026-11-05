@@ -40,10 +40,9 @@ important point. A bug fix starts it only when the owner asks to work it out.
 
 ## What the agent does
 
-1. **Takes in the materials** the owner gave — chats, files, archives, links — through the
-   [materials-intake](https://github.com/nyxandro/materials-intake-skill) skill: new ones are
-   filed in `inbox/` with one inventory and one digest of what they say, and the agent reads the
-   digest and the originals the feature rests on.
+1. **Takes in the materials** the owner gave — documents, chats, files, archives, links — the way
+   the owner's or the project's rules set it, otherwise reads all of them, and reads in full what
+   the feature rests on.
 2. **Reads the project and measures its scale**: rules, similar features and mechanisms, data,
    permissions, infrastructure; data volume, load, who maintains it. It does not ask what the
    code answers and does not touch production to get numbers.
@@ -103,9 +102,8 @@ the catalog of my skills. Run in a Claude Code session:
 /plugin install feature-blueprint --marketplace nyxandro/skills
 ```
 
-This adds the catalog and installs the plugin from it, on Claude Code 2.1.275 or later, together
-with [materials-intake](https://github.com/nyxandro/materials-intake-skill), which it depends on.
-On an older version, add the catalog first:
+This adds the catalog and installs the plugin from it, on Claude Code 2.1.275 or later. On an
+older version, add the catalog first:
 
 ```text
 /plugin marketplace add nyxandro/skills
@@ -119,8 +117,7 @@ in your shell, or turn on auto-update for the catalog under `/plugin` → Market
 **Any agent, as a skill folder.** Download `dist/feature-blueprint.skill` (the badge above) and
 unpack it into the skills folder of your agent, or clone this repository and link the
 `feature-blueprint/` folder there. No build step. Install it one way or the other, not both: with
-both, Claude Code loads the skill twice. Install materials-intake the same way; without it the
-agent still reads every material, but leaves them unfiled and says so.
+both, Claude Code loads the skill twice.
 
 The research step needs web search and page fetching in the agent; without them the agent says
 so and marks unsupported decisions. The fresh-agent check needs a tool that starts subagents;
