@@ -1,13 +1,17 @@
-# Feature Blueprint Skill
+# Feature Blueprint — a Claude Code skill for feature specs and implementation plans
+
+**English** · [Русский](README.ru.md)
 
 [![Download Feature Blueprint Skill](https://img.shields.io/badge/Download-feature--blueprint.skill-blue?style=for-the-badge)](https://github.com/nyxandro/feature-blueprint-skill/releases/latest/download/feature-blueprint.skill)
 
-A feature design skill for Claude Code, Codex and OpenCode: before any code, the agent turns a
-raw feature idea into a blueprint — how people will use the feature, how it works inside, and
-how to build it step by step. Every key decision rests on research (official documentation,
-engineering practice of well-known companies and products, popular repositories) and is sized
-to the project, so the owner gets the simplest solution that does the job, not the one a big
-company needs.
+Spec-driven development for AI coding agents. Feature Blueprint is an Agent Skill (`SKILL.md`)
+for Claude Code, Codex, OpenCode, Cursor and other agents: before any code, the agent turns a raw
+feature idea into a specification — a PRD-style product part and a technical design — and a
+step-by-step implementation plan with tests. It covers how people will use the feature, how it
+works inside, and how to build it. Every key decision rests on research (official documentation,
+engineering practice of well-known companies and products, popular repositories) and is sized to
+the project, so the owner gets the simplest solution that does the job, not the one a big company
+needs.
 
 An agent given an idea builds the happy path and fills in the rest silently and badly: "No
 data" with no next step, an endless spinner, "Something went wrong", a double charge after a
@@ -37,6 +41,14 @@ an idea does not start it. A small point change — a button, a field, an option
 gets no specification, file or issue: the agent studies the code, writes in the chat what it will
 change and how it will check it, and does it at once, stopping to agree with the owner only on an
 important point. A bug fix starts it only when the owner asks to work it out.
+
+Requests that start it:
+
+- "Design two-way sync between the agent's reminders and Google Calendar."
+- "Plan a CSV product import for the admin panel and write the spec."
+- "Work out nightly database backups: how much data we can lose and how we restore."
+- "Here are the client's chat and brief — design appointment rescheduling in the Telegram bot."
+- "Check this feature plan for holes" — the review mode, see below.
 
 ## What the agent does
 
@@ -157,6 +169,7 @@ feature-blueprint/                    the skill itself
   references/mockups.md               mock-ups and diagrams in HTML, made on request
 dist/feature-blueprint.skill          downloadable archive of the skill folder
 CHANGELOG.md                          what changed in each version
+README.md, README.ru.md               this description in English and in Russian
 ```
 
 ## Acknowledgements
