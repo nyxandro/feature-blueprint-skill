@@ -19,6 +19,18 @@ looks up how others solved the same problem, and writes a spec with a PRD-style 
 technical design and a step-by-step plan with tests. Then it asks you only about the decisions
 that change the product.
 
+## Who it's for
+
+People who build a product with AI agents and do not write or read the code themselves:
+founders, product owners, solo builders, agencies. You bring an idea or a PRD and make only the
+decisions nobody else can make. The agents design, build, test and ship. This way of working is
+often called a dark factory, and Feature Blueprint is its first station: it turns your idea into
+a spec the agents can build from without coming back to you.
+
+Developers can use it too, but it is written for the person who decides what the product does,
+not for the one who reads the code. Every decision comes in plain words, with its consequences
+and a recommendation. That is where it helps most in our [benchmarks](#benchmarks).
+
 ## Why
 
 Hand an AI agent a feature idea and it builds the happy path. Everything else gets filled in
@@ -55,7 +67,7 @@ Pick one. If you install it two ways, Claude Code loads the skill twice.
   `claude plugin marketplace update nyxandro` and `claude plugin update feature-blueprint@nyxandro`,
   or turn on auto-update under `/plugin` → Marketplaces.
 - With `npx skills`, add `-g` to install the skill for every project. To install a given version,
-  add its tag, as in `nyxandro/feature-blueprint-skill@v1.1.0`.
+  add its tag, as in `nyxandro/feature-blueprint-skill@v1.2.0`.
 - You can also clone this repository and link the `feature-blueprint/` folder into your agent's
   skills folder. There is no build step.
 - The research step needs web search and page fetching. The fresh-agent review needs a tool that
@@ -176,6 +188,11 @@ Each range spans the judge's two passes.
   for the first Sunday of the month that also fires on every other Sunday.
 - **It costs 4–5 times more and takes about 3 times longer:** about $2–4 and 8–15 minutes per
   feature at list price.
+
+These numbers are for versions 1.0.0 and 1.1.0. Version 1.2.0 adds three fixes aimed at the weak
+spots above. The fresh-agent review now also questions claims about how platforms and settings
+behave, the message to you carries the whole "At a glance", and an external service's raw error
+never reaches people. These fixes have not been measured yet.
 
 <details>
 <summary>How we measured</summary>

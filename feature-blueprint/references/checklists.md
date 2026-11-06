@@ -22,7 +22,9 @@ item here.
   found, hidden by a filter — each with its own text and next step), loading, partial, error (not
   the same as empty), no permission, outdated, success.
 - **Errors:** how we prevent it, how we notice it, the full text (what happened, why, what to do,
-  a code per the project's rules), how the person gets out, what of their input is kept.
+  a code per the project's rules), how the person gets out, what of their input is kept. An error
+  that comes from an external service is translated into our own text and code; its original text
+  and code go to the log only, never to the person.
 - **Edge cases:** a double press and a retry; left halfway and came back an hour or a day later; an
   old message, tab or button; two people editing the same thing; empty, huge and malformed data;
   time zones and clock changes; permissions or data changed halfway; lost network; limits of an
@@ -78,7 +80,8 @@ item here.
   one side, order and duplicates, time and zones.
 - Failures: the external service is down or throttles, access is revoked, a run is interrupted
   halfway or never starts, space runs out, data is unexpected, the API version changes, two copies
-  run at once.
+  run at once. What people see of an external failure is our own text and code, never the
+  service's raw message.
 - A retry is a decision: on which errors, how many times, with what pauses, and who learns that the
   attempts ran out. Retries and restarts never duplicate work or charge twice.
 - Recovery and its test: a recovery nobody tested does not count.

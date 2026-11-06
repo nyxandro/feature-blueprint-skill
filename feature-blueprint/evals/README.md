@@ -44,6 +44,9 @@ python3 -I feature-blueprint/evals/compare/run.py judge --out <name> --axis owne
 - `--arm fb` runs this skill and the no-skill baseline together; `--arm sp` runs Superpowers
   7.0.2, cloned for the run. Different arms may run at the same time; the same arm twice into one
   `--out` may not.
+- `--no-baseline` with `--arm fb` skips the no-skill runs. Use it to re-measure a new skill
+  version: copy the earlier `none-*` and `sp-*` run folders of the same cases into the new
+  `--out`, so the judge sees the new runs in the same company as before.
 - `--case <name> [<name> …]` limits the cases; names and globs both work, and `run` prints the
   cases it took. Repeated `run` calls with the same `--out` add runs.
 - `run` exits with `COMPARE_RUNS_INCOMPLETE` when the suite stopped early or a run ended with an

@@ -177,7 +177,7 @@ def arm_names_for(arm):
     return {"with": "fb", "without": "none"} if arm == "fb" else {"with": arm}
 
 
-def prepare_target(arm, tmp, cases):
+def prepare_target(arm, tmp, cases, baseline):
     """Build the plugin directory to evaluate, with the cases copied under its eval dir."""
     plugin = tmp / "plugin"
     if arm == "fb":
@@ -186,7 +186,7 @@ def prepare_target(arm, tmp, cases):
             json.dumps({"name": "feature-blueprint", "description": "eval wrapper"}), encoding="utf-8")
         shutil.copytree(SKILL_DIR, plugin / "skills" / "feature-blueprint",
                         ignore=shutil.ignore_patterns("evals", "__pycache__"))
-        eval_dir, ablation = "evals", []
+        eval_dir, ablation = "evals", [] if baseline else ["--ablation", "none"]
     else:
         source = COMPETITORS[arm]
         subprocess.run(["git", "clone", "-q", "--depth", "1", "--branch", source["tag"],
@@ -335,7 +335,7 @@ def cmd_run(args):
     out.mkdir(parents=True, exist_ok=True)
     json_path = out / f"{args.arm}-{time.strftime('%Y%m%d-%H%M%S')}-{os.getpid()}.json"
     with tempfile.TemporaryDirectory(prefix="fb-compare-") as tmp:
-        plugin, eval_dir, ablation = prepare_target(args.arm, Path(tmp), cases)
+        plugin, eval_dir, ablation = prepare_target(args.arm, Path(tmp), cases, not args.no_baseline)
         cmd = ["claude", "plugin", "eval", str(plugin), "--allow-tools", *GRANTED_TOOLS,
                "--eval-dir", eval_dir, "--runs", str(args.runs), "--model", MODEL,
                "--concurrency", str(args.concurrency), "--max-cost-usd", str(args.max_cost_usd),
@@ -519,6 +519,9 @@ def main():
     run.add_argument("--max-cost-usd", required=True, type=float)
     run.add_argument("--concurrency", type=int, default=1)
     run.add_argument("--case", nargs="+", help="case names or globs")
+    run.add_argument("--no-baseline", action="store_true",
+                     help="arm fb only: skip the no-skill runs, for re-measuring a new skill version "
+                          "against baseline runs kept earlier")
     keep = sub.add_parser("keep")
     keep.add_argument("--arm", required=True, choices=["fb", *COMPETITORS])
     keep.add_argument("--out", required=True)

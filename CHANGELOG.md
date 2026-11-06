@@ -9,14 +9,26 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
-## [Unreleased]
+## [1.2.0] - 2026-11-06
+
+### Changed
+
+- The fresh-agent check also questions how platforms, services and settings are said to behave:
+  what a parameter does, when a schedule fires, how two retention rules work together, what can
+  change without a restart. A doubted statement is checked in current documentation, then fixed
+  or moved to step 0 as [VERIFY]. In the evals most of the skill's serious errors on internal
+  mechanisms were of this kind (#3).
+- The message to the owner carries "At a glance" copied from the file, every block, "What to
+  watch" included, instead of a retelling that drops the risks (#3).
+- An error from an external service reaches people as our own text and code; its original text
+  goes to the log only (#3).
 
 ### Added
 
 - Two eval cases for internal mechanisms: stock and price sync with Ozon inside the shop admin
   project, and backups of a shop on one VPS. A second judging axis grades every submission against
-  what an owner who does not write code needs to understand it and decide. The skill itself is
-  unchanged (#2).
+  what an owner who does not write code needs to understand it and decide (#2).
+- `run.py run --no-baseline` re-measures a new skill version against baseline runs kept earlier.
 
 ## [1.1.0] - 2026-11-06
 

@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Feature specification
@@ -293,7 +293,9 @@ errors and failures; length alone is no reason to cut.
 
 Then send one message with:
 
-1. the path to the file and "At a glance" in the template's order (§2 of `references/examples.md`);
+1. the path to the file and "At a glance" copied from the file as it is, every block in the
+   template's order, "What to watch" included (§2 of `references/examples.md`). A retelling drops
+   what the owner must act on, and the owner reads the message, not the file;
 2. the intake of materials in short, if there was one: what was done with them, what could not
    be opened, contradictions and questions to third parties beyond this feature;
 3. legacy code and old defects found in the affected area, each as a fork to fix or remove — do
