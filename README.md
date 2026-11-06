@@ -146,6 +146,66 @@ language you write in.
 |---|---|
 | Web apps and admin panels, sites and online shops, mobile and desktop apps, Telegram and other bots, Mini Apps, AI features and agent tools, voice interfaces, CLIs, APIs and webhooks | Backups, sync with external services, queues and background jobs, data migrations, monitoring, integrations |
 
+## Benchmarks
+
+We measured the skill against Superpowers and against the same model with no skill: four
+features, three runs of each, Opus 5.5 in Claude Code, a blind judge.
+
+| Across 4 features | Feature Blueprint | No skill | Superpowers |
+|---|---|---|---|
+| The owner can understand it and decide, of 96 checks | **92–94** (96–98%) | 44–45 (46–47%) | 47–51 (49–53%) |
+| Problems handled before code, of 144 | 131–135 (91–94%) | 130–131 (90–91%) | 118–122 (82–85%) |
+| Serious technical errors in 12 runs | 3–6 | 5–6 | 11–12 |
+| Cost of one design at API list price | $1.9–3.9 | $0.35–0.8 | $0.5–1.3 |
+| Time of one design | 8–15 min | 2–5 min | 3–6 min |
+
+Each range spans the judge's two passes.
+
+- **The clearest gain is a spec you can decide on without reading code.** With the skill, every
+  decision left to you came as a question with options, consequences and a recommendation in 23
+  of 24 checks. Without it, that happened in 0 to 2. Costly or irreversible consequences were
+  named in 24 of 24 checks, against 5 of 24.
+- **Opus 5.5 alone already handles most problems.** On the two user-facing features the plain
+  model handled 93–94% of them, so the skill adds little coverage there. It adds the most where
+  documentation matters: Ozon's API limits were handled in 6 of 6 checks with the skill and in 2
+  of 6 without it.
+- **Fewer wrong technical decisions on user-facing features.** The skill made no serious error
+  there in 6 runs. Without it, a double-booking guard that PostgreSQL rejects at migration showed
+  up in 1 of 3 plain runs and all 3 Superpowers runs. On internal mechanisms this edge is gone:
+  3–6 subtle errors in 6 runs with the skill against 3 without it. One example is a cron line
+  for the first Sunday of the month that also fires on every other Sunday.
+- **It costs 4–5 times more and takes about 3 times longer:** about $2–4 and 8–15 minutes per
+  feature at list price.
+
+<details>
+<summary>How we measured</summary>
+
+<br>
+
+- **Features.** Rescheduling in a Telegram booking bot, from a raw idea with no code. A weekly
+  import of a 3,000-item price list into a small shop admin, with the project's code. Stock and
+  price sync with the Ozon marketplace in the same shop. Backups of a shop that runs on one VPS.
+- **Arms.** Feature Blueprint 1.0.0 on the first two features and 1.1.0 on the other two; the
+  only difference is the removed length limit. Superpowers 7.0.2. Opus 5.5 with no skill. Each run
+  is an isolated `claude plugin eval` session with no user settings, CLAUDE.md or other skills,
+  and no shell.
+- **The same ending in every request:** the owner is away, so decide on your own, collect the
+  questions at the end and write no code. This keeps the arms comparable, but it is not how
+  Superpowers is meant to be used. When the user opts out of questions, its own rules turn its
+  design dialogue off. Superpowers in live dialogue was not measured.
+- **Grading.** Before any run, an isolated agent that saw only the request and the project files
+  wrote 12 problems per feature that a good design must handle. It also wrote 8 general criteria
+  for an owner who does not write code. The judge, Opus 5.5 in an isolated session, saw the
+  submissions with skill names removed, shuffled, three at a time with one from each arm. It
+  graded every item pass or fail with a quote. Two passes in different orders agreed on 96% of
+  verdicts (690 of 720).
+- **Not measured:** the code built from the specs, weaker models, Compound Engineering,
+  Superpowers in live dialogue, real owners reading the specs.
+- Cases, criteria and the runner are in [`feature-blueprint/evals/`](feature-blueprint/evals/README.md).
+  Measured on 2026-11-06 with Claude Code 2.1.318 and 2.1.319.
+
+</details>
+
 ## Versions
 
 The current version sits in `metadata.version` of `feature-blueprint/SKILL.md`, so any installed
