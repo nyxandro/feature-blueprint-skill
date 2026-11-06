@@ -23,8 +23,9 @@ reason. For a user-facing feature without a new mechanism this is usually sectio
 an internal one, 7, 11 and 12. The other sections keep their numbers. Inside a section, write only
 what applies.
 
-**Length:** "At a glance" — one page; "At a glance" with part 1 — up to 180 lines; part 2 — up to
-170; part 3 — up to 250; the whole specification — up to 600. More means repetition, the obvious or
+**Length:** "At a glance" — one page. The rest is as long as the feature needs: its scenarios,
+errors, failures and steps set the length, and a large feature in an existing project may take
+several hundred lines more than a small one. What never adds length: repetition, the obvious and
 prose where a table would do.
 
 ## Document

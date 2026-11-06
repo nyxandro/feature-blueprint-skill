@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Feature specification
@@ -288,8 +288,8 @@ the implementer would.
 
 The specification lives where the project keeps feature documents, otherwise in
 `docs/specs/YYYY-MM-DD-<short-name>.md`; without a project, ask where, or give it in the chat.
-Status: "draft, awaiting the owner's decisions". If it is over the template's length, cut
-repetition and the obvious, not scenarios, errors and failures.
+Status: "draft, awaiting the owner's decisions". Cut repetition and the obvious, never scenarios,
+errors and failures; length alone is no reason to cut.
 
 Then send one message with:
 

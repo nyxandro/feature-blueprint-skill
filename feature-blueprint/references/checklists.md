@@ -104,5 +104,5 @@ item here.
 - Every fork has a recommendation; no decision or move to P1 rests on "it is quicker"; the estimate
   is in hours of agent work and equals the sum of the steps.
 - Names are consistent, no old version of a decision is left after edits, numbers add up, tables
-  are intact, and the length is within the template's limits.
+  are intact, nothing is said twice, and "At a glance" fits one page.
 - "At a glance" and the owner's part read without technical vocabulary, in the owner's language.

@@ -55,7 +55,7 @@ Pick one. If you install it two ways, Claude Code loads the skill twice.
   `claude plugin marketplace update nyxandro` and `claude plugin update feature-blueprint@nyxandro`,
   or turn on auto-update under `/plugin` → Marketplaces.
 - With `npx skills`, add `-g` to install the skill for every project. To install a given version,
-  add its tag, as in `nyxandro/feature-blueprint-skill@v1.0.0`.
+  add its tag, as in `nyxandro/feature-blueprint-skill@v1.1.0`.
 - You can also clone this repository and link the `feature-blueprint/` folder into your agent's
   skills folder. There is no build step.
 - The research step needs web search and page fetching. The fresh-agent review needs a tool that
