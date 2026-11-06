@@ -9,6 +9,14 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [1.3.0] - 2026-11-06
+
+### Changed
+
+- In the chat each question to the owner opens on its own line with ❓ and the question itself in
+  bold, so it stands out in the long message with "At a glance" and the forks. One mark per
+  question; the specification file stays without it (#4).
+
 ## [1.2.0] - 2026-11-06
 
 ### Changed
