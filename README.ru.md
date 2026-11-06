@@ -171,6 +171,7 @@ feature-blueprint/                    сам скилл
   references/review-mode.md           поиск дыр в готовом плане или PR
   references/builder-check.md         задание для проверки свежим агентом
   references/mockups.md               HTML-макеты и схемы по просьбе
+  evals/                              сценарии сравнения с другими скиллами, в архив не входят
 dist/feature-blueprint.skill          папка скилла архивом для скачивания
 CHANGELOG.md                          что изменилось в каждой версии
 README.md, README.ru.md               эта страница на английском и на русском

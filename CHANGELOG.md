@@ -9,6 +9,15 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [Unreleased]
+
+### Added
+
+- Eval cases are back in `feature-blueprint/evals/`. There are two cases, a Telegram bot idea and
+  a price import in a small project. The script `evals/compare/run.py` runs them with this skill,
+  with Superpowers and with no skill, and a blind judge grades the results against a list of
+  traps written before any run. The skill itself is unchanged (#1).
+
 ## [1.0.0] - 2026-11-06
 
 The first numbered version. The skill as it stands after the changes listed below.

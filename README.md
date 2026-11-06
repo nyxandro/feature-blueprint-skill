@@ -167,6 +167,7 @@ feature-blueprint/                    the skill
   references/review-mode.md           finding holes in a ready plan or PR
   references/builder-check.md         the prompt for the fresh-agent review
   references/mockups.md               HTML mockups and diagrams, on request
+  evals/                              cases that compare the skill with others, not in the archive
 dist/feature-blueprint.skill          the skill folder as a downloadable archive
 CHANGELOG.md                          what changed in each version
 README.md, README.ru.md               this page in English and in Russian

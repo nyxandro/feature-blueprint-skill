@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: admin-csv-import-in-project
+description: A price import feature inside a small scaffolded shop admin project
+expected_outcome: |
+  With nobody to answer questions, the agent studies the project, writes down how a manager
+  uploads the supplier's price list and how to build it, and saves the result as files. No
+  feature code is written. How well the design catches the problems of this feature is judged by
+  compare/run.py against traps.md, not by the graders here.
+context:
+  scaffold_script: place-files.sh

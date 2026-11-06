@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: bot-reschedule-raw-idea
+description: A raw idea with no project code, a Telegram bot for a barbershop
+expected_outcome: |
+  With nobody to answer questions, the agent writes down how a client reschedules an appointment
+  in the bot and how to build it, and saves the result as files. No feature code is written.
+  How well the design catches the problems of this feature is judged by compare/run.py against
+  traps.md, not by the graders here.
