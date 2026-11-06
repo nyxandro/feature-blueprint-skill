@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Feature specification
@@ -353,6 +353,10 @@ answer or a click on the recommended option that is reversed an hour later. §1 
      yours. When options differ in what the person sees, show each as text: the message or the
      screen in a few lines;
   4. **I recommend** — the option, why it is better for the product, and what that rests on.
+- In the chat each question opens on its own line with ❓ and the question itself in bold, as in
+  §1 of `references/examples.md`, so it stands out in a long message. One mark per question, not
+  on its parts or options. The mark is for the chat only: the specification file, and "At a
+  glance" copied from it, stay without it.
 - Use the owner's words. Rule numbers, module names and terms they have not seen are replaced
   with a description or explained.
 - A structured choice dialog hides the text above it, so the forks come first as text in the

@@ -13,10 +13,11 @@ owner reads all of this in their own language; English here only shows the shape
 ## 1. A fork question to the owner
 
 A Telegram bot for booking a barbershop; clients will now move their own appointments. In the
-specification the fork has the format of section 6; in the chat it reads the same way.
+specification the fork has the format of section 6; in the chat it reads the same way, with ❓
+before the question.
 
 <example type="good">
-**F2. Can a client move an appointment shortly before it starts?**
+❓ **F2. Can a client move an appointment shortly before it starts?**
 
 **Situation:** Oleg is booked for 18:00 with master Anna. At 17:20 he moves the visit to tomorrow,
 and Anna is left with a 40-minute gap nobody can book at such short notice.
