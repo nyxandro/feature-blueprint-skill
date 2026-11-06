@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Compare feature-blueprint with another planning plugin and with no plugin on the cases in ../.
 
-  criteria  an isolated agent that sees only a case's request and project files writes traps.md
-  run       runs the cases for one arm through `claude plugin eval` and keeps what each run made
-  keep      keeps the runs of a saved eval JSON again, after `run` failed while keeping them
-  judge     an isolated judge grades the kept submissions blind against traps.md, then a summary
+  criteria        an isolated agent that sees only a case's request and project files writes traps.md
+  owner-criteria  an isolated agent writes compare/owner-checklist.md: what an owner who does not
+                  write code needs from any submission
+  run             runs the cases for one arm through `claude plugin eval` and keeps what each run made
+  keep            keeps the runs of a saved eval JSON again, after `run` failed while keeping them
+  judge           an isolated judge grades the kept submissions blind, then writes a summary; axis
+                  "traps" grades against each case's traps.md, axis "owner" against the owner
+                  checklist
 
 Arm "fb" runs feature-blueprint together with the no-plugin baseline ("none"); arm "sp" runs
 Superpowers. Results go to ../results/<name>/, which git ignores. Run it with `python3 -I`.
@@ -28,6 +32,13 @@ COMPARE_DIR = EVALS_DIR / "compare"
 RESULTS_DIR = EVALS_DIR / "results"
 MODEL = "claude-opus-5-5"
 TRAPS_COUNT = 12
+OWNER_COUNT = 8
+OWNER_CHECKLIST = COMPARE_DIR / "owner-checklist.md"
+# What each judging axis grades against. Only the traps axis also lists serious errors.
+AXES = {
+    "traps": {"prompt": "judge-prompt.md", "with_errors": True, "label": "traps caught"},
+    "owner": {"prompt": "owner-judge-prompt.md", "with_errors": False, "label": "owner criteria met"},
+}
 # Tools the cases need beyond the read-only set the eval grants from allowed_tools. No Bash: the
 # eval refuses it on a machine whose Docker credential store holds a symlink, and designing needs
 # only reading, web research and writing files.
@@ -52,13 +63,15 @@ ISOLATED_ENV = {"CLAUDE_CODE_DISABLE_CLAUDE_MDS": "1", "CLAUDE_CODE_DISABLE_AUTO
 MAX_KEPT_FILE_BYTES = 1_000_000
 
 
-def select_cases(pattern):
+def select_cases(patterns):
+    """All cases, or those matching any of the given names or globs."""
     cases = [p for p in sorted(EVALS_DIR.iterdir())
              if p.is_dir() and p.name not in NOT_CASES and (p / "prompt.md").exists()]
-    if pattern:
-        cases = [p for p in cases if fnmatch.fnmatch(p.name, pattern)]
+    if patterns:
+        cases = [p for p in cases if any(fnmatch.fnmatch(p.name, pat) for pat in patterns)]
     if not cases:
-        raise SystemExit(f"COMPARE_NO_CASES: no case under {EVALS_DIR} matches {pattern!r}")
+        raise SystemExit(f"COMPARE_NO_CASES: no case under {EVALS_DIR} matches {patterns!r}")
+    print("cases:", ", ".join(p.name for p in cases), flush=True)
     return cases
 
 
@@ -96,7 +109,15 @@ def fill(template, **values):
 
 
 def numbered_items(text):
-    return [m.group(1).strip() for m in re.finditer(r"^\s*\d+\.\s+(.+)$", text, re.MULTILINE)]
+    """Items of a numbered list; lines under an item, such as sub-bullets, are joined into it."""
+    items = []
+    for line in text.splitlines():
+        start = re.match(r"^\d+\.\s+(.+)$", line.strip()) if not line.startswith((" ", "\t")) else None
+        if start:
+            items.append(start.group(1).strip())
+        elif items and line.strip():
+            items[-1] += " " + re.sub(r"^[-*]\s+", "", line.strip())
+    return items
 
 
 def isolated_claude(prompt):
@@ -133,6 +154,23 @@ def cmd_criteria(args):
             f"request and the project files, before any run. The judge grades every submission "
             f"against this list.\n\n{body}\n", encoding="utf-8")
         print(f"{case_dir.name}: {len(items)} traps, ${cost:.2f}")
+
+
+def cmd_owner_criteria(args):
+    if OWNER_CHECKLIST.exists() and not args.overwrite:
+        raise SystemExit(f"COMPARE_OWNER_CHECKLIST_EXISTS: {OWNER_CHECKLIST} exists; pass --overwrite")
+    template = (COMPARE_DIR / "owner-criteria-prompt.md").read_text(encoding="utf-8")
+    text, cost = isolated_claude(fill(template, count=str(OWNER_COUNT)))
+    items = numbered_items(text)
+    if len(items) != OWNER_COUNT:
+        raise RuntimeError(f"COMPARE_OWNER_CHECKLIST_MALFORMED: expected {OWNER_COUNT} items, got "
+                           f"{len(items)}:\n{text}")
+    body = "\n".join(f"{i}. {item}" for i, item in enumerate(items, 1))
+    OWNER_CHECKLIST.write_text(
+        f"# Owner checklist\n\nWritten by {MODEL} in an isolated session that saw no submission and no "
+        f"skill. The owner axis of the judge grades every submission of every case against it.\n\n"
+        f"{body}\n", encoding="utf-8")
+    print(f"owner checklist: {len(items)} items, ${cost:.2f}")
 
 
 def arm_names_for(arm):
@@ -338,7 +376,7 @@ def submission(letter, run_dir):
     return "\n".join(parts)
 
 
-def parse_verdict(text, letters, item_count):
+def parse_verdict(text, letters, item_count, with_errors):
     start, end = text.find("{"), text.rfind("}")
     try:
         verdict = json.loads(text[start:end + 1])["submissions"]
@@ -346,7 +384,8 @@ def parse_verdict(text, letters, item_count):
         raise RuntimeError(f"COMPARE_JUDGE_NOT_JSON: {error}; the judge answered:\n{text[:4000]}") from error
     for letter in letters:
         entry = verdict.get(letter)
-        if entry is None or not isinstance(entry.get("serious_errors"), list):
+        if entry is None or "items" not in entry or (
+                with_errors and not isinstance(entry.get("serious_errors"), list)):
             raise RuntimeError(f"COMPARE_JUDGE_INCOMPLETE: submission {letter} lacks items or serious_errors")
         for n in range(1, item_count + 1):
             item = entry["items"].get(str(n))
@@ -373,14 +412,24 @@ def run_dirs(case_out):
     return runs
 
 
+def judge_file_stem(axis, seed):
+    return f"judge-seed{seed}" if axis == "traps" else f"judge-{axis}-seed{seed}"
+
+
+def checklist_items(axis, case_name):
+    path = EVALS_DIR / case_name / "traps.md" if axis == "traps" else OWNER_CHECKLIST
+    return numbered_items(path.read_text(encoding="utf-8"))
+
+
 def cmd_judge(args):
     out = RESULTS_DIR / args.out
-    template = (COMPARE_DIR / "judge-prompt.md").read_text(encoding="utf-8")
+    axis = AXES[args.axis]
+    template = (COMPARE_DIR / axis["prompt"]).read_text(encoding="utf-8")
     rng = random.Random(args.seed)
     for case_out in sorted(p for p in out.iterdir() if p.is_dir()):
         case_dir = EVALS_DIR / case_out.name
-        traps = numbered_items((case_dir / "traps.md").read_text(encoding="utf-8"))
-        judge_path = case_out / f"judge-seed{args.seed}.json"
+        traps = checklist_items(args.axis, case_out.name)
+        judge_path = case_out / f"{judge_file_stem(args.axis, args.seed)}.json"
         # Batches already paid for in an interrupted pass with the same seed are reused.
         done = json.loads(judge_path.read_text(encoding="utf-8"))["batches"] if judge_path.exists() else []
         done_sets = {frozenset(b["mapping"].values()): b for b in done}
@@ -392,39 +441,46 @@ def cmd_judge(args):
                 judged.append(done_sets[names])
                 continue
             letters = list(string.ascii_uppercase[:len(batch)])
-            prompt = fill(template, request=request_text(case_dir), project=project_block(case_dir),
+            # The owner axis grades how the owner reads the submission, not the project's code.
+            project = project_block(case_dir) if args.axis == "traps" else ""
+            prompt = fill(template, request=request_text(case_dir), project=project,
                           checklist="\n".join(f"{i}. {t}" for i, t in enumerate(traps, 1)),
                           documents="\n\n".join(submission(l, r) for l, r in zip(letters, batch)))
             text, cost = isolated_claude(prompt)
             judged.append({"mapping": dict(zip(letters, (r.name for r in batch))), "costUsd": cost,
-                           "verdict": parse_verdict(text, letters, len(traps))})
-            judge_path.write_text(json.dumps({"seed": args.seed, "batches": judged}, ensure_ascii=False,
-                                             indent=1), encoding="utf-8")
+                           "verdict": parse_verdict(text, letters, len(traps), axis["with_errors"])})
+            judge_path.write_text(json.dumps({"seed": args.seed, "axis": args.axis, "batches": judged},
+                                             ensure_ascii=False, indent=1), encoding="utf-8")
             print(f"{case_out.name}: judged {', '.join(r.name for r in batch)}, ${cost:.2f}", flush=True)
-    write_summary(out, args.seed)
+    write_summary(out, args.seed, args.axis)
 
 
-def write_summary(out, seed):
-    lines = [f"# Summary, judge seed {seed}", ""]
+def write_summary(out, seed, axis_name):
+    axis = AXES[axis_name]
+    lines = [f"# Summary, axis {axis_name}, judge seed {seed}", ""]
     judge_cost = 0.0
     for case_out in sorted(p for p in out.iterdir() if p.is_dir()):
-        judge = json.loads((case_out / f"judge-seed{seed}.json").read_text(encoding="utf-8"))
+        stem = judge_file_stem(axis_name, seed)
+        judge = json.loads((case_out / f"{stem}.json").read_text(encoding="utf-8"))
         judge_cost += sum(b["costUsd"] for b in judge["batches"])
-        traps = numbered_items((EVALS_DIR / case_out.name / "traps.md").read_text(encoding="utf-8"))
+        traps = checklist_items(axis_name, case_out.name)
         by_run = {run: batch["verdict"][letter]
                   for batch in judge["batches"] for letter, run in batch["mapping"].items()}
         arms = sorted({run.rsplit("-", 1)[0] for run in by_run})
+        errors_head = " serious errors |" if axis["with_errors"] else ""
         lines += [f"## {case_out.name}", "",
-                  "| arm | traps caught per run | serious errors | cost $ | turns | doc lines | minutes "
+                  f"| arm | {axis['label']} per run |{errors_head} cost $ | turns | doc lines | minutes "
                   "| skills | run errors | changed project files |",
-                  "|---|---|---|---|---|---|---|---|---|---|"]
+                  "|---|---|" + "---|" * (8 if axis["with_errors"] else 7)]
         for arm in arms:
             runs = sorted(r for r in by_run if r.rsplit("-", 1)[0] == arm)
             metas = [json.loads((case_out / r / "meta.json").read_text(encoding="utf-8")) for r in runs]
             caught = [sum(v["verdict"] == "pass" for v in by_run[r]["items"].values()) for r in runs]
+            errors = [", ".join(str(len(by_run[r]["serious_errors"])) for r in runs)] \
+                if axis["with_errors"] else []
             cells = [
                 ", ".join(map(str, caught)) + f" of {len(traps)}",
-                ", ".join(str(len(by_run[r]["serious_errors"])) for r in runs),
+                *errors,
                 ", ".join("%.2f" % m["costUsd"] for m in metas),
                 ", ".join(str(m["turns"]) for m in metas),
                 ", ".join(str(m["docLines"]) for m in metas),
@@ -443,7 +499,7 @@ def write_summary(out, seed):
             lines.append(f"| {n} | {trap} | " + " | ".join(cells) + " |")
         lines.append("")
     lines.append(f"Judge cost: ${judge_cost:.2f}")
-    path = out / f"summary-seed{seed}.md"
+    path = out / f"{judge_file_stem(axis_name, seed).replace('judge', 'summary', 1)}.md"
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"wrote {path.relative_to(EVALS_DIR)}")
 
@@ -452,15 +508,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
     criteria = sub.add_parser("criteria")
-    criteria.add_argument("--case")
+    criteria.add_argument("--case", nargs="+", help="case names or globs")
     criteria.add_argument("--overwrite", action="store_true")
+    owner_criteria = sub.add_parser("owner-criteria")
+    owner_criteria.add_argument("--overwrite", action="store_true")
     run = sub.add_parser("run")
     run.add_argument("--arm", required=True, choices=["fb", *COMPETITORS])
     run.add_argument("--out", required=True, help="results folder name under ../results/")
     run.add_argument("--runs", required=True, type=int)
     run.add_argument("--max-cost-usd", required=True, type=float)
     run.add_argument("--concurrency", type=int, default=1)
-    run.add_argument("--case")
+    run.add_argument("--case", nargs="+", help="case names or globs")
     keep = sub.add_parser("keep")
     keep.add_argument("--arm", required=True, choices=["fb", *COMPETITORS])
     keep.add_argument("--out", required=True)
@@ -468,8 +526,11 @@ def main():
     judge = sub.add_parser("judge")
     judge.add_argument("--out", required=True)
     judge.add_argument("--seed", type=int, default=1)
+    judge.add_argument("--axis", choices=list(AXES), default="traps")
     args = parser.parse_args()
-    {"criteria": cmd_criteria, "run": cmd_run, "keep": cmd_keep, "judge": cmd_judge}[args.command](args)
+    commands = {"criteria": cmd_criteria, "owner-criteria": cmd_owner_criteria, "run": cmd_run,
+                "keep": cmd_keep, "judge": cmd_judge}
+    commands[args.command](args)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: shop-ozon-sync-in-project
+description: A sync mechanism with a marketplace inside the small scaffolded shop admin project
+expected_outcome: |
+  With nobody to answer questions, the agent studies the project, writes down how stock and prices
+  get from the shop to Ozon and how to build it, and saves the result as files. No feature code is
+  written. How well the design catches the problems of this mechanism is judged by
+  compare/run.py against traps.md, not by the graders here.
+context:
+  scaffold_script: place-files.sh

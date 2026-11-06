@@ -9,6 +9,15 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [Unreleased]
+
+### Added
+
+- Two eval cases for internal mechanisms: stock and price sync with Ozon inside the shop admin
+  project, and backups of a shop on one VPS. A second judging axis grades every submission against
+  what an owner who does not write code needs to understand it and decide. The skill itself is
+  unchanged (#2).
+
 ## [1.1.0] - 2026-11-06
 
 ### Changed
