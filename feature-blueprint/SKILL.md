@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # Feature specification
@@ -294,8 +294,11 @@ the implementer would.
 
 ### 12. File and summary — the one checkpoint
 
-The specification lives where the project keeps feature documents, otherwise in
-`docs/specs/YYYY-MM-DD-<short-name>.md`; without a project, ask where, or give it in the chat.
+The specification lives where the project keeps feature documents, otherwise in `docs/specs/`;
+create the folder if it is missing. In either place the file name starts with the day the
+specification was created, in square brackets, day.month.year without time:
+`[DD.MM.YYYY]-<short-name>.md`, for example `[07.11.2026]-group-disconnect.md`. Without a
+project, ask where, or give it in the chat.
 Status: "draft, awaiting the owner's decisions". Cut repetition and the obvious, never scenarios,
 errors and failures; length alone is no reason to cut.
 

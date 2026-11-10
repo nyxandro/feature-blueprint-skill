@@ -9,6 +9,15 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [1.5.0] - 2026-11-10
+
+### Changed
+
+- The specification file name starts with the day it was created, in square brackets,
+  day.month.year: `[DD.MM.YYYY]-<short-name>.md`, for example `[07.11.2026]-group-disconnect.md`,
+  instead of `YYYY-MM-DD-<short-name>.md`. The rule holds in the project's own folder for feature
+  documents as well as in `docs/specs/`, and that folder is created if it is missing (#6).
+
 ## [1.4.0] - 2026-11-10
 
 ### Changed
