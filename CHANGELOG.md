@@ -9,6 +9,17 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [1.6.0] - 2026-11-10
+
+### Changed
+
+- Each question is asked once. When the skill stops before the draft, it asks in the same
+  message where to deploy and every owner's fork already clear, and none of them is repeated
+  at the checkpoint. Deployment alone does not cause a stop before the draft.
+- The checkpoint after the draft does not depend on open forks: it is where the owner sees what
+  will be built and agrees. With no fork left, the message is the draft for agreement and one
+  question, whether to start (#7).
+
 ## [1.5.0] - 2026-11-10
 
 ### Changed

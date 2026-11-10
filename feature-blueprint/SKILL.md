@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Feature specification
@@ -183,6 +183,10 @@ or not a minute is) — and only when all three hold:
 
 Check them first against the owner's earlier decisions in similar situations, if the environment
 has such a source (step 9). Ask what is left in one message per "How to ask the owner" and wait.
+When you do stop here, ask in the same message where to deploy (step 9) and every other owner's
+fork that is already clear, so the owner answers each question once: what they answer goes to
+"Accepted" and is not asked again at step 12. Do not stop here for deployment alone; with no
+question that passes the three conditions, it waits for step 12.
 First candidates: your unconfirmed
 recommendation that changes the product, and the reason for the feature if it is unknown and
 decides what we build. Rules, limits, prices, retention, texts and technology are not blocking:
@@ -267,7 +271,8 @@ is a fork.
 Each owner's decision under principle 2 is a fork in section 6, in its format, however many there
 are; if there are very many, check whether you are passing on your own work or the feature should
 be split. Where to deploy after implementation is always a fork: offer the stage or test server if
-the project has one, otherwise production; the answer lets you deploy without stopping. Ask about
+the project has one, otherwise production; the answer lets you deploy without stopping. It is
+asked once: at step 5 if you stopped there, otherwise at step 12. Ask about
 the business consequence: not "which RPO" but "if the server burns down, can we lose the last day
 of orders?". If every option rests on the same assumption of yours, ask about that assumption
 instead. Your own decisions go into "Agent decisions — for review" by the rules of section 15.
@@ -311,10 +316,14 @@ Then send one message with:
    be opened, contradictions and questions to third parties beyond this feature;
 3. legacy code and old defects found in the affected area, each as a fork to fix or remove — do
    not touch them without consent;
-4. the forks in full per "How to ask the owner", deployment included;
-5. one closing line: answers that do not overturn the plan are also the go to start.
+4. the forks still open, in full per "How to ask the owner" — deployment among them unless it
+   was answered at step 5;
+5. one closing line: answers that do not overturn the plan are also the go to start. With no
+   fork left open, the message is the draft for agreement and the closing line asks only
+   whether to start.
 
-Then stop and wait; do not write code. Without a person, take the recommended options, mark them
+Then stop and wait; do not write code. This stop does not depend on whether any fork is left:
+it is where the owner sees what will be built and agrees to it. Without a person, take the recommended options, mark them
 "taken as recommended, awaiting the owner's confirmation" and say so in the message.
 
 ### 13. After the owner's answers
