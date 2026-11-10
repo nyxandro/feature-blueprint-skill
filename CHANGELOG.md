@@ -9,6 +9,17 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [1.4.0] - 2026-11-10
+
+### Changed
+
+- If the environment has a source of the owner's earlier decisions in similar situations, the
+  forks and the decisions of section 15 are checked against it at step 9, before the design, and
+  the blocking questions of step 5 before they are asked. What it settles is the owner's own
+  answer: the fork goes to "Accepted" with that ground and is not asked again. After the owner's
+  answers the skill hands them to that source. No source is named, and without one the skill
+  works as before (#5).
+
 ## [1.3.0] - 2026-11-06
 
 ### Changed

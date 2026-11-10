@@ -165,6 +165,8 @@ and what the user sees>
 
 ### Accepted
 Filled in after the owner's answers: the decision, what it was chosen over and why, the date.
+A fork settled by the owner's earlier decision in a similar situation is entered here too, marked
+so, with what it rests on.
 
 ---
 

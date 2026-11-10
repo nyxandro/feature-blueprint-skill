@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Feature specification
@@ -181,7 +181,9 @@ or not a minute is) — and only when all three hold:
 - the project, the inputs and the research do not answer it;
 - it is the owner's decision under principle 2.
 
-Ask them in one message per "How to ask the owner" and wait. First candidates: your unconfirmed
+Check them first against the owner's earlier decisions in similar situations, if the environment
+has such a source (step 9). Ask what is left in one message per "How to ask the owner" and wait.
+First candidates: your unconfirmed
 recommendation that changes the product, and the reason for the feature if it is unknown and
 decides what we build. Rules, limits, prices, retention, texts and technology are not blocking:
 propose them in the draft. If you are unsure whether a fork blocks, write the draft on the most
@@ -270,6 +272,12 @@ the business consequence: not "which RPO" but "if the server burns down, can we 
 of orders?". If every option rests on the same assumption of yours, ask about that assumption
 instead. Your own decisions go into "Agent decisions — for review" by the rules of section 15.
 
+If the environment has a source of the owner's earlier decisions in similar situations — a skill
+or a base kept for that — check the forks and the decisions of section 15 against it here, before
+step 10, the way that source says. What it settles is the owner's own answer, given earlier: such
+a fork is not asked again and goes to "Accepted" with that ground, and a decision of yours follows
+it. With no such source, go on without comment.
+
 ### 10. How to build
 
 Write part 3 of the template by its rules; §3 of `references/examples.md` shows a good and a bad
@@ -311,7 +319,8 @@ Then stop and wait; do not write code. Without a person, take the recommended op
 Move the decisions to "Accepted" and update every section they touch, "At a glance" included.
 Check that the answers do not contradict each other and do not give, together or with decisions
 already made, what nobody chose. If they do, or an answer opens a new fork, ask; do not choose
-silently. Then:
+silently. If the environment keeps the owner's earlier decisions, hand it these answers the way
+it says. Then:
 
 | The owner answered | What you do |
 |---|---|
