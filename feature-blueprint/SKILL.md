@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.7.0"
+  version: "1.8.0"
 ---
 
 # Feature specification
@@ -25,9 +25,9 @@ the document format. The owner's explicit instruction in the conversation and th
 rules, global or the project's, take precedence over this skill.
 
 **Language.** This skill is in English. Everything the owner reads — the specification with the
-template's headings, summaries, questions, plan lines, issues and comments, markers — is written
-in the language the owner uses in the conversation. File, function and field names, commands,
-paths, error codes, product names and section numbers stay as they are.
+template's headings, summaries, questions, plan lines, task records and comments, markers — is
+written in the language the owner uses in the conversation. File, function and field names,
+commands, paths, error codes, product names and section numbers stay as they are.
 
 **Terms.**
 - The *owner* decides what the product does. *Without a person* means nobody can answer during
@@ -81,7 +81,7 @@ Name the size in one sentence before you start; the owner may correct it.
 
 | What came in | What to do |
 |---|---|
-| A small point change: a button, a field, an option or setting, a clear fix | No specification, file or issue. Study the affected code, write in the chat in a few lines what you will change and how you will check it, and do it at once. Stop before the change only on an important point — an owner's decision beyond what they asked (principle 2); money, access, a data migration or what other systems read; a change bigger than it looked — and agree it per "How to ask the owner". Example: §4 of `references/examples.md` |
+| A small point change: a button, a field, an option or setting, a clear fix | No specification, file or task record in a tracker. Study the affected code, write in the chat in a few lines what you will change and how you will check it, and do it at once. Stop before the change only on an important point — an owner's decision beyond what they asked (principle 2); money, access, a data migration or what other systems read; a change bigger than it looked — and agree it per "How to ask the owner". Example: §4 of `references/examples.md` |
 | A feature: a new scenario, screen, bot command, integration or internal mechanism | A full specification per the template |
 | Several independent features in one idea | Say so, propose an order and write a specification for each |
 
@@ -92,8 +92,9 @@ If the work grows along the way, stop, say so and move up a size.
 ### 1. Intake
 
 - The owner is only discussing the idea — discuss, do not write a specification. An agreed
-  specification already exists — build by it, without a new round of questions. A draft from an
-  earlier session — continue it in the same file.
+  specification already exists — build by it, without a new round of questions; if it has no
+  task record, make one per step 13 before you start. A draft from an earlier session — continue
+  it in the same file.
 - After a discussion, the inputs are only what the owner said or chose in their own words. "Ok",
   a clarifying question or a request to work it out confirms nothing you recommended. Your
   unconfirmed recommendation that changes the product is a fork that goes first: before the draft
@@ -125,8 +126,12 @@ Find in the project:
   deploys or releases and who starts it — a deployment guide, CI, a release procedure, the
   project's or the owner's rules; for something that is published rather than deployed (a
   library, a package, a command-line tool), how a version is released;
-- earlier attempts at the same thing — old specifications, closed issues, reverted commits: what
-  made them fail will most likely hit this one too;
+- where the project keeps its tasks: the tracker and the form of a task record that the project's
+  or the owner's rules name — a markdown file, Jira, GitHub Issues or another — or a tracker in
+  use that no rule names; and whether a record for this feature already exists. With no such rule
+  and no tracker in use, there is no task record; do not invent a tracker;
+- earlier attempts at the same thing — old specifications, closed tasks in the project's tracker,
+  reverted commits: what made them fail will most likely hit this one too;
 - unwritten rules the code keeps but no document states — money in minor units, time in UTC, only
   soft deletion. The feature keeps them, and the plan lists them in "Rules every step keeps".
 
@@ -187,10 +192,11 @@ or not a minute is) — and only when all three hold:
 
 Check them first against the owner's earlier decisions in similar situations, if the environment
 has such a source (step 9). Ask what is left in one message per "How to ask the owner" and wait.
-When you do stop here, ask in the same message about deployment, if it is a fork (step 9), and
-every other owner's fork that is already clear, so the owner answers each question once: what they answer goes to
-"Accepted" and is not asked again at step 12. Do not stop here for deployment alone; with no
-question that passes the three conditions, it waits for step 12.
+When you do stop here, ask in the same message about deployment and the task tracker, if they are
+forks (step 9), and every other owner's fork that is already clear, so the owner answers each
+question once: what they answer goes to "Accepted" and is not asked again at step 12. Do not stop
+here for deployment or the tracker alone; with no question that passes the three conditions, they
+wait for step 12.
 First candidates: your unconfirmed
 recommendation that changes the product, and the reason for the feature if it is unknown and
 decides what we build. Rules, limits, prices, retention, texts and technology are not blocking:
@@ -288,11 +294,21 @@ the specification always says it:
   stopping;
 - you could not find out — a fork that says what you looked for and did not find.
 
-Do not ask the owner what the project answers, and do not invent a deployment the project does
-not have. The fork is asked once: at step 5 if you stopped there, otherwise at step 12. Ask about
-the business consequence: not "which RPO" but "if the server burns down, can we lose the last day
-of orders?". If every option rests on the same assumption of yours, ask about that assumption
-instead. Your own decisions go into "Agent decisions — for review" by the rules of section 15.
+Where the project keeps its tasks is decided from reconnaissance the same way:
+
+- the rules name a tracker the project has — no fork: follow them;
+- a tracker is in use (recent records, not an abandoned one) but the rules say nothing, the rules
+  name a tracker the project does not have (no repository there, no project in it), or you could
+  not find out — a fork about where to keep tasks that says what you found and offers to write
+  the answer into the project's rules;
+- there is no tracker and no rule names one — no fork and no task record.
+
+Do not ask the owner what the project answers, and do not invent a deployment or a tracker the
+project does not have. Each of these forks is asked once: at step 5 if you stopped there,
+otherwise at step 12. Ask about the business consequence: not "which RPO" but "if the server
+burns down, can we lose the last day of orders?". If every option rests on the same assumption of
+yours, ask about that assumption instead. Your own decisions go into "Agent decisions — for
+review" by the rules of section 15.
 
 If the environment has a source of the owner's earlier decisions in similar situations — a skill
 or a base kept for that — check the forks and the decisions of section 15 against it here, before
@@ -321,7 +337,8 @@ create the folder if it is missing. In either place the file name starts with th
 specification was created, in square brackets, day.month.year without time:
 `[DD.MM.YYYY]-<short-name>.md`, for example `[07.11.2026]-group-disconnect.md`. Without a
 project, ask where, or give it in the chat.
-Status: "draft, awaiting the owner's decisions". Cut repetition and the obvious, never scenarios,
+Status: "draft, awaiting the owner's decisions". No task record is made yet, so a draft the owner
+turns down leaves nothing in a tracker. Cut repetition and the obvious, never scenarios,
 errors and failures; length alone is no reason to cut.
 
 Then send one message with:
@@ -333,8 +350,8 @@ Then send one message with:
    be opened, contradictions and questions to third parties beyond this feature;
 3. legacy code and old defects found in the affected area, each as a fork to fix or remove — do
    not touch them without consent;
-4. the forks still open, in full per "How to ask the owner" — deployment among them when it is
-   a fork and was not answered at step 5;
+4. the forks still open, in full per "How to ask the owner" — deployment and the task tracker
+   among them when they are forks and were not answered at step 5;
 5. one closing line: answers that do not overturn the plan are also the go to start. With no
    fork left open, the message is the draft for agreement and the closing line asks only
    whether to start.
@@ -356,6 +373,19 @@ it says. Then:
 | Every fork, and the answers do not overturn how it works or how we build it — recommendations taken, or options the plan absorbs | Status "agreed"; say in 2–4 lines what was taken and where you start, and start |
 | Reversed your decision so that the behaviour or the design changes, rejected the approach, or asked for more research | Redo the affected parts, show only what changed, wait for the go |
 | Some forks only | Start implementing what does not depend on the open forks and ask those again, briefly, in one message |
+
+Before you start implementing, the partial start of the last row included, make the task record
+in the project's tracker in the form it uses, with the path to the specification in the project,
+and put a link to the record in the specification's "Task" line. A record that already exists for
+this feature — the owner named it or reconnaissance found it — is used, not duplicated. One
+specification — one record; a record per step only when the steps reach production separately,
+and then the "Task" line lists them in step order. While the tracker fork is open, the record
+waits for its answer; if the owner agreed to write the tracker into the project's rules, write it
+there. A tracker you cannot reach — give the owner the ready text of the record, say plainly that
+you did not make it, write "not made, the text was given to the owner" in the "Task" line and go
+on. No tracker — no record and no "Task" line. Without a person, make the record only in a
+tracker the rules name; a tracker fork taken as recommended gets no record and no change to the
+rules, only the ready text of the record in the message.
 
 An explicit go («делай», «отработай», «погнали») in any language is permission, and so is a reply
 that meets the start conditions you named, such as the closing line of step 12. «Проработай ещё»

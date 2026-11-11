@@ -9,6 +9,22 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [1.8.0] - 2026-11-11
+
+### Changed
+
+- Tasks are kept wherever the project keeps them. Reconnaissance finds the tracker and the form of
+  a task record that the project's or the owner's rules name (a markdown file, Jira, GitHub Issues
+  or another) and whether a record for the feature already exists. A tracker in use that no rule
+  names, or a named tracker the project does not have, is a fork asked together with deployment,
+  with the offer to write the answer into the project's rules; with no tracker there is no task
+  record and none is invented. The record is made when implementation starts, not for the draft:
+  one per specification, one per step only when steps reach production separately, an existing
+  one reused. The specification links to it in a new "Task" line. A tracker the agent cannot reach
+  gets the ready text of the record for the owner, and without a person a record is made only in
+  a tracker the rules name. Before, the skill said "issue" in a few places and never said when one
+  is made.
+
 ## [1.7.0] - 2026-11-11
 
 ### Changed

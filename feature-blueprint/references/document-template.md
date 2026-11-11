@@ -34,6 +34,10 @@ prose where a table would do.
 # <Feature name> — specification
 
 **Status:** draft, awaiting the owner's decisions | agreed
+**Task:** <link to the record in the project's tracker, or the links in step order; "not made, the
+text was given to the owner" when the tracker could not be reached; drop the line before
+implementation starts, unless a record for the feature already exists, and when the project keeps
+no tasks>
 **Date:** YYYY-MM-DD · **Project:** <name> · **Feature type:** user-facing | internal | mixed ·
 **Where it runs:** <web admin, bot, background job, external service…>
 **Does not apply:** <section numbers — why; drop the line when every section applies>
@@ -324,7 +328,7 @@ implementer, by the rule …" and how it is checked. No function bodies, no code
 for a non-obvious algorithm. Order — from what the rest depends on. Test before code if the
 project's rules require it.
 
-If steps reach production separately (each its own issue or release), every step leaves
+If steps reach production separately (each its own task record or release), every step leaves
 production safe: nothing becomes reachable for people before its protection — a permission check,
 a limit, duplicate protection. A thing several steps use — a table, a setting, a type — is created
 by one step, and the steps that use it come after it.

@@ -129,8 +129,8 @@ with a widget test and on the emulator." Then it makes the change.
 </example>
 
 <example type="bad">
-The agent writes a specification for the button, opens an issue and asks five questions about the
-icon and the button's position.
+The agent writes a specification for the button, makes a task record in the tracker and asks five
+questions about the icon and the button's position.
 </example>
 
 <example type="good">
