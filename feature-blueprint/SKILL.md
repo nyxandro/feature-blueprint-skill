@@ -12,7 +12,7 @@ description: >
   option, a clear fix), a bug fix unless asked to work it out, or visual styling. The owner may
   write in any language; match on meaning.
 metadata:
-  version: "1.6.0"
+  version: "1.7.0"
 ---
 
 # Feature specification
@@ -120,7 +120,11 @@ Find in the project:
 - how it already solves what the feature needs, so the same things behave the same and nothing is
   built twice; decisions the project has made outrank your taste, and a departure needs a reason;
 - the feature's neighbours — functions that work with the same data, person, channel or time;
-- its environments: a stage or test server, or only production;
+- where the work goes when it is done: which environments exist — a stage or test server,
+  production, or none, when the project is only developed and run locally; how the project
+  deploys or releases and who starts it — a deployment guide, CI, a release procedure, the
+  project's or the owner's rules; for something that is published rather than deployed (a
+  library, a package, a command-line tool), how a version is released;
 - earlier attempts at the same thing — old specifications, closed issues, reverted commits: what
   made them fail will most likely hit this one too;
 - unwritten rules the code keeps but no document states — money in minor units, time in UTC, only
@@ -183,8 +187,8 @@ or not a minute is) — and only when all three hold:
 
 Check them first against the owner's earlier decisions in similar situations, if the environment
 has such a source (step 9). Ask what is left in one message per "How to ask the owner" and wait.
-When you do stop here, ask in the same message where to deploy (step 9) and every other owner's
-fork that is already clear, so the owner answers each question once: what they answer goes to
+When you do stop here, ask in the same message about deployment, if it is a fork (step 9), and
+every other owner's fork that is already clear, so the owner answers each question once: what they answer goes to
 "Accepted" and is not asked again at step 12. Do not stop here for deployment alone; with no
 question that passes the three conditions, it waits for step 12.
 First candidates: your unconfirmed
@@ -270,9 +274,22 @@ is a fork.
 
 Each owner's decision under principle 2 is a fork in section 6, in its format, however many there
 are; if there are very many, check whether you are passing on your own work or the feature should
-be split. Where to deploy after implementation is always a fork: offer the stage or test server if
-the project has one, otherwise production; the answer lets you deploy without stopping. It is
-asked once: at step 5 if you stopped there, otherwise at step 12. Ask about
+be split. What happens to the work after implementation is decided from what reconnaissance found, and
+the specification always says it:
+
+- the project has nowhere to deploy — no fork: the work ends with a local check, and the
+  specification says how to run it;
+- the project's or the owner's rules set the path with no choice left (only through CI from a
+  release; the owner starts every deployment) — no fork: follow the rules and name the path;
+- the work is published, not deployed — the fork is about releasing a version, not about a
+  server;
+- environments exist and the rules leave a choice or say nothing — a fork: offer the stage or
+  test server if the project has one, otherwise production; the answer lets you deploy without
+  stopping;
+- you could not find out — a fork that says what you looked for and did not find.
+
+Do not ask the owner what the project answers, and do not invent a deployment the project does
+not have. The fork is asked once: at step 5 if you stopped there, otherwise at step 12. Ask about
 the business consequence: not "which RPO" but "if the server burns down, can we lose the last day
 of orders?". If every option rests on the same assumption of yours, ask about that assumption
 instead. Your own decisions go into "Agent decisions — for review" by the rules of section 15.
@@ -316,8 +333,8 @@ Then send one message with:
    be opened, contradictions and questions to third parties beyond this feature;
 3. legacy code and old defects found in the affected area, each as a fork to fix or remove — do
    not touch them without consent;
-4. the forks still open, in full per "How to ask the owner" — deployment among them unless it
-   was answered at step 5;
+4. the forks still open, in full per "How to ask the owner" — deployment among them when it is
+   a fork and was not answered at step 5;
 5. one closing line: answers that do not overturn the plan are also the go to start. With no
    fork left open, the message is the draft for agreement and the closing line asks only
    whether to start.

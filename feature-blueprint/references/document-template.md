@@ -62,7 +62,9 @@ they get in the way; what to do with them — in the forks. Nothing — drop the
 1. <question> — I recommend <option> because <…> (details — F1)
 2. …
 
-**Deployment:** <stage or test server, or straight to production — F…>.
+**Deployment:** <stage or test server, or straight to production — F…; or the path the
+project's rules set; or a version release; or "nowhere to deploy: ends with a local check,
+run as …">.
 
 **Scope:** <N steps; agent work — about X h (estimate); what really takes time — test runs, CI,
 external waits; what is needed from the owner and how much of their time>.

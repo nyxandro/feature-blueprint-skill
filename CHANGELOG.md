@@ -9,6 +9,16 @@ numbered MAJOR.MINOR.PATCH.
 - **MAJOR** (2.0.0) changes the specification format or how the skill works with the owner, such
   as when it asks, the checkpoint or what counts as the go.
 
+## [1.7.0] - 2026-11-11
+
+### Changed
+
+- Deployment is a fork only when the project leaves a choice. Reconnaissance now finds which
+  environments exist, how the project deploys or releases and who starts it. A project with
+  nowhere to deploy ends with a local check; a project whose rules set the path follows them; a
+  library or a tool gets a question about releasing a version. Before, "where to deploy" was
+  asked in every project with a stage server or production as the options (#8).
+
 ## [1.6.0] - 2026-11-10
 
 ### Changed
