@@ -158,6 +158,18 @@ language you write in.
 |---|---|
 | Web apps and admin panels, sites and online shops, mobile and desktop apps, Telegram and other bots, Mini Apps, AI features and agent tools, voice interfaces, CLIs, APIs and webhooks | Backups, sync with external services, queues and background jobs, data migrations, monitoring, integrations |
 
+## Works well with
+
+[Owner Decisions](https://github.com/nyxandro/owner-decisions-skill) keeps your decisions from
+all projects in a private base and answers a question the way you already answered a similar
+one. Feature Blueprint asks you about every decision that changes the product. With both
+installed, the forks you have already settled elsewhere are taken from the base and do not reach
+you again, the agent's own decisions follow what you decided before, and your new answers go
+back into the base. So each design asks you less than the one before.
+
+Neither skill needs the other. Feature Blueprint only checks whether the environment keeps your
+earlier decisions and works the same when it does not.
+
 ## Benchmarks
 
 We measured the skill against Superpowers and against the same model with no skill: four
